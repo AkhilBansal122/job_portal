@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Banner;
-
+use File;
 class BannerController extends Controller
 {
     function __construct()
@@ -51,6 +51,14 @@ class BannerController extends Controller
         $banner->title = $request->title;
         $banner->content = $request->content;
         $banner->status = $request->status;
+
+        $directoryPath = public_path('images/banner/');
+
+        // Check if the directory exists
+        if (!File::exists($directoryPath)) {
+            // Create the directory
+            File::makeDirectory($directoryPath, 0755, true);
+        }
 
         if ($request->hasFile('banner_image')) {
             $imageName = time() . '.' . $request->banner_image->extension();
@@ -102,9 +110,16 @@ class BannerController extends Controller
         $banner->title = $request->title;
         $banner->content = $request->content;
         $banner->status = $request->status;
-        
+        $directoryPath = public_path('images/banner/');
+
+        // Check if the directory exists
+        if (!File::exists($directoryPath)) {
+            // Create the directory
+            File::makeDirectory($directoryPath, 0755, true);
+        }
+
+        // Check if the directory exists
         if ($request->hasFile('banner_image')) {
-            
             if ($banner->banner_image && file_exists(public_path('images/banner/' . $banner->banner_image))) {
                 unlink(public_path('images/banner/' . $banner->banner_image));
             }
@@ -114,7 +129,7 @@ class BannerController extends Controller
         }
         $banner->save();
         $notification = array(
-            'message' => 'Banner updated successfully!.',
+            'message' => 'Banner created successfully!.',
             'alert-type' => 'success'
         );
 
@@ -147,13 +162,13 @@ class BannerController extends Controller
         foreach ($banners as $value) {
             $data = [];
             $data['id'] = $value->id;
-            $data['title'] = $value->title;
-            $data['content'] = $value->content;
+            $data['title'] = ucfirst($value->title);
+            $data['content'] = ucfirst($value->content);
             // $data['banner_image'] = $value->banner_image;
             $banner_image = "<div class='table-plus'>";
             $banner_image .= "<div class='name-avatar d-flex align-items-center'>";
             $banner_image .= "<div class='avatar mr-2 flex-shrink-0'>";
-            $banner_image .= "<img src='" . asset('images/banner/' . $value->banner_image) . "' class='border-radius-100 shadow' width='40' height='40' alt=''/>";
+            $banner_image .= "<img src='" . asset('images/banner/' . $value->banner_image) . "' class='border-radius-10 shadow' width='40' height='40' alt=''/>";
             $banner_image .= "</div>";
             $banner_image .= "</div>";
             $banner_image .= "</div>";

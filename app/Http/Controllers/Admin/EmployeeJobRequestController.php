@@ -10,13 +10,11 @@ class EmployeeJobRequestController extends Controller
     function __construct()
     {
         $this->Model = new EmployeeJobRequest;
-        $this->imagePath  =public_path('images/services/');
         $this->columns = [
             "id",
-            "job_id",
-            "name",
-            "image",
-            "status",
+            "user_id",
+            "other_value",
+            "approved_status",
             "action",
         ];
     }
@@ -82,7 +80,7 @@ class EmployeeJobRequestController extends Controller
             $request->order_column = $request->order[0]['column'];
             $request->order_dir = $request->order[0]['dir'];
         }
-        $records = $this->Model->fetchServices($request, $this->columns);
+        $records = $this->Model->fetchJobRequest($request, $this->columns);
         $total = $records->get();
         if (isset($request->start)) {
             $banners = $records->offset($request->start)->limit($request->length)->get();
@@ -94,20 +92,20 @@ class EmployeeJobRequestController extends Controller
         foreach ($banners as $value) {
             $data = [];
             $data['id'] = $value->id;
-            $data['name'] =ucfirst($value->name) ;
-            $data['job_id'] = ucfirst($value->getSelectJob->job_name) ?? '';
-            $data['image'] = "<img height='100' width='100' src='".asset('images/services/')."/".$value->image."'/>";
-            $data['description'] = $value->description;
-            if ($value->status == 1) {
-                $status = "<a href='javascript:void(0)' data-id='" . $value->id . "' data-status='0' class='badge badge-success servicesStatus'>Active</a>";
-            } else {
-                $status = "<a href='javascript:void(0)' data-id='" . $value->id . "' data-status='1' class='badge badge-danger servicesStatus'>InActive</a>";
+            $data['user_name'] =ucfirst($value->getEmployee->name) ;
+            $data['other_value'] =ucfirst($value->other_value) ;
+            $approved_status="";
+            if ($value->approved_status == 0) {
+                $approved_status = "<a href='javascript:void(0)' data-id='" . $value->id . "' data-status='0' class='badge badge-success servicesStatus'>Pending</a>";
+            } else if ($value->approved_status == 1) {
+
+                $approved_status = "<a href='javascript:void(0)' data-id='" . $value->id . "' data-status='1' class='badge badge-danger servicesStatus'>Approved</a>";
             }
-            $action = "<div class='table-actions'>";
-            $action .= "<a href='" . route('services.edit', $value->id) . "' style='color: #265ed7;'><i class='icon-copy dw dw-edit2'></i></a>";
-            $action .= "</div>";
-            $data['action'] = $action;
-            $data['status'] = $status;
+            else if ($value->approved_status == 2) {
+
+                $approved_status = "<a href='javascript:void(0)' data-id='" . $value->id . "' data-status='1' class='badge badge-danger servicesStatus'>Reject</a>";
+            }
+            $data['approved_status']=$approved_status;
             $result[] = $data;
         }
         $data = json_encode([

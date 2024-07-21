@@ -20,7 +20,7 @@ class EmployeeUser extends Authenticatable implements JWTSubject
     {
         return [];
     }
-    
+
     public function fetchEmployeeUser($request, $columns) {
         $query =EmployeeUser::where('name', '!=', '');
 

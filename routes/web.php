@@ -13,7 +13,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\employeeUser\EmployeeUserController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\DashboardController;
-
+use App\Http\Controllers\Admin\ChangePasswordController;
 use App\Http\Controllers\Admin\services\ServicesController;
 use App\Http\Controllers\Admin\EmployeeJobRequestController;
 
@@ -44,7 +44,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin\Auth'], function () {
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
-    
+
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('adminDashboard');
     Route::group(['namespace' => 'App\Http\Controllers\Admin\Auth'], function () {
         Route::post('logout', 'AuthenticatedSessionController@destroy')->name('adminlogout');

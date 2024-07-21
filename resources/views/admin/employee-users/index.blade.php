@@ -21,7 +21,7 @@
 							</ol>
 						</nav>
 					</div>
-					
+
 				</div>
 			</div>
 			<!-- Simple Datatable start -->
@@ -39,7 +39,7 @@
                                 <th>Number</th>
 								<th>Status</th>
 								<th>View</th>
-								
+
 							</tr>
 						</thead>
 						<tbody>
@@ -110,20 +110,20 @@
                 { "data": "number" },
 				{ "data": "status" },
 				{ "data": "view" },
-				
+
 				],
-				"columnDefs": [{
-					"targets": [2],
-					"orderable": false
-				},]
+                columnDefs: [
+                    { "targets": [2], "orderable": false }, // Disable sorting on the "job_id" column
+                    { "targets": [4,3], "orderable": false } // Disable sorting on the "job_id" column
+                ]
 			});
 
 			// for chnage status
 			$(document).on('click', '.employeeUserStatus', function () {
-    
+
 				id = $(this).attr("data-id");
 				status = $(this).attr("data-status");
-				
+
                 $.ajax({
                     type: "POST",
                     url: @json(route('changeEmployeeUserStatus')),

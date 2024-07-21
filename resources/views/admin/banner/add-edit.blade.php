@@ -61,8 +61,11 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+                            @if ($banner &&  $banner->banner_image)
+                            <img height="100" width="100" src="{{ asset('images/banner/' . $banner->banner_image) }}" alt="Service Image" class="img-fluid">
+                        @endif
                         </div>
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Status</label>
                                 <select class="form-control" name="status">
@@ -76,7 +79,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Content</label>
                                 <textarea class="form-control" name="content"
