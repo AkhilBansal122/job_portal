@@ -15,7 +15,7 @@ use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\DashboardController;
 
 use App\Http\Controllers\Admin\services\ServicesController;
-
+use App\Http\Controllers\Admin\EmployeeJobRequestController;
 
 // Route::get('', function () {
 //     return view('welcome');
