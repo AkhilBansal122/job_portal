@@ -4,16 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Job;
 
 class Service extends Model
 {
     use HasFactory;
     protected $guarded =[];
 
-    public function getSelectJob(){
-        return $this->belongsTo(Job::class,'job_id');
-    }
     public function fetchServices($request, $columns) {
         $query =Service::where('name', '!=', '');
 

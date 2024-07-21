@@ -65,8 +65,7 @@
 					</div>
 					<div class="col-md-6 col-sm-12 text-right">
 						<div class="dropdown">
-							<a class="btn btn-primary " href="{{route('jobs.create')}}" role="button"
-								no-arrow>
+							<a class="btn btn-primary " href="{{route('jobs.create')}}" role="button" no-arrow>
 								Add Job
 							</a>
 						</div>
@@ -161,10 +160,10 @@
 				{ "data": "action" },
 
 				],
-                columnDefs: [
-                    { "targets": [2], "orderable": false }, // Disable sorting on the "job_id" column
-                    { "targets": [4,5,3], "orderable": false } // Disable sorting on the "job_id" column
-                ]
+				"columnDefs": [{
+					"targets": [2],
+					"orderable": false
+				},]
 			});
 
 			// for chnage status
@@ -195,62 +194,62 @@
 		});
 	</script>
 
-	@push('script')
-		<script>
-			@if (Session::has('message'))
-				var type = "{{ Session::get('alert-type', 'info') }}"
-				switch (type) {
-					case 'info':
-						toastr.options.timeOut = 10000;
-						toastr.options =
-						{
-							"closeButton": true,
-							"progressBar": true,
-						}
-						toastr.info("{{ Session::get('message') }}");
-						var audio = new Audio('audio.mp3');
-						audio.play();
-						break;
-					case 'success':
 
-						toastr.options.timeOut = 10000;
-						toastr.options =
-						{
-							"closeButton": true,
-							"progressBar": true,
-						}
-						toastr.success("{{ Session::get('message') }}");
-						var audio = new Audio('audio.mp3');
-						audio.play();
+	<script>
+		@if (Session::has('message'))
+			var type = "{{ Session::get('alert-type', 'info') }}"
+			switch (type) {
+				case 'info':
+					toastr.options.timeOut = 10000;
+					toastr.options =
+					{
+						"closeButton": true,
+						"progressBar": true,
+					}
+					toastr.info("{{ Session::get('message') }}");
+					var audio = new Audio('audio.mp3');
+					audio.play();
+					break;
+				case 'success':
 
-						break;
-					case 'warning':
+					toastr.options.timeOut = 10000;
+					toastr.options =
+					{
+						"closeButton": true,
+						"progressBar": true,
+					}
+					toastr.success("{{ Session::get('message') }}");
+					var audio = new Audio('audio.mp3');
+					audio.play();
 
-						toastr.options.timeOut = 10000;
-						toastr.options =
-						{
-							"closeButton": true,
-							"progressBar": true,
-						}
-						toastr.warning("{{ Session::get('message') }}");
-						var audio = new Audio('audio.mp3');
-						audio.play();
+					break;
+				case 'warning':
 
-						break;
-					case 'error':
+					toastr.options.timeOut = 10000;
+					toastr.options =
+					{
+						"closeButton": true,
+						"progressBar": true,
+					}
+					toastr.warning("{{ Session::get('message') }}");
+					var audio = new Audio('audio.mp3');
+					audio.play();
 
-						toastr.options.timeOut = 10000;
-						toastr.options =
-						{
-							"closeButton": true,
-							"progressBar": true,
-						}
-						toastr.error("{{ Session::get('message') }}");
-						var audio = new Audio('audio.mp3');
-						audio.play();
-						break;
-				}
-			@endif
-		</script>
-	@endpush
+					break;
+				case 'error':
+
+					toastr.options.timeOut = 10000;
+					toastr.options =
+					{
+						"closeButton": true,
+						"progressBar": true,
+					}
+					toastr.error("{{ Session::get('message') }}");
+					var audio = new Audio('audio.mp3');
+					audio.play();
+					break;
+			}
+		@endif
+	</script>
+
 @endpush

@@ -24,6 +24,11 @@ class EmployeeUserController extends Controller
     public function index(){
         return view('admin.employee-users.index');
     }
+    public function show($id){
+        $employeeUser=EmployeeUser::find($id);
+        return view('admin.employee-users.view', compact('employeeUser'));
+    }
+   
   
     public function employeeUsersAjax(Request $request)
     {
@@ -54,7 +59,9 @@ class EmployeeUserController extends Controller
             } else {
                 $status = "<a href='javascript:void(0)' data-id='" . $value->id . "' data-status='1' class='badge badge-danger employeeUserStatus'>InActive</a>";
             }
+            $view = "<a href='" . route('employee-users.show', $value->id) . "' data-status='1' class='badge badge-secondary userStatus'>View</a>";
 
+            $data['view'] = $view;
             $data['status'] = $status;
             $result[] = $data;
 

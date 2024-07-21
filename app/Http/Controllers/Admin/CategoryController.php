@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\JobCategory;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+
 
 class CategoryController extends Controller
 {
@@ -41,7 +43,7 @@ class CategoryController extends Controller
     {
         // dd('fff');
         $request->validate([
-            'job_category_name' => 'required|string|max:255',
+            'job_category_name' => 'required|string|max:255|unique:job_categories,job_category_name',
             'description' => 'nullable|string',
         ]);
 
@@ -84,8 +86,11 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
+       
         $request->validate([
-            'job_category_name' => 'required|string|max:255',
+            'job_category_name' => ['required','string','max:255',
+                Rule::unique('job_categories')->ignore($id),
+            ],
             'description' => 'nullable|string',
         ]);
         $jobCategory = JobCategory::findOrFail($id);
@@ -147,7 +152,7 @@ class CategoryController extends Controller
             }
             $action = "<div class='table-actions'>";
             $action .= "<a href='" . route('job-categories.edit', $value->id) . "' style='color: #265ed7;'><i class='icon-copy dw dw-edit2'></i></a>";
-
+            
             $action .= "</div>";
             $data['action'] = $action;
             $data['status'] = $status;
