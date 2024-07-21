@@ -143,7 +143,7 @@ class SectionController extends Controller
     }
 
     function changeStatus(Request $request){
-
+      
        $response =  $this->Model->where('id',$request->id)->update(['status'=>$request->status]);
         if($response){
             return json_encode([

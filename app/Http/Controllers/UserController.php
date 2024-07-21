@@ -24,6 +24,11 @@ class UserController extends Controller
     {
         return view('admin.users.index');
     }
+    public function show($id)
+    {
+        $user=User::find($id);
+        return view('admin.users.view', compact('user'));
+    }
     public function userAjax(Request $request)
     {
 
@@ -53,7 +58,9 @@ class UserController extends Controller
             } else {
                 $status = "<a href='javascript:void(0)' data-id='" . $value->id . "' data-status='1' class='badge badge-danger userStatus'>InActive</a>";
             }
+            $view = "<a href='" . route('users.show', $value->id) . "' data-status='1' class='badge badge-secondary userStatus'>View</a>";
 
+            $data['view'] = $view;
             $data['status'] = $status;
             $result[] = $data;
 

@@ -10,9 +10,9 @@ class HomePageController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function home_page()
     {
-        //
+        
     }
 
     /**

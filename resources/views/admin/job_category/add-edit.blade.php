@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.app') 
 
 @section('content')
 <div class="main-container">
@@ -21,7 +21,7 @@
                         <div class="dropdown">
                             <a class="btn btn-secondary dropdown-toggle no-arrow"
                                 href="{{route('job-categories.index')}}">
-                                Back
+                                View
                             </a>
                         </div>
                     </div>

@@ -12,17 +12,17 @@
 		<div class="sidebar-menu">
 			<ul id="accordion-menu">
 				<li class="dropdown">
-					<a href="{{route('adminDashboard')}}" class="dropdown-toggle no-arrow">
+					<a href="{{route('adminDashboard')}} " class="dropdown-toggle no-arrow {{ Request::routeIs('adminDashboard') ? 'active' : '' }}">
 						<span class="micon bi bi-house"></span><span class="mtext">Home</span>
 					</a>
 				</li>
 				<li class="dropdown">
-					<a href="{{route('users.index')}}" class="dropdown-toggle no-arrow">
+					<a href="{{route('users.index')}}" class="dropdown-toggle no-arrow {{ Request::routeIs('users.index') ? 'active' : '' }}">
 						<span class="micon bi bi-people"></span><span class="mtext">User</span>
 					</a>
 				</li>
 				<li class="dropdown">
-					<a href="{{route('employeeUsers.index')}}" class="dropdown-toggle no-arrow">
+					<a href="{{route('employee-users.index')}}" class="dropdown-toggle no-arrow {{ Request::routeIs('employeeUsers.index') ? 'active' : '' }}">
 						<span class="micon bi bi-people"></span><span class="mtext">EmployeeUser</span>
 					</a>
 				</li>
@@ -32,10 +32,10 @@
 					</a>
 				</li>
 				<li class="dropdown">
-					<a href="javascript:;" class="dropdown-toggle">
+					<a href="javascript:;" class="dropdown-toggle {{ Request::routeIs(['job-categories.index', 'jobs.index']) ? 'active show' : '' }}">
 						<span class="micon bi bi-textarea-resize"></span><span class="mtext">Job</span>
 					</a>
-					<ul class="submenu">
+					<ul class="submenu {{ Request::routeIs(['job-categories.index', 'jobs.index']) ? 'active' : '' }}">
 						<li><a href="{{route('job-categories.index')}}">Job Category</a></li>
 						<li><a href="{{route('jobs.index')}}">Job</a>
 							\</li>
@@ -43,12 +43,12 @@
 			</ul>
 			</li>
             <li class="dropdown">
-                <a href="{{route('banners.index')}}" class="dropdown-toggle no-arrow">
+                <a href="{{route('banners.index')}}" class="dropdown-toggle no-arrow {{ Request::routeIs('banners.index') ? 'active' : '' }}">
                     <span class="micon bi bi-people"></span><span class="mtext">Banner</span>
                 </a>
             </li>
             <li class="dropdown">
-                <a href="{{route('services.index')}}" class="dropdown-toggle no-arrow">
+                <a href="{{route('services.index')}}" class="dropdown-toggle no-arrow {{ Request::routeIs('services.index') ? 'active' : '' }}">
                     <span class="micon bi bi-people"></span><span class="mtext">Services</span>
                 </a>
             </li>
