@@ -90,19 +90,17 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
      Route::post('services/ajax', [ServicesController::class, 'servicesAjax'])->name('servicesAjax');
      Route::post('services/status', [ServicesController::class, 'changeServicesStatus'])->name('changeServicesStatus');
 
+     Route::get('/password', [ChangePasswordController::class, 'index'])->name('password');
+    Route::post('/change-password', [ChangePasswordController::class, 'updatePassword'])->name('update-password');
+
+Route::get('/jobrequest', [EmployeeJobRequestController::class, 'index'])->name('jobrequest.index');
+Route::post('jobrequest/ajax', [EmployeeJobRequestController::class, 'employeeJobRequestAjax'])->name('employeeJobRequestAjax');
+
 });
 
 
 //****************************** Admin route end here ******************************************* */
 
 Route::get('test',[TestController::class, 'index'])->name('ddddd');
-
-Route::get('/password', [ChangePasswordController::class, 'index'])->name('password');
-Route::post('/change-password', [ChangePasswordController::class, 'updatePassword'])->name('update-password');
-
-Route::get('/jobrequest', [EmployeeJobRequestController::class, 'index'])->name('jobrequest.index');
-Route::post('jobrequest/ajax', [EmployeeJobRequestController::class, 'employeeJobRequestAjax'])->name('employeeJobRequestAjax');
-
-
 
 require __DIR__ . '/auth.php';
