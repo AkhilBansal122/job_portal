@@ -15,7 +15,7 @@ use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ChangePasswordController;
 use App\Http\Controllers\Admin\services\ServicesController;
-
+use App\Http\Controllers\Admin\EmployeeJobRequestController;
 
 // Route::get('', function () {
 //     return view('welcome');
@@ -99,5 +99,9 @@ Route::get('test',[TestController::class, 'index'])->name('ddddd');
 
 Route::get('/password', [ChangePasswordController::class, 'index'])->name('password');
 Route::post('/change-password', [ChangePasswordController::class, 'updatePassword'])->name('update-password');
+
+Route::get('/jobrequest', [EmployeeJobRequestController::class, 'index'])->name('jobrequest.index');
+//Route::post('/change-password', [EmployeeJobRequestController::class, 'updatePassword'])->name('update-password');
+
 
 require __DIR__ . '/auth.php';

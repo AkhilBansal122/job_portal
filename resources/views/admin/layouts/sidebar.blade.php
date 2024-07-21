@@ -26,6 +26,11 @@
 						<span class="micon bi bi-people"></span><span class="mtext">EmployeeUser</span>
 					</a>
 				</li>
+                <li class="dropdown">
+					<a href="{{route('jobrequest.index')}}" class="dropdown-toggle no-arrow">
+						<span class="micon bi bi-people"></span><span class="mtext">Job Request</span>
+					</a>
+				</li>
 				<li class="dropdown">
 					<a href="javascript:;" class="dropdown-toggle">
 						<span class="micon bi bi-textarea-resize"></span><span class="mtext">Job</span>
