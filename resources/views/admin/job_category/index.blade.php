@@ -159,10 +159,10 @@
 				{ "data": "action" },
 
 				],
-                columnDefs: [
-                    { "targets": [2], "orderable": false }, // Disable sorting on the "job_id" column
-                    { "targets": [4,3], "orderable": false } // Disable sorting on the "job_id" column
-                ]
+				"columnDefs": [{
+					"targets": [2],
+					"orderable": false
+				},]
 			});
 
 			// for chnage status
