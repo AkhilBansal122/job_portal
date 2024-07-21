@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('employee_users', function (Blueprint $table) {
             
+            
         });
     }
 
