@@ -65,7 +65,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::post('user-ajax', [UserController::class, 'userAjax'])->name('userAjax');
     Route::post('chnage-user-status', [UserController::class, 'changeUserStatus'])->name('changeUserStatus');
 
-
     Route::resource('employee-users', EmployeeUserController::class);
     Route::post('employee-users-ajax', [EmployeeUserController::class, 'employeeUsersAjax'])->name('employeeUsersAjax');
     Route::post('change-status-employee-users', [EmployeeUserController::class, 'changeEmployeeUserStatus'])->name('changeEmployeeUserStatus');

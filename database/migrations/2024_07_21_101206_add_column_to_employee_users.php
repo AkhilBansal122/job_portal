@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('employee_users', function (Blueprint $table) {
-            
-            
+            $table->integer('other_type')->default(0); // default 0 means not selected other 1 means selected other
+            $table->integer('approvalStatus')->default(0); // default 0 means pending 1 means approve, 2 means rejected
         });
     }
 
@@ -23,7 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('employee_users', function (Blueprint $table) {
-            //
+            $table->dropColumn('other_type');
+            $table->dropColumn('approvalStatus');
         });
     }
 };
