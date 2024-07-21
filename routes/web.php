@@ -94,7 +94,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
 });
 
 
-//****************************** Admin route end here ******************************************* */
+// ****************************** Admin route end here ******************************************* */
 
 Route::get('test',[TestController::class, 'index'])->name('ddddd');
 
