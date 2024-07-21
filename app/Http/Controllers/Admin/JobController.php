@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Job;
 use App\Models\JobCategory;
+use Illuminate\Validation\Rule;
+
 
 class JobController extends Controller
 {
@@ -44,7 +46,7 @@ class JobController extends Controller
     {
 
         $request->validate([
-            'job_name' => 'required|string|max:255',
+            'job_name' => 'required|string|max:255|unique:user_jobs,job_name',
             'status' => 'required|in:0,1',
             'job_category' => 'required|exists:job_categories,id',
             'description' => 'nullable|string|max:1000',
@@ -63,7 +65,6 @@ class JobController extends Controller
             'message' => 'Job created successfully!.',
             'alert-type' => 'success'
         );
-
         return redirect()->route('jobs.index')->with($notification);
     }
 
@@ -88,14 +89,20 @@ class JobController extends Controller
     /**
      * Update the specified resource in storage.
      */
+
+    //  if($request){
+    //     Job::where('job_name', $request->job_name)
+    //  }
     public function update(Request $request, string $id)
     {
+        
         $request->validate([
-            'job_name' => 'required|string|max:255',
+            'job_name' => ['required','string','max:255',
+                Rule::unique('user_jobs')->ignore($id),
+            ],
             'status' => 'required|in:0,1',
             'job_category' => 'required|exists:job_categories,id',
             'description' => 'nullable|string|max:1000',
-
         ]);
 
         $job = Job::findOrFail($id);
@@ -158,7 +165,6 @@ class JobController extends Controller
             }
             $action = "<div class='table-actions'>";
             $action .= "<a href='" . route('jobs.edit', $value->id) . "' style='color: #265ed7;'><i class='icon-copy dw dw-edit2'></i></a>";
-            $action .= "<a href='" . route('jobs.destroy', $value->id) . "' style='color: #e95959'><i class='icon-copy dw dw-delete-3'></i></a>";
             $action .= "</div>";
             $data['action'] = $action;
             $data['status'] = $status;
