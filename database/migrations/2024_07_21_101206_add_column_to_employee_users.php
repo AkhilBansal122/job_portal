@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('employee_users', function (Blueprint $table) {
-            adhar_card_number
-            adhar_card_photo
+            
         });
     }
 
