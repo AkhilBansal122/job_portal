@@ -29,7 +29,7 @@
 				<div class="pd-20">
 				</div>
 				<div class="pb-20">
-					<table id="employeeUserDatatable" class="data-table1 table stripe hover nowrap">
+					<table id="employeeJobRequestDatatable" class="data-table1 table stripe hover nowrap">
 						<thead>
 							<tr>
 								<th class="table-plus datatable-nosort">ID</th>
@@ -72,7 +72,7 @@
 			// 	id = $(this).data("id");
 			// 	alert(id);
 			// });
-			var table = $('#employeeUserDatatable').DataTable({
+			var table = $('#employeeJobRequestDatatable').DataTable({
 				processing: true,
 				serverSide: true,
 				"scrollY": "400px", // Set the height for the container
@@ -81,7 +81,7 @@
 				pagingType: "simple_numbers", // Use simple pagination (Previous/Next)
 
 				ajax: {
-					url: "{{ route('employeeUsersAjax') }}",
+					url: "{{ route('employeeJobRequestAjax') }}",
 					type: "POST",
 					data: {
 						from_date: $('input[name=from_date]').val(),

@@ -101,7 +101,8 @@ Route::get('/password', [ChangePasswordController::class, 'index'])->name('passw
 Route::post('/change-password', [ChangePasswordController::class, 'updatePassword'])->name('update-password');
 
 Route::get('/jobrequest', [EmployeeJobRequestController::class, 'index'])->name('jobrequest.index');
-//Route::post('/change-password', [EmployeeJobRequestController::class, 'updatePassword'])->name('update-password');
+Route::post('jobrequest/ajax', [EmployeeJobRequestController::class, 'employeeJobRequestAjax'])->name('employeeJobRequestAjax');
+
 
 
 require __DIR__ . '/auth.php';
