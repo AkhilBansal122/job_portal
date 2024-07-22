@@ -1,4 +1,14 @@
 @extends('admin.auth.layouts.app')
+@push('style')
+<style>
+    .toggle-password {
+    float: right;
+    cursor: pointer;
+    margin-right: 10px;
+    margin-top: -25px;
+}
+</style>
+@endpush
 @section('content')
     <div class="login-wrap d-flex align-items-center flex-wrap justify-content-center">
         <div class="container">
@@ -29,16 +39,22 @@
                             @error('password')
                              <span class="text-danger">{{ $message }}</span>
                             @enderror
-                            <div class="input-group custom">
+                            <!-- <div class="input-group custom">
                                 <input type="password" class="form-control form-control-lg" name="password"
                                     placeholder="**********">
                                 <div class="input-group-append custom">
-                                    <span class="input-group-text"><i class="dw dw-padlock1"></i></span>
-
+                                    <span class="input-group-text"><i class="toggle-password fa fa-fw fa-eye-slash"></i></span>
                                 </div>
-
-
+                            </div> -->
+                            <div class="input-group custom">
+                                <input type="password" class="form-control form-control-lg" name="password" id="password" placeholder="**********">
+                                <div class="input-group-append custom">
+                                    <span class="input-group-text">
+                                        <i class="toggle-password fa fa-fw fa-eye-slash" id="togglePassword"></i>
+                                    </span>
+                                </div>
                             </div>
+
                             
                             <div class="row pb-30">
                                 <div class="col-6">
@@ -68,3 +84,21 @@
         </div>
     </div>
 @endsection
+@push('script')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const togglePassword = document.getElementById('togglePassword');
+        const password = document.getElementById('password');
+
+        togglePassword.addEventListener('click', function () {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+
+            // Toggle the eye slash icon
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+    });
+</script>
+
+@endpush

@@ -12,7 +12,7 @@
 							<h2 class="text-center text-primary">Forgot Password</h2>
 						</div>
 						<h6 class="mb-20">Enter your email address to reset your password</h6>
-						<form action="{{route('admin.resetPassword')}}" method="post">
+						<form action="{{ route('admin.resetPassword') }}" method="post">
 						@csrf
 						   @error('email')
                              <span class="text-danger">{{ $message }}</span>
