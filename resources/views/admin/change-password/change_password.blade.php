@@ -1,5 +1,14 @@
 @extends('admin.layouts.app')
 
+<style>
+    .toggle-password {
+    float: right;
+    cursor: pointer;
+    margin-right: 10px;
+    margin-top: -25px;
+}
+</style>
+@endpush
 
 @section('content')
 <div class="main-container">
@@ -45,7 +54,7 @@
                             <div class="mb-3">
                                 <label for="oldPasswordInput" class="form-label">Old Password</label>
                                 <input name="old_password" type="password" class="form-control @error('old_password') is-invalid @enderror" id="oldPasswordInput"
-                                    placeholder="Old Password">
+                                    placeholder="Old Password"><i class="toggle-password fa fa-fw fa-eye-slash"></i>
                                 @error('old_password')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -54,7 +63,7 @@
                             <div class="mb-3">
                                 <label for="newPasswordInput" class="form-label">New Password</label>
                                 <input name="new_password" type="password" class="form-control @error('new_password') is-invalid @enderror" id="newPasswordInput"
-                                    placeholder="New Password">
+                                    placeholder="New Password"><i class="toggle-password fa fa-fw fa-eye-slash"></i>
                                 @error('new_password')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -62,13 +71,13 @@
                             <div class="mb-3">
                                 <label for="confirmNewPasswordInput" class="form-label">Confirm New Password</label>
                                 <input name="new_password_confirmation" type="password" class="form-control" id="confirmNewPasswordInput"
-                                    placeholder="Confirm New Password">
+                                    placeholder="Confirm New Password"><i class="toggle-password fa fa-fw fa-eye-slash"></i>
                             </div>
 
                         </div>
 
-                        <div class="card-footer">
-                            <button class="btn btn-success">Submit</button>
+                         <div class="text-right">
+                        <button class="btn btn-primary btn-lg">Submit</button>
                         </div>
                     </form>
             </div>
@@ -78,3 +87,16 @@
 @include('admin.layouts.footer')
 
 @endsection
+@push('script')
+<script>
+$(".toggle-password").click(function() {
+    $(this).toggleClass("fa-eye fa-eye-slash");
+    input = $(this).parent().find("input");
+    if (input.attr("type") == "password") {
+        input.attr("type", "text");
+    } else {
+        input.attr("type", "password");
+    }
+});
+</script>
+@endpush

@@ -16,6 +16,9 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ChangePasswordController;
 use App\Http\Controllers\Admin\services\ServicesController;
 use App\Http\Controllers\Admin\EmployeeJobRequestController;
+use App\Http\Controllers\Admin\userProfileController;
+use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
+
 
 // Route::get('', function () {
 //     return view('welcome');
@@ -40,7 +43,12 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin\Auth'], function () {
     Route::get('/', 'AuthenticatedSessionController@create')->name('admin.login');
     Route::post('admin/login', 'AuthenticatedSessionController@store')->name('postLogin');
     Route::get('admin/fortgot-password', 'PasswordResetLinkController@create')->name('admin.forgotPassword');
-    Route::post('admin/reset-password', 'PasswordResetLinkController@store')->name('admin.resetPassword');
+    Route::post('admin/fortgot-password', 'PasswordResetLinkController@store')->name('admin.resetPassword');
+    // Route::post('admin/reset-password', [PasswordResetLinkController::class, 'store'])->name('admin.resetPassword');
+
+    Route::get('admin/reset-password/{token}', [PasswordResetLinkController::class, 'showResetPasswordForm'])->name('reset.password.get');
+    Route::post('admin/reset-password', [PasswordResetLinkController::class, 'submitResetPasswordForm'])->name('reset.password.post');
+
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
@@ -96,7 +104,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
 
 Route::get('/jobrequest', [EmployeeJobRequestController::class, 'index'])->name('jobrequest.index');
 Route::post('jobrequest/ajax', [EmployeeJobRequestController::class, 'employeeJobRequestAjax'])->name('employeeJobRequestAjax');
-
+    Route::get('/userprofile', [UserprofileController::class, 'index'])->name('userprofile');
+    Route::post('/userprofile', [UserprofileController::class, 'store'])->name('user.profile.store');
 });
 
 
