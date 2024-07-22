@@ -210,7 +210,7 @@ class ServicesController extends Controller
             $data = [];
             $data['id'] = $value->id;
             $data['name'] =ucfirst($value->name) ;
-            $data['job_id'] = ucfirst($value->getSelectJob->job_name) ?? '';
+            $data['job_id'] = $value->getSelectJob ? ucfirst($value->getSelectJob->job_name) : '';
             $data['image'] = "<img height='100' width='100' src='".asset('images/services/')."/".$value->image."'/>";
             $data['description'] = $value->description;
             if ($value->status == 1) {

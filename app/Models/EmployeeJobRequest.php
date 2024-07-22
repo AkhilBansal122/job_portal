@@ -1,28 +1,27 @@
 <?php
 
 namespace App\Models;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Tymon\JWTAuth\Contracts\JWTSubject;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Model;
 
-class EmployeeUser extends Authenticatable implements JWTSubject
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use App\Models\Job;
+use App\Models\EmployeeUser;
+class EmployeeJobRequest extends Model
 {
     use HasFactory;
-    protected $guarded=[];
-    public function getJWTIdentifier()
-    {
-        return $this->getKey();
-    }
+    protected $table = "employee_job_requests";
+    protected $guarded =[];
 
-    public function getJWTCustomClaims()
-    {
-        return [];
-    }
 
-    public function fetchEmployeeUser($request, $columns) {
-        $query =EmployeeUser::where('name', '!=', '');
+
+    public function getEmployee(){
+        return $this->belongsTo(EmployeeUser::class,"user_id");
+    }
+    public function getSelectJob(){
+        return $this->belongsTo(Job::class,"user_id");
+    }
+    public function fetchJobRequest($request, $columns) {
+        $query =EmployeeJobRequest::where('id', '!=', '');
 
         if (isset($request->from_date)) {
             $query->whereRaw('DATE_FORMAT(created_at, "%Y-%m-%d") >= "' . date("Y-m-d", strtotime($request->from_date)) . '"');
@@ -33,7 +32,7 @@ class EmployeeUser extends Authenticatable implements JWTSubject
 
         if (isset($request['search']['value'])) {
             $query->where(function ($q) use ($request) {
-                $q->where('name', 'like', '%' . $request['search']['value'] . '%');
+                $q->where('other_value', 'like', '%' . $request['search']['value'] . '%');
             });
         }
         if (isset($request->status)) {
@@ -41,12 +40,10 @@ class EmployeeUser extends Authenticatable implements JWTSubject
         }
 
         if (isset($request->order_column)) {
-            $categories = $query->orderBy($columns[$request->order_column], $request->order_dir);
+            $banners = $query->orderBy($columns[$request->order_column], $request->order_dir);
         } else {
-            $categories = $query->orderBy('created_at', 'desc');
+            $banners = $query->orderBy('created_at', 'desc');
         }
-        return $categories;
+        return $banners;
     }
 }
-
-

@@ -35,7 +35,7 @@
 						<div class="widget-data">
 							<div class="weight-700 font-24 text-dark">{{$employeeUserCount}}</div>
 							<div class="font-14 text-secondary weight-500">
-							<a href="{{route('employeeUsers.index')}}">Total Employee User</a>
+								<a href="{{route('employee-users.index')}}">Total Employee User</a>
 							</div>
 						</div>
 						<div class="widget-icon">
@@ -52,7 +52,7 @@
 						<div class="widget-data">
 							<div class="weight-700 font-24 text-dark">{{$jobCount}}</div>
 							<div class="font-14 text-secondary weight-500">
-							<a href="{{route('jobs.index')}}">Total Job</a>
+								<a href="{{route('jobs.index')}}">Total Job</a>
 							</div>
 						</div>
 						<div class="widget-icon">
@@ -68,7 +68,8 @@
 					<div class="d-flex flex-wrap">
 						<div class="widget-data">
 							<div class="weight-700 font-24 text-dark">{{$jobCategoryCount}}</div>
-							<div class="font-14 text-secondary weight-500"><a href="{{route('job-categories.index')}}">Total Job Category</a></div>
+							<div class="font-14 text-secondary weight-500"><a
+								href="{{route('job-categories.index')}}">Total Job Category</a></div>
 						</div>
 						<div class="widget-icon">
 							<div class="icon" data-color="#09cc06">
@@ -83,7 +84,8 @@
 					<div class="d-flex flex-wrap">
 						<div class="widget-data">
 							<div class="weight-700 font-24 text-dark">{{$service}}</div>
-							<div class="font-14 text-secondary weight-500"><a href="{{route('services.index')}}">Total Service</a></div>
+							<div class="font-14 text-secondary weight-500"><a href="{{route('services.index')}}">Total
+									Service</a></div>
 						</div>
 						<div class="widget-icon">
 							<div class="icon" data-color="#09cc06">
@@ -565,7 +567,7 @@
 				</a>
 			</div>
 		</div>
-     @include('admin.layouts.footer')
+		@include('admin.layouts.footer')
 	</div>
 </div>
 @endsection

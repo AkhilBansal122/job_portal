@@ -38,6 +38,7 @@
                                 <th>Email</th>
                                 <th>Number</th>
 								<th>Status</th>
+								<th>view</th>
 
 							</tr>
 						</thead>
@@ -108,6 +109,7 @@
                 { "data": "email" },
                 { "data": "number" },
 				{ "data": "status" },
+				{ "data": "view" },
 
 				],
                 columnDefs: [

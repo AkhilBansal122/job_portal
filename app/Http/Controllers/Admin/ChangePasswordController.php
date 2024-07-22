@@ -34,7 +34,6 @@ class ChangePasswordController extends Controller
             # Match The Old Password
             if(!Hash::check($request->old_password, $user->password)){
                 // return back()->with("error", "Old Password Doesn't match!");
-              
                 $notification = array(
                     'message' => 'Old Password Doesnt match',
                     'alert-type' => 'success'
@@ -46,7 +45,6 @@ class ChangePasswordController extends Controller
              # Check if the new password is the same as the old password
             if (Hash::check($request->new_password, $user->password)) {
                 // return back()->with("error", "New Password cannot be the same as the old password!");
-                
                 $notification = array(
                     'message' => 'New Password cannot be the same as the old password',
                     'alert-type' => 'success'
@@ -59,7 +57,6 @@ class ChangePasswordController extends Controller
             $user->password  =Hash::make($request->new_password);
             if($user->save()){
               //  return back()->with("status", "Password changed successfully!");
-             
                 $notification = array(
                     'message' => 'Password change successfully',
                     'alert-type' => 'success'

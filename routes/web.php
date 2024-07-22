@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\services\ServicesController;
 use App\Http\Controllers\Admin\userProfileController;
 use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 
+use App\Http\Controllers\Admin\EmployeeJobRequestController;
 
 // Route::get('', function () {
 //     return view('welcome');
@@ -37,6 +38,7 @@ Route::middleware('auth')->group(function () {
 });
 
 //****************************** Admin route start here ******************************************* */
+
 Route::group(['namespace' => 'App\Http\Controllers\Admin\Auth'], function () {
     Route::get('/', 'AuthenticatedSessionController@create')->name('admin.login');
     Route::post('admin/login', 'AuthenticatedSessionController@store')->name('postLogin');
@@ -67,12 +69,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::post('delete-section', [SectionController::class, 'deleteSection'])->name('deleteSection');
     Route::post('change-status', [SectionController::class, 'changeStatus'])->name('changeStatus');
 
-    Route::get('user', [UserController::class, 'index'])->name('users.index');
+    Route::resource('users', UserController::class);
     Route::post('user-ajax', [UserController::class, 'userAjax'])->name('userAjax');
     Route::post('chnage-user-status', [UserController::class, 'changeUserStatus'])->name('changeUserStatus');
 
 
-    Route::get('employee-users', [EmployeeUserController::class, 'index'])->name('employeeUsers.index');
+    Route::resource('employee-users', EmployeeUserController::class);
     Route::post('employee-users-ajax', [EmployeeUserController::class, 'employeeUsersAjax'])->name('employeeUsersAjax');
     Route::post('change-status-employee-users', [EmployeeUserController::class, 'changeEmployeeUserStatus'])->name('changeEmployeeUserStatus');
 
@@ -99,15 +101,17 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
 
     Route::get('/userprofile', [UserprofileController::class, 'index'])->name('userprofile');
     Route::post('/userprofile', [UserprofileController::class, 'store'])->name('user.profile.store');
+     Route::get('/password', [ChangePasswordController::class, 'index'])->name('password');
+    Route::post('/change-password', [ChangePasswordController::class, 'updatePassword'])->name('update-password');
+
+Route::get('/jobrequest', [EmployeeJobRequestController::class, 'index'])->name('jobrequest.index');
+Route::post('jobrequest/ajax', [EmployeeJobRequestController::class, 'employeeJobRequestAjax'])->name('employeeJobRequestAjax');
 
 });
 
 
-//****************************** Admin route end here ******************************************* */
+// ****************************** Admin route end here ******************************************* */
 
 Route::get('test',[TestController::class, 'index'])->name('ddddd');
-
-Route::get('/password', [ChangePasswordController::class, 'index'])->name('password');
-Route::post('/change-password', [ChangePasswordController::class, 'updatePassword'])->name('update-password');
 
 require __DIR__ . '/auth.php';
