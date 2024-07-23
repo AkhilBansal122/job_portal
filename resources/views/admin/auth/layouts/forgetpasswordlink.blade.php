@@ -1,6 +1,5 @@
 @extends('admin.auth.layouts.app')
 @push('style')
-
 <style>
     .toggle-password {
     float: right;
@@ -11,33 +10,26 @@
 </style>
 @endpush
 @section('content')
-<main class="login-form">
-  <div class="cotainer">
-      <div class="row justify-content-center">
-          <div class="col-md-8">
-              <div class="card">
-                  <div class="card-header">Reset Password</div>
-                  <div class="card-body">
-  
-                      <form action="{{ route('reset.password.post') }}" method="POST">
+    <div class="login-wrap d-flex align-items-center flex-wrap justify-content-center">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 col-lg-7">
+                    <img src="{{ asset('assets/vendors/images/login-page-img.png') }}" alt="">
+                </div>
+                <div class="col-md-6 col-lg-5">
+                    <div class="login-box bg-white box-shadow border-radius-10">
+                        <div class="login-title">
+                            <h2 class="text-center text-primary">Reset Password</h2>
+                        </div>
+                        <form action="{{ route('reset.password.post') }}" method="POST">
                           @csrf
                           <input type="hidden" name="token" value="{{ $token }}">
-  
-                          <!-- <div class="form-group row">
-                              <label for="email_address" class="col-md-4 col-form-label text-md-right">E-Mail Address</label>
-                              <div class="col-md-6">
-                                  <input type="text" id="email_address" class="form-control" name="email" required autofocus>
-                                  @if ($errors->has('email'))
-                                      <span class="text-danger">{{ $errors->first('email') }}</span>
-                                  @endif
-                              </div>
-                          </div> -->
   
                           <div class="form-group row">
                               <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
                               <div class="col-md-6">
                                   <input type="password" id="password" class="form-control" name="password" required autofocus>
-                                  <i class="toggle-password fa fa-fw fa-eye-slash"></i>
+                                  <!-- <i class="toggle-password fa fa-fw fa-eye-slash"></i> -->
                                   @if ($errors->has('password'))
                                       <span class="text-danger">{{ $errors->first('password') }}</span>
                                   @endif
@@ -48,7 +40,7 @@
                               <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Confirm Password</label>
                               <div class="col-md-6">
                                   <input type="password" id="password-confirm" class="form-control" name="password_confirmation" required autofocus>
-                                  <i class="toggle-password fa fa-fw fa-eye-slash"></i>
+                                  <!-- <i class="toggle-password fa fa-fw fa-eye-slash"></i> -->
                                   @if ($errors->has('password_confirmation'))
                                       <span class="text-danger">{{ $errors->first('password_confirmation') }}</span>
                                   @endif
@@ -61,24 +53,36 @@
                               </button>
                           </div>
                       </form>
-                        
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
-</main>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @push('script')
 <script>
-$(".toggle-password").click(function() {
-    $(this).toggleClass("fa-eye fa-eye-slash");
-    input = $(this).parent().find("input");
-    if (input.attr("type") == "password") {
-        input.attr("type", "text");
-    } else {
-        input.attr("type", "password");
-    }
-});
+    document.addEventListener('DOMContentLoaded', function () {
+        const togglePassword = document.getElementById('togglePassword');
+        const password = document.getElementById('password');
+
+        togglePassword.addEventListener('click', function () {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+
+            // Toggle the eye slash icon
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+    });
 </script>
+
 @endpush
+
+
+
+
+
+
+
+
+
