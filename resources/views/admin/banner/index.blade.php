@@ -1,47 +1,5 @@
 @extends('admin.layouts.app')
-@push('style')
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-
-	<style>
-		/* Custom Toastr Styles */
-		#toast-container>div {
-			background-color: brown;
-			/* Dark background color */
-			color: #fff;
-			/* Light text color */
-			box-shadow: none;
-			/* Remove shadow */
-			border: none;
-		}
-
-		#toast-container>div.toast-success {
-			background-color: green;
-			/* Success messages background color */
-			background-color: green;
-			transition: background-color 0.3s ease;
-		}
-
-		#toast-container>div.toast-error {
-			background-color: #d9534f;
-			/* Error messages background color */
-		}
-
-		#toast-container>div.toast-info {
-			background-color: #5bc0de;
-			/* Info messages background color */
-		}
-
-		#toast-container>div.toast-warning {
-			background-color: #f0ad4e;
-			/* Warning messages background color */
-		}
-	</style>
-
-@endpush
 @section('content')
 <div class="main-container">
     <div class="pd-ltr-20 xs-pd-20-10">
@@ -103,6 +61,9 @@
 @endsection
 
 @push('script')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
     <script src="{{ asset('assets/src/plugins/datatables/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/src/plugins/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/src/plugins/datatables/js/dataTables.responsive.min.js') }}"></script>
@@ -143,7 +104,7 @@
                     dataSrc: "data"
                 },
                 paging: true,
-                pageLength: 5,
+                pageLength: 10,
                 "bServerSide": true,
                 "bLengthChange": false,
                 'searching': true,
@@ -165,10 +126,14 @@
                 { "data": "action" },
                 ],
 
-                "columnDefs": [{
-                    "targets": [2],
-                    "orderable": false
-                },]
+                columnDefs: [
+
+                    { "targets": [2], "orderable": false }, // Disable sorting on the "job_id" column
+                    { "targets": [3], "orderable": false }, // Disable sorting on the "job_id" column
+                    { "targets": [4], "orderable": false }, // Disable sorting on the "job_id" column
+                    { "targets": [5], "orderable": false } // Disable sorting on the "job_id" column
+
+                ]
             });
 
             // for chnage status
@@ -199,63 +164,64 @@
                 });
             });
 
+            $(document).on('click', '.deleteBanner', function(event) {
+            event.preventDefault();
+
+            var id = $(this).data("id");
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ route('destroyBanner') }}",
+                        data: {
+                            id: id,
+                            _method: 'DELETE',
+                        },
+                        dataType: "JSON",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            if (response.status == true) {
+                                Swal.fire({
+                                    title: "Deleted!",
+                                    text: response.message,
+                                    icon: "success"
+                                });
+                                // Reload the table or update the DOM as needed
+                                table.ajax.reload(); 
+                            } else {
+                                Swal.fire({
+                                    title: "Error!",
+                                    text: response.message,
+                                    icon: "error"
+                                });
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            Swal.fire({
+                                title: "Error!",
+                                text: "Something went wrong. Please try again.",
+                                icon: "error"
+                            });
+                            console.error(error);
+                        }
+                    });
+                }
+            });
         });
-    </script>
+            
+        });
 
-    <script>
-        @if (Session::has('message'))
-            var type = "{{ Session::get('alert-type', 'info') }}"
-            switch (type) {
-                case 'info':
-                    toastr.options.timeOut = 10000;
-                    toastr.options =
-                    {
-                        "closeButton": true,
-                        "progressBar": true,
-                    }
-                    toastr.info("{{ Session::get('message') }}");
-                    var audio = new Audio('audio.mp3');
-                    audio.play();
-                    break;
-                case 'success':
-
-                    toastr.options.timeOut = 10000;
-                    toastr.options =
-                    {
-                        "closeButton": true,
-                        "progressBar": true,
-                    }
-                    toastr.success("{{ Session::get('message') }}");
-                    var audio = new Audio('audio.mp3');
-                    audio.play();
-
-                    break;
-                case 'warning':
-
-                    toastr.options.timeOut = 10000;
-                    toastr.options =
-                    {
-                        "closeButton": true,
-                        "progressBar": true,
-                    }
-                    toastr.warning("{{ Session::get('message') }}");
-                    var audio = new Audio('audio.mp3');
-                    audio.play();
-
-                    break;
-                case 'error':
-
-                    toastr.options.timeOut = 10000;
-                    toastr.options =
-                    {
-                        "closeButton": true,
-                        "progressBar": true,
-                    }
-                    toastr.error("{{ Session::get('message') }}");
-                    var audio = new Audio('audio.mp3');
-                    audio.play();
-                    break;
-            }
-        @endif
+        
     </script>
 @endpush

@@ -21,7 +21,7 @@
                     <div class="col-md-6 col-sm-12 text-right">
                         <div class="dropdown">
                             <a class="btn btn-secondary dropdown-toggle no-arrow" href="{{route('services.index')}}">
-                                Back
+                                View
                             </a>
                         </div>
                     </div>
@@ -63,7 +63,8 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-sm-12">
+
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Status</label>
                                 <select class="form-control" name="status">
@@ -74,6 +75,18 @@
 
                                 </select>
                             </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Image</label>
+                                <input class="form-control" type="file" name="image">
+                                @error('image')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            @if ($services->image)
+                                <img height="100" width="100" src="{{ asset('images/services/' . $services->image) }}" alt="Service Image" class="img-fluid">
+                            @endif
                         </div>
 
                         <div class="col-sm-12">

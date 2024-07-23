@@ -33,15 +33,34 @@ class RegisteredUserController extends Controller
      */
     public function store(EmployeeUserRegisterRequest $request)
     {
-
-
         $validatedData = $request->validated();
+        $employeeUser = new EmployeeUser;
+        $employeeUser->name=$request->name;
+        $employeeUser->email=$request->email;
+        $employeeUser->password=Hash::make($request['password']);
+        $employeeUser->phone=$request->phone;
+        $employeeUser->job_id=$request->select_job_id;
+        if($request->other_type==1){
+            dd('if');
+            $employeeUser->other_type=$request->other_type;
+            $employeeUser->job_name=$request->job_name;
+        }
+      
+dd('bahar');
+        $directoryPath = public_path('images/services/');
+
+                // Check if the directory exists
+                if (!File::exists($directoryPath)) {
+                    // Create the directory
+                    File::makeDirectory($directoryPath, 0755, true);
+                }
         if ($image = $request['profile_image']) {
             $imageName = time() . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
             $image->move('images/employeeUser', $imageName);
         }
         $validatedData['password'] = Hash::make($validatedData['password']);
         $user = EmployeeUser::create($validatedData);
+        
         return response()->json(['status' => true, 'message' => 'Employee created successfully!', 'data' => $user], 201);
 
 

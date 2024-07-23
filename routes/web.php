@@ -13,7 +13,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\employeeUser\EmployeeUserController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\DashboardController;
-
+use App\Http\Controllers\Admin\ChangePasswordController;
 use App\Http\Controllers\Admin\services\ServicesController;
 use App\Http\Controllers\Admin\EmployeeJobRequestController;
 
@@ -44,7 +44,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin\Auth'], function () {
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
-    
+
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('adminDashboard');
     Route::group(['namespace' => 'App\Http\Controllers\Admin\Auth'], function () {
         Route::post('logout', 'AuthenticatedSessionController@destroy')->name('adminlogout');
@@ -65,7 +65,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::post('user-ajax', [UserController::class, 'userAjax'])->name('userAjax');
     Route::post('chnage-user-status', [UserController::class, 'changeUserStatus'])->name('changeUserStatus');
 
-
     Route::resource('employee-users', EmployeeUserController::class);
     Route::post('employee-users-ajax', [EmployeeUserController::class, 'employeeUsersAjax'])->name('employeeUsersAjax');
     Route::post('change-status-employee-users', [EmployeeUserController::class, 'changeEmployeeUserStatus'])->name('changeEmployeeUserStatus');
@@ -84,6 +83,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     // Banner related route
     Route::resource('banners', BannerController::class);
     Route::post('banners/ajax', [BannerController::class, 'bannerAjax'])->name('bannerAjax');
+    Route::post('banners/destroy', [BannerController::class, 'destroy'])->name('destroyBanner');
     Route::post('banners/status', [BannerController::class, 'changeBannerStatus'])->name('changeBannerStatus');
 
      // Services related route
