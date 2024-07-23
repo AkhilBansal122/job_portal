@@ -40,7 +40,12 @@ class UserProfileController extends Controller
       
             auth()->user()->update($input);
         
-            return back()->with('success', 'Profile updated successfully.');
+            $notification = array(
+                'message' => 'Profile updated successfully',
+                'alert-type' => 'success'
+            );
+
+            return back()->with($notification);
         }
     }
 }
