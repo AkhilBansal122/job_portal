@@ -61,6 +61,9 @@
 @endsection
 
 @push('script')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
     <script src="{{ asset('assets/src/plugins/datatables/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/src/plugins/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/src/plugins/datatables/js/dataTables.responsive.min.js') }}"></script>
@@ -120,17 +123,17 @@
                 {
                     "data": "status"
                 },
-                { "data": "action"},
+                { "data": "action" },
                 ],
 
                 columnDefs: [
 
-                { "targets": [2], "orderable": false }, // Disable sorting on the "job_id" column
-                { "targets": [3], "orderable": false }, // Disable sorting on the "job_id" column
-                { "targets": [4], "orderable": false }, // Disable sorting on the "job_id" column
-                { "targets": [5], "orderable": false } // Disable sorting on the "job_id" column
+                    { "targets": [2], "orderable": false }, // Disable sorting on the "job_id" column
+                    { "targets": [3], "orderable": false }, // Disable sorting on the "job_id" column
+                    { "targets": [4], "orderable": false }, // Disable sorting on the "job_id" column
+                    { "targets": [5], "orderable": false } // Disable sorting on the "job_id" column
 
-        ]
+                ]
             });
 
             // for chnage status
@@ -161,6 +164,64 @@
                 });
             });
 
+            $(document).on('click', '.deleteBanner', function(event) {
+            event.preventDefault();
+
+            var id = $(this).data("id");
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ route('destroyBanner') }}",
+                        data: {
+                            id: id,
+                            _method: 'DELETE',
+                        },
+                        dataType: "JSON",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            if (response.status == true) {
+                                Swal.fire({
+                                    title: "Deleted!",
+                                    text: response.message,
+                                    icon: "success"
+                                });
+                                // Reload the table or update the DOM as needed
+                                table.ajax.reload(); 
+                            } else {
+                                Swal.fire({
+                                    title: "Error!",
+                                    text: response.message,
+                                    icon: "error"
+                                });
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            Swal.fire({
+                                title: "Error!",
+                                text: "Something went wrong. Please try again.",
+                                icon: "error"
+                            });
+                            console.error(error);
+                        }
+                    });
+                }
+            });
         });
+            
+        });
+
+        
     </script>
 @endpush

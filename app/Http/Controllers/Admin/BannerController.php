@@ -139,9 +139,17 @@ class BannerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-
+        $banner = Banner::findOrFail($request->id)->delete();
+        if($banner){
+            return response()->json([
+                'status' => true,
+                'message' => "Banner deleted successfully"
+            ]);
+            
+        }
+    
     }
     public function bannerAjax(Request $request)
     {
@@ -180,7 +188,7 @@ class BannerController extends Controller
             }
             $action = "<div class='table-actions'>";
             $action .= "<a href='" . route('banners.edit', $value->id) . "' style='color: #265ed7;'><i class='icon-copy dw dw-edit2'></i></a>";
-            $action .= "<a href='" . route('banners.destroy', $value->id) . "' style='color: #e95959'><i class='icon-copy dw dw-delete-3'></i></a>";
+            $action .= "<a class='deleteBanner' href='javascript:void(0);' data-id='" . $value->id . "' style='color: #e95959'><i class='icon-copy dw dw-delete-3 '></i></a>";
             $action .= "</div>";
             $data['banner_image'] = $banner_image;
             $data['action'] = $action;

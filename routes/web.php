@@ -83,6 +83,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     // Banner related route
     Route::resource('banners', BannerController::class);
     Route::post('banners/ajax', [BannerController::class, 'bannerAjax'])->name('bannerAjax');
+    Route::post('banners/destroy', [BannerController::class, 'destroy'])->name('destroyBanner');
     Route::post('banners/status', [BannerController::class, 'changeBannerStatus'])->name('changeBannerStatus');
 
      // Services related route
