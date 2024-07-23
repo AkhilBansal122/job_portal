@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+@push('style')
 
 <style>
     .toggle-password {

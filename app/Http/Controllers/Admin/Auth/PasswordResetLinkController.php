@@ -97,8 +97,7 @@ class PasswordResetLinkController extends Controller
         );
 
         return redirect('/')->with($notification);
-
-        // return redirect('/')->with('message', 'Your password has been changed!');
+        
     }
 
 }

@@ -15,10 +15,17 @@ use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ChangePasswordController;
 use App\Http\Controllers\Admin\services\ServicesController;
+<<<<<<< HEAD
 use App\Http\Controllers\Admin\EmployeeJobRequestController;
 use App\Http\Controllers\Admin\userProfileController;
 use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 
+=======
+use App\Http\Controllers\Admin\userProfileController;
+use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
+
+use App\Http\Controllers\Admin\EmployeeJobRequestController;
+>>>>>>> 3fcf9a4d0beb699bff0e6f1f2b5c7917a5fd7471
 
 // Route::get('', function () {
 //     return view('welcome');
@@ -99,13 +106,22 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
      Route::post('services/ajax', [ServicesController::class, 'servicesAjax'])->name('servicesAjax');
      Route::post('services/status', [ServicesController::class, 'changeServicesStatus'])->name('changeServicesStatus');
 
+<<<<<<< HEAD
+=======
+    Route::get('/userprofile', [UserprofileController::class, 'index'])->name('userprofile');
+    Route::post('/userprofile', [UserprofileController::class, 'store'])->name('user.profile.store');
+>>>>>>> 3fcf9a4d0beb699bff0e6f1f2b5c7917a5fd7471
      Route::get('/password', [ChangePasswordController::class, 'index'])->name('password');
     Route::post('/change-password', [ChangePasswordController::class, 'updatePassword'])->name('update-password');
 
 Route::get('/jobrequest', [EmployeeJobRequestController::class, 'index'])->name('jobrequest.index');
 Route::post('jobrequest/ajax', [EmployeeJobRequestController::class, 'employeeJobRequestAjax'])->name('employeeJobRequestAjax');
+<<<<<<< HEAD
     Route::get('/userprofile', [UserprofileController::class, 'index'])->name('userprofile');
     Route::post('/userprofile', [UserprofileController::class, 'store'])->name('user.profile.store');
+=======
+
+>>>>>>> 3fcf9a4d0beb699bff0e6f1f2b5c7917a5fd7471
 });
 
 
