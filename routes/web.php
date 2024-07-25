@@ -94,8 +94,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
      Route::get('/password', [ChangePasswordController::class, 'index'])->name('password');
     Route::post('/change-password', [ChangePasswordController::class, 'updatePassword'])->name('update-password');
 
-Route::get('/jobrequest', [EmployeeJobRequestController::class, 'index'])->name('jobrequest.index');
+Route::get('/jobrequest', [EmployeeJobRequestController::class, 'index'])->name('jobrequest.index'); 
 Route::post('jobrequest/ajax', [EmployeeJobRequestController::class, 'employeeJobRequestAjax'])->name('employeeJobRequestAjax');
+Route::post('jobrequest/status', [EmployeeJobRequestController::class, 'changeJobRequestStatus'])->name('changeJobRequestStatus');
+
 
 });
 

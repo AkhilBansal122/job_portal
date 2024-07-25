@@ -70,7 +70,6 @@
     <script src="{{ asset('assets/src/plugins/datatables/js/responsive.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/scripts/datatable-setting.js') }}"></script>
 
-
     <script type="text/javascript">
         $(function () {
             $.ajaxSetup({

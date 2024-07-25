@@ -11,17 +11,14 @@ class EmployeeJobRequest extends Model
     use HasFactory;
     protected $table = "employee_job_requests";
     protected $guarded =[];
-
-
-
-    public function getEmployee(){
+    public function getEmployeeUser(){
         return $this->belongsTo(EmployeeUser::class,"user_id");
     }
     public function getSelectJob(){
         return $this->belongsTo(Job::class,"user_id");
     }
     public function fetchJobRequest($request, $columns) {
-        $query =EmployeeJobRequest::where('id', '!=', '');
+        $query =EmployeeJobRequest::with('getEmployeeUser')->where('id', '!=', '');
 
         if (isset($request->from_date)) {
             $query->whereRaw('DATE_FORMAT(created_at, "%Y-%m-%d") >= "' . date("Y-m-d", strtotime($request->from_date)) . '"');
@@ -40,10 +37,10 @@ class EmployeeJobRequest extends Model
         }
 
         if (isset($request->order_column)) {
-            $banners = $query->orderBy($columns[$request->order_column], $request->order_dir);
+            $jobRequest = $query->orderBy($columns[$request->order_column], $request->order_dir);
         } else {
-            $banners = $query->orderBy('created_at', 'desc');
+            $jobRequest = $query->orderBy('created_at', 'desc');
         }
-        return $banners;
+        return $jobRequest;
     }
 }

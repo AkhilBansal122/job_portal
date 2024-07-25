@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\employeeUser\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Document;
 use App\Models\EmployeeUser;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -14,6 +15,12 @@ use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\EmployeeUserRegisterRequest;
 use Illuminate\View\View;
+use Exception;
+use App\Models\EmployeeJobRequest;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
+
+use App\Models\Job;
 
 class RegisteredUserController extends Controller
 {
@@ -33,42 +40,52 @@ class RegisteredUserController extends Controller
      */
     public function store(EmployeeUserRegisterRequest $request)
     {
+        // DB::beginTransaction();
         $validatedData = $request->validated();
-        $employeeUser = new EmployeeUser;
-        $employeeUser->name=$request->name;
-        $employeeUser->email=$request->email;
-        $employeeUser->password=Hash::make($request['password']);
-        $employeeUser->phone=$request->phone;
-        $employeeUser->job_id=$request->select_job_id;
-        if($request->other_type==1){
-            dd('if');
-            $employeeUser->other_type=$request->other_type;
-            $employeeUser->job_name=$request->job_name;
+        $jobId = Job::find($request->select_job_id) ? $request->select_job_id : null;
+
+        try {
+
+            $employeeUser = new EmployeeUser;
+            $employeeUser->name = $request->name;
+            $employeeUser->email = $request->email;
+            $employeeUser->password = Hash::make($request['password']);
+            $employeeUser->phone = $request->phone;
+            $employeeUser->job_id = $jobId;
+            $employeeUser->save();
+
+            if ($request->other_type == 1) {
+                $employeeJobRequest = new EmployeeJobRequest;
+                $employeeJobRequest->user_id = $employeeUser->id; // here we have put employee user id
+                $employeeJobRequest->job_name = $request->job_name;
+                $employeeJobRequest->save();
+            }
+            $document = new Document;
+            $directoryPath = public_path('images/documents/');
+
+            // Check if the directory exists
+            if (!File::exists($directoryPath)) {
+
+                // Create the directory
+                File::makeDirectory($directoryPath, 0755, true);
+            }
+
+            if ($image = $request['adhar_card_photo']) {
+                $imageName = time() . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
+
+                $image->move('images/documents', $imageName);
+            }
+            $document->employee_user_id = $employeeUser->id;
+            $document->adhar_card_photo = $imageName;
+            $document->adhar_card_number = $request->adhar_card_number;
+            $document->save();
+            DB::commit();
+            return response()->json(['status' => true, 'message' => 'Employee created successfully!', 'data' => null], 201);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['status' => false, 'message' => 'Error creating employee: ' . $e->getMessage()], 500);
         }
-      
-dd('bahar');
-        $directoryPath = public_path('images/services/');
-
-                // Check if the directory exists
-                if (!File::exists($directoryPath)) {
-                    // Create the directory
-                    File::makeDirectory($directoryPath, 0755, true);
-                }
-        if ($image = $request['profile_image']) {
-            $imageName = time() . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->move('images/employeeUser', $imageName);
-        }
-        $validatedData['password'] = Hash::make($validatedData['password']);
-        $user = EmployeeUser::create($validatedData);
-        
-        return response()->json(['status' => true, 'message' => 'Employee created successfully!', 'data' => $user], 201);
 
 
-
-        // event(new Registered($user));
-
-        // Auth::login($user);
-
-        // return redirect(route('dashboard', absolute: false));
     }
 }

@@ -28,16 +28,16 @@ class EmployeeUserRegisterRequest extends FormRequest
             'job_name' => [
                 'required',
                 'string',
-                'max:255',
+                'max:255',  
                 Rule::unique('user_jobs'),
             ],
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:employee_users',
             'phone' => 'required|string|max:20',
             'password' => 'required|string|min:8|confirmed',
-            'job_id' => 'nullable',  // removed exists:jobs,id
-            'adhar_card_number' => 'nullable|string|max:255',
-            'adhar_card_photo' => 'nullable|string|max:255',
+            'select_job_id' => 'nullable|exists:uesr_jobs,id',  // removed exists:jobs,id
+            'adhar_card_number' => 'nullable|string',
+            'adhar_card_photo' => 'nullable|image|mimes:jpg,jpeg,png|max:1999',
         ];
     }
 }

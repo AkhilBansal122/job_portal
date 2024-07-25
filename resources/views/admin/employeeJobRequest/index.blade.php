@@ -1,54 +1,54 @@
 @extends('admin.layouts.app')
 
 @section('content')
-    <div class="main-container">
-        <div class="pd-ltr-20 xs-pd-20-10">
-            <div class="min-height-200px">
-                <div class="page-header">
-                    <div class="row">
-                        <div class="col-md-6 col-sm-12">
-                            <div class="title">
-                                <h4>Employee Job Request</h4>
-                            </div>
-                            <nav aria-label="breadcrumb" role="navigation">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item">
-                                        <a href="index.html">Home</a>
-                                    </li>
-                                    <li class="breadcrumb-item active" aria-current="page">
-                                        Employee Job Request
-                                    </li>
-                                </ol>
-                            </nav>
+<div class="main-container">
+    <div class="pd-ltr-20 xs-pd-20-10">
+        <div class="min-height-200px">
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-md-6 col-sm-12">
+                        <div class="title">
+                            <h4>Employee Job Request</h4>
                         </div>
+                        <nav aria-label="breadcrumb" role="navigation">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="index.html">Home</a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    Employee Job Request
+                                </li>
+                            </ol>
+                        </nav>
                     </div>
                 </div>
-                <!-- Simple Datatable start -->
-                <div class="card-box mb-30">
-                    <div class="pd-20">
-
-                    </div>
-                    <div class="pb-20">
-                        <table id="employeeJobRequestDatatable" class="data-table1 table stripe hover nowrap">
-                            <thead>
-                                <tr>
-                                    <th class="table-plus datatable-nosort">ID</th>
-                                    <th>User Name</th>
-                                    <th>Job Request</th>
-                                    <th>Status</th>
-                                 </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <!-- Simple Datatable End -->
-
             </div>
-            @include('admin.layouts.footer')
+            <!-- Simple Datatable start -->
+            <div class="card-box mb-30">
+                <div class="pd-20">
+
+                </div>
+                <div class="pb-20">
+                    <table id="employeeJobRequestDatatable" class="data-table1 table stripe hover nowrap">
+                        <thead>
+                            <tr>
+                                <th class="table-plus datatable-nosort">ID</th>
+                                <th>User Name</th>
+                                <th>Job Name</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Simple Datatable End -->
+
         </div>
+        @include('admin.layouts.footer')
     </div>
+</div>
 @endsection
 
 @push('script')
@@ -60,12 +60,41 @@
 
 
     <script type="text/javascript">
-        $(function() {
+        $(function () {
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+
+            //here change job request status
+            $(document).on('click', '.changeJobRequestStatus', function () {
+
+                var id = $(this).data('id');
+                var status = $(this).data('status');
+
+                $.ajax({
+                    type: "POST",
+                    url: @json(route('changeJobRequestStatus')),
+                    data: {
+                        id: id,
+                        status: status
+                    },
+                    dataType: "JSON",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function (response) {
+                        if (response.status == true) {
+                            table.ajax.reload();
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+
 
             var table = $('#employeeJobRequestDatatable').DataTable({
                 processing: true,
@@ -93,13 +122,21 @@
                 "bLengthChange": false,
                 'searching': true,
                 "aoColumns": [{
-                        "data": "id"
-                    }
+                    "data": "id",
+                },
+                { "data": "user_name" },
+
+                {
+                    "data": "job_name"
+                },
+                {
+                    "data": "status_approval"
+                },
 
                 ],
                 columnDefs: [
-            { "targets": [2], "orderable": false }, // Disable sorting on the "job_id" column
-        ]
+                    { "targets": [2], "orderable": false }, // Disable sorting on the "job_id" column
+                ]
             });
 
         });

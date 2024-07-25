@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\EmployeeJobRequest;
+
 class EmployeeJobRequestController extends Controller
 {
     function __construct()
@@ -13,7 +14,7 @@ class EmployeeJobRequestController extends Controller
         $this->columns = [
             "id",
             "user_id",
-            "other_value",
+            "job_name",
             "approved_status",
             "action",
         ];
@@ -69,9 +70,20 @@ class EmployeeJobRequestController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function changeJobRequestStatus(Request $request)
     {
-        //
+        $response = $this->Model->where('id', $request->id)->update(['status_approval' => $request->status]);
+        if ($response) {
+            return json_encode([
+                'status' => true,
+                "message" => "Status Changes Successfully"
+            ]);
+        } else {
+            return json_encode([
+                'status' => false,
+                "message" => "Status Changes Fails"
+            ]);
+        }
     }
     public function employeeJobRequestAjax(Request $request)
     {
@@ -81,31 +93,60 @@ class EmployeeJobRequestController extends Controller
             $request->order_dir = $request->order[0]['dir'];
         }
         $records = $this->Model->fetchJobRequest($request, $this->columns);
+
         $total = $records->get();
+        // dd($total);
         if (isset($request->start)) {
-            $banners = $records->offset($request->start)->limit($request->length)->get();
+            $jobRequest = $records->offset($request->start)->limit($request->length)->get();
         } else {
-            $banners = $records->offset($request->start)->limit(count($total))->get();
+            $jobRequest = $records->offset($request->start)->limit(count($total))->get();
         }
         $result = [];
         $i = 1;
-        foreach ($banners as $value) {
+        foreach ($jobRequest as $value) {
             $data = [];
             $data['id'] = $value->id;
-            $data['user_name'] =ucfirst($value->getEmployee->name) ;
-            $data['other_value'] =ucfirst($value->other_value) ;
-            $approved_status="";
-            if ($value->approved_status == 0) {
-                $approved_status = "<a href='javascript:void(0)' data-id='" . $value->id . "' data-status='0' class='badge badge-success servicesStatus'>Pending</a>";
-            } else if ($value->approved_status == 1) {
+            $data['user_name'] = ucfirst($value->getEmployeeUser->name);
+            $data['job_name'] = ucfirst($value->job_name);
 
-                $approved_status = "<a href='javascript:void(0)' data-id='" . $value->id . "' data-status='1' class='badge badge-danger servicesStatus'>Approved</a>";
+            $status_class = '';
+            $status_text = '';
+            switch ($value->status_approval) {
+                case 1:
+                    $status_class = 'success';
+                    $status_text = 'Approved';
+                    break;
+                case 0:
+                    $status_class = 'warning';
+                    $status_text = 'Pending';
+                    break;
+                case 2:
+                    $status_class = 'danger';
+                    $status_text = 'Rejected';
+                    break;
+                default:
+                    $status_class = 'secondary';
+                    $status_text = 'Unknown';
+                    break;
             }
-            else if ($value->approved_status == 2) {
+            
+            $status_approval = "<div class='dropdown'>";
+            $status_approval .= "<button class='btn btn-$status_class dropdown-toggle' type='button' id='dropdownMenuButton_" . $value->id . "' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>";
+            $status_approval .= $status_text;
+            $status_approval .= "</button>";
+            $status_approval .= "<div class='dropdown-menu' aria-labelledby='dropdownMenuButton_" . $value->id . "'>";
+            $status_approval .= "<a class='dropdown-item changeJobRequestStatus' href='javascript:void(0)' data-id='" . $value->id . "' data-status='1'>Approved</a>";
+            $status_approval .= "<a class='dropdown-item changeJobRequestStatus' href='javascript:void(0)' data-id='" . $value->id . "' data-status='0'>Pending</a>";
+            $status_approval .= "<a class='dropdown-item changeJobRequestStatus' href='javascript:void(0)' data-id='" . $value->id . "' data-status='2'>Rejected</a>";
+            $status_approval .= "</div>";
+            $status_approval .= "</div>";
+            
+            $data['status_approval'] = $status_approval;
+            
 
-                $approved_status = "<a href='javascript:void(0)' data-id='" . $value->id . "' data-status='1' class='badge badge-danger servicesStatus'>Reject</a>";
-            }
-            $data['approved_status']=$approved_status;
+
+
+
             $result[] = $data;
         }
         $data = json_encode([
