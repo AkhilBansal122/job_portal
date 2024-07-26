@@ -55,15 +55,16 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Image</label>
-                                <input class="form-control" type="file" name="banner_image" placeholder="Banner Image"
+                                <input class="form-control" type="file" accept="image/png, image/jpeg, image/jpg," name="banner_image" placeholder="Banner Image"
                                     value="{{ $banner ? $banner->banner_image : null}}">
                                 @error('banner_image')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                            @if ($banner &&  $banner->banner_image)
-                            <img height="100" width="100" src="{{ asset('images/banner/' . $banner->banner_image) }}" alt="Service Image" class="img-fluid">
-                        @endif
+                            @if ($banner && $banner->banner_image)
+                                <img height="100" width="100" src="{{ asset('images/banner/' . $banner->banner_image) }}"
+                                    alt="Service Image" class="img-fluid">
+                            @endif
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -97,8 +98,10 @@
                 </form>
             </div>
         </div>
+        @include('admin.layouts.footer')
+
     </div>
 </div>
-@include('admin.layouts.footer')
+
 
 @endsection

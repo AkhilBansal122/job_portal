@@ -21,7 +21,7 @@
                     <div class="col-md-6 col-sm-12 text-right">
                         <div class="dropdown">
                             <a class="btn btn-secondary dropdown-toggle no-arrow" href="{{route('jobs.index')}}">
-                                View
+                                Back
                             </a>
                         </div>
                     </div>

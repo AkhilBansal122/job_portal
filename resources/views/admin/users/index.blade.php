@@ -72,10 +72,6 @@
 				}
 			});
 
-			// $(".selectstatus").on("click", function () {
-			// 	id = $(this).data("id");
-			// 	alert(id);
-			// });
 			var table = $('#userDatatable').DataTable({
 				processing: true,
 				serverSide: true,
@@ -113,8 +109,7 @@
 
 				],
                 columnDefs: [
-                    { "targets": [2], "orderable": false }, // Disable sorting on the "job_id" column
-                    { "targets": [4,3], "orderable": false } // Disable sorting on the "job_id" column
+                    { "targets": [4,5], "orderable": false }, // Disable sorting on the "job_id" column
                 ]
 			});
 
