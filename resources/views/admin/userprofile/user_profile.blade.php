@@ -1,4 +1,4 @@
-@extends('admin.layouts.app') 
+@extends('admin.layouts.app')
 @push('style')
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -47,7 +47,6 @@
         }
     </style>
 @endpush
-
 @section('content')
 <div class="main-container">
     <div class="pd-ltr-20 xs-pd-20-10">
@@ -61,12 +60,12 @@
                         <nav aria-label="breadcrumb" role="navigation">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">{{ __('Change Password') }}
+                                <li class="breadcrumb-item active" aria-current="page">User Profile
                                 </li>
                             </ol>
                         </nav>
                     </div>
-
+                    
                 </div>
             </div>
 
@@ -76,48 +75,52 @@
                         <!-- <h4 class="text-blue h4">Add Task</h4> -->
                     </div>
                 </div>
-                <form action="{{ route('update-password') }}" method="POST">
-                        @csrf
-                        <div class="card-body">
-                            @if (session('status'))
-                                <div class="alert alert-success" role="alert">
-                                    {{ session('status') }}
-                                </div>
-                            @elseif (session('error'))
-                                <div class="alert alert-danger" role="alert">
-                                    {{ session('error') }}
-                                </div>
-                            @endif
-
-                            <div class="mb-3">
-                                <label for="oldPasswordInput" class="form-label">Old Password</label>
-                                <input name="old_password" type="password" class="form-control @error('old_password') is-invalid @enderror" id="oldPasswordInput"
-                                    placeholder="Old Password"><i class="toggle-password fa fa-fw fa-eye-slash"></i>
-                                @error('old_password')
-                                    <span class="text-danger">{{ $message }}</span>
+                <form action="{{ route('user.profile.store') }}" method="POST"
+                    enctype="multipart/form-data">
+                    @csrf
+                   
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input class="form-control" type="text" name="name" placeholder="name"
+                                value="{{ auth()->user()->name }}">
+                                @error('name')
+                                    <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-
-                            <div class="mb-3">
-                                <label for="newPasswordInput" class="form-label">New Password</label>
-                                <input name="new_password" type="password" class="form-control @error('new_password') is-invalid @enderror" id="newPasswordInput"
-                                    placeholder="New Password"><i class="toggle-password fa fa-fw fa-eye-slash"></i>
-                                @error('new_password')
-                                    <span class="text-danger">{{ $message }}</span>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Mobile Number</label>
+                                <input class="form-control @error('phone_number') is-invalid @enderror" type="text" name="phone_number" placeholder="mobile number"
+                                value="{{ auth()->user()->phone_number }}">
+                                @error('phone_number')
+                                    <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="mb-3">
-                                <label for="confirmNewPasswordInput" class="form-label">Confirm New Password</label>
-                                <input name="new_password_confirmation" type="password" class="form-control" id="confirmNewPasswordInput"
-                                    placeholder="Confirm New Password"><i class="toggle-password fa fa-fw fa-eye-slash"></i>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Image</label>
+                                <input id="profile_image" type="file" class="form-control @error('profile_image') is-invalid @enderror" name="profile_image" value="{{ old('profile_image') }}"  autocomplete="profile_image">
+  
+                                @error('profile_image')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
-
+                            <div class="mb-3 col-md-6">
+                                <img src="/profileimage/{{ auth()->user()->profile_image }}" style="width:80px;margin-top: 10px;">
+                            </div>
                         </div>
+                        
+                       
 
-                         <div class="text-right">
-                        <button class="btn btn-primary btn-lg">Submit</button>
-                        </div>
-                    </form>
+                    </div>
+                    <div class="text-right">
+                        <button class="btn btn-primary btn-lg"> {{ __('Update Profile') }}</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -126,17 +129,6 @@
 
 @endsection
 @push('script')
-<script>
-$(".toggle-password").click(function() {
-    $(this).toggleClass("fa-eye fa-eye-slash");
-    input = $(this).parent().find("input");
-    if (input.attr("type") == "password") {
-        input.attr("type", "text");
-    } else {
-        input.attr("type", "password");
-    }
-});
-</script>
 <script>
 			@if (Session::has('message'))
 				var type = "{{ Session::get('alert-type', 'info') }}"
