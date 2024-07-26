@@ -9,6 +9,8 @@ use App\Models\Job;
 use App\Models\JobCategory;
 use App\Models\EmployeeUser;
 use App\Models\Service;
+use App\Models\EmployeeJobRequest;
+
 
 
 
@@ -22,7 +24,9 @@ class DashboardController extends Controller
         $jobCount=Job::count();
         $jobCategoryCount=JobCategory::count();
         $service=Service::count();
-        return view('admin.layouts.main', compact('userCount','employeeUserCount','jobCount','jobCategoryCount','service'));
+        $totalPendingJobRequest=EmployeeJobRequest::count();
+        $totalJobRequest=EmployeeJobRequest::where('status_approval', 0)->count();
+        return view('admin.layouts.main', compact('userCount','employeeUserCount','jobCount','jobCategoryCount','service','totalPendingJobRequest', 'totalJobRequest'));
 
     }
 }

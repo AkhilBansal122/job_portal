@@ -29,7 +29,6 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-
         return view('auth.register');
     }
 
@@ -85,7 +84,6 @@ class RegisteredUserController extends Controller
             DB::rollBack();
             return response()->json(['status' => false, 'message' => 'Error creating employee: ' . $e->getMessage()], 500);
         }
-
 
     }
 }

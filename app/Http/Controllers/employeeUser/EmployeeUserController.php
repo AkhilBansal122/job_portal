@@ -16,20 +16,40 @@ class EmployeeUserController extends Controller
             "id",
             "name",
             "email",
+            "approvalStatus",
             "phone",
             "status",
 
         ];
     }
-    public function index(){
+    public function index()
+    {
         return view('admin.employee-users.index');
     }
-    public function show($id){
-        $employeeUser=EmployeeUser::find($id);
+    public function show($id)
+    {
+        $employeeUser = EmployeeUser::find($id);
         return view('admin.employee-users.view', compact('employeeUser'));
     }
-   
-  
+    public function changeEmployeeUserApprovalStatus(Request $request)
+    {
+
+        $response = $this->Model->where('id', $request->id)->update(['approvalStatus' => $request->status]);
+
+        if ($response) {
+            return json_encode([
+                'status' => true,
+                "message" => "Status Changes Successfully"
+            ]);
+        } else {
+            return json_encode([
+                'status' => false,
+                "message" => "Status Changes Fails"
+            ]);
+        }
+    }
+
+
     public function employeeUsersAjax(Request $request)
     {
 
@@ -54,6 +74,46 @@ class EmployeeUserController extends Controller
             $data['name'] = $value->name;
             $data['email'] = $value->email;
             $data['number'] = $value->phone;
+
+            if($value->approvalStatus==0){
+                $dropdownToggleRestriction="data-toggle='dropdown'";
+                
+            }else{ 
+                $dropdownToggleRestriction=null;
+            }
+            $status_class = '';
+            $status_text = '';
+            switch ($value->approvalStatus) {
+                case 1:
+                    $status_class = 'success';
+                    $status_text = 'Approved';
+                    break;
+                case 0:
+                    $status_class = 'warning';
+                    $status_text = 'Pending';
+                    break;
+                case 2:
+                    $status_class = 'danger';
+                    $status_text = 'Rejected';
+                    break;
+                default:
+                    $status_class = 'secondary';
+                    $status_text = 'Unknown';
+                    break;
+            }
+
+            $status_approval = "<div class='dropdown'>";
+            $status_approval .= "<button class='btn btn-sm btn-$status_class dropdown-toggle' type='button' id='dropdownMenuButton_" . $value->id . "' " . $dropdownToggleRestriction . " aria-haspopup='true' aria-expanded='false'>";
+            $status_approval .= $status_text;
+            $status_approval .= "</button>";
+            $status_approval .= "<div class='dropdown-menu' aria-labelledby='dropdownMenuButton_" . $value->id . "'>";
+            $status_approval .= "<a class='dropdown-item changeEmployeeUserApprovalStatus' href='javascript:void(0)' data-id='" . $value->id . "' data-status='1'>Approved</a>";
+            $status_approval .= "<a class='dropdown-item changeEmployeeUserApprovalStatus' href='javascript:void(0)' data-id='" . $value->id . "' data-status='0'>Pending</a>";
+            $status_approval .= "<a class='dropdown-item changeEmployeeUserApprovalStatus' href='javascript:void(0)' data-id='" . $value->id . "' data-status='2'>Rejected</a>";
+            $status_approval .= "</div>";
+            $status_approval .= "</div>";
+
+
             if ($value->status == 1) {
                 $status = "<a href='javascript:void(0)' data-id='" . $value->id . "' data-status='0' class='badge badge-success employeeUserStatus'>Active</a>";
             } else {
@@ -62,6 +122,7 @@ class EmployeeUserController extends Controller
             $view = "<a href='" . route('employee-users.show', $value->id) . "' data-status='1' class='badge badge-secondary userStatus'>View</a>";
 
             $data['view'] = $view;
+            $data['status_approval'] = $status_approval;
             $data['status'] = $status;
             $result[] = $data;
 

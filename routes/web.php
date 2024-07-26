@@ -68,11 +68,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::resource('employee-users', EmployeeUserController::class);
     Route::post('employee-users-ajax', [EmployeeUserController::class, 'employeeUsersAjax'])->name('employeeUsersAjax');
     Route::post('change-status-employee-users', [EmployeeUserController::class, 'changeEmployeeUserStatus'])->name('changeEmployeeUserStatus');
+    Route::post('change-employee-users/approval-status', [EmployeeUserController::class, 'changeEmployeeUserApprovalStatus'])->name('changeEmployeeUserApprovalStatus');
 
     // Job and Job_category rrelated route
     Route::resource('job-categories', CategoryController::class);
     Route::post('job-categories/ajax', [CategoryController::class, 'jobCategoryAjax'])->name('jobCategoryAjax');
     Route::post('job-categories/status', [CategoryController::class, 'changeJobCategoryStatus'])->name('changeJobCategoryStatus');
+
     // Route::post('job-categories/delete/{id}', [CategoryController::class, 'destroy'])->name('job-categories.destroy');
 
     // Job related route is here
