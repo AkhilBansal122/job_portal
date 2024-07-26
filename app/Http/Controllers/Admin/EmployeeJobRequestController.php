@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\EmployeeJobRequest;
+use App\Models\EmployeeUser;
+use App\Models\Job;
 
 class EmployeeJobRequestController extends Controller
 {
@@ -72,8 +74,23 @@ class EmployeeJobRequestController extends Controller
      */
     public function changeJobRequestStatus(Request $request)
     {
-        $response = $this->Model->where('id', $request->id)->update(['status_approval' => $request->status]);
+       
+        $response = EmployeeJobRequest::findOrFail($request->id);
+        $response->status_approval = $request->status;
+        $response->save();
+
         if ($response) {
+            if ($request->status == 1) {
+                $job = Job::create([
+                    'job_name' => ucwords(strtolower($response->job_name)),
+                ]);
+                if ($job->id) {
+                    $emp=EmployeeUser::find($response->user_id);
+                    $emp->job_id=$job->id;
+                    $emp->save();
+                }
+            }
+
             return json_encode([
                 'status' => true,
                 "message" => "Status Changes Successfully"
@@ -109,6 +126,12 @@ class EmployeeJobRequestController extends Controller
             $data['user_name'] = ucfirst($value->getEmployeeUser->name);
             $data['job_name'] = ucfirst($value->job_name);
 
+            if($value->status_approval==0){
+                $dropdownToggleRestriction="data-toggle='dropdown'";
+                
+            }else{ 
+                $dropdownToggleRestriction=null;
+            }
             $status_class = '';
             $status_text = '';
             switch ($value->status_approval) {
@@ -129,9 +152,9 @@ class EmployeeJobRequestController extends Controller
                     $status_text = 'Unknown';
                     break;
             }
-            
+
             $status_approval = "<div class='dropdown'>";
-            $status_approval .= "<button class='btn btn-$status_class dropdown-toggle' type='button' id='dropdownMenuButton_" . $value->id . "' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>";
+            $status_approval .= "<button class='btn btn-sm btn-$status_class dropdown-toggle' type='button' id='dropdownMenuButton_" . $value->id . "' " . $dropdownToggleRestriction . " aria-haspopup='true' aria-expanded='false'>";
             $status_approval .= $status_text;
             $status_approval .= "</button>";
             $status_approval .= "<div class='dropdown-menu' aria-labelledby='dropdownMenuButton_" . $value->id . "'>";
@@ -140,9 +163,9 @@ class EmployeeJobRequestController extends Controller
             $status_approval .= "<a class='dropdown-item changeJobRequestStatus' href='javascript:void(0)' data-id='" . $value->id . "' data-status='2'>Rejected</a>";
             $status_approval .= "</div>";
             $status_approval .= "</div>";
-            
+
             $data['status_approval'] = $status_approval;
-            
+
 
 
 

@@ -100,6 +100,8 @@ class BannerController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $banner = Banner::findOrFail($id);
+        $banner->title = $request->title;
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
@@ -117,7 +119,6 @@ class BannerController extends Controller
             // Create the directory
             File::makeDirectory($directoryPath, 0755, true);
         }
-
         // Check if the directory exists
         if ($request->hasFile('banner_image')) {
             if ($banner->banner_image && file_exists(public_path('images/banner/' . $banner->banner_image))) {
@@ -128,6 +129,7 @@ class BannerController extends Controller
             $banner->banner_image = $imageName;
         }
         $banner->save();
+        dd($banner);
         $notification = array(
             'message' => 'Banner created successfully!.',
             'alert-type' => 'success'
@@ -176,7 +178,7 @@ class BannerController extends Controller
             $banner_image = "<div class='table-plus'>";
             $banner_image .= "<div class='name-avatar d-flex align-items-center'>";
             $banner_image .= "<div class='avatar mr-2 flex-shrink-0'>";
-            $banner_image .= "<img src='" . asset('images/banner/' . $value->banner_image) . "' class='border-radius-10 shadow' width='40' height='40' alt=''/>";
+            $banner_image .= "<img src='" . asset('images/banner/' . $value->banner_image) . "' class='border-radius-10 shadow' width='50' height='50' alt=''/>";
             $banner_image .= "</div>";
             $banner_image .= "</div>";
             $banner_image .= "</div>";

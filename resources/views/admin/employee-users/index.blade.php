@@ -16,7 +16,7 @@
 									<a href="index.html">Home</a>
 								</li>
 								<li class="breadcrumb-item active" aria-current="page">
-                                Employee Users
+									Employee Users
 								</li>
 							</ol>
 						</nav>
@@ -35,8 +35,9 @@
 							<tr>
 								<th class="table-plus datatable-nosort">ID</th>
 								<th>Name</th>
-                                <th>Email</th>
-                                <th>Number</th>
+								<th>Email</th>
+								<th>Number</th>
+								<th>Approval Status</th>
 								<th>Status</th>
 								<th>View</th>
 
@@ -72,10 +73,34 @@
 				}
 			});
 
-			// $(".selectstatus").on("click", function () {
-			// 	id = $(this).data("id");
-			// 	alert(id);
-			// });
+			// here we use ajax function to chnage approval status of employee user
+			$(document).on('click', '.changeEmployeeUserApprovalStatus', function () {
+
+				var id = $(this).data('id');
+				var status = $(this).data('status');
+    
+				$.ajax({
+					type: "POST",
+					url: @json(route('changeEmployeeUserApprovalStatus')),
+					data: {
+						id: id,
+						status: status
+					},
+					dataType: "JSON",
+					headers: {
+						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					},
+					success: function (response) {
+						if (response.status == true) {
+							table.ajax.reload();
+						}
+					},
+					error: function (xhr, status, error) {
+						console.error(error);
+					}
+				});
+			});
+
 			var table = $('#employeeUserDatatable').DataTable({
 				processing: true,
 				serverSide: true,
@@ -106,16 +131,17 @@
 					"data": "id"
 				},
 				{ "data": "name" },
-                { "data": "email" },
-                { "data": "number" },
+				{ "data": "email" },
+				{ "data": "number" },
+				{ "data": "status_approval" },
 				{ "data": "status" },
 				{ "data": "view" },
 
 				],
-                columnDefs: [
-                    { "targets": [2], "orderable": false }, // Disable sorting on the "job_id" column
-                    { "targets": [4,3], "orderable": false } // Disable sorting on the "job_id" column
-                ]
+				columnDefs: [
+					{ "targets": [2], "orderable": false }, // Disable sorting on the "job_id" column
+					{ "targets": [4, 3], "orderable": false } // Disable sorting on the "job_id" column
+				]
 			});
 
 			// for chnage status
@@ -124,24 +150,24 @@
 				id = $(this).attr("data-id");
 				status = $(this).attr("data-status");
 
-                $.ajax({
-                    type: "POST",
-                    url: @json(route('changeEmployeeUserStatus')),
-                    data: { id: id, status: status },
-                    dataType: "JSON",
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function (response) {
-                        if (response.status == true) {
-                            table.ajax.reload();
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error(error);
-                    }
-                });
-            });
+				$.ajax({
+					type: "POST",
+					url: @json(route('changeEmployeeUserStatus')),
+					data: { id: id, status: status },
+					dataType: "JSON",
+					headers: {
+						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					},
+					success: function (response) {
+						if (response.status == true) {
+							table.ajax.reload();
+						}
+					},
+					error: function (xhr, status, error) {
+						console.error(error);
+					}
+				});
+			});
 
 		});
 	</script>

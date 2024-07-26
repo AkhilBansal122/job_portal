@@ -211,7 +211,7 @@ class ServicesController extends Controller
             $data['id'] = $value->id;
             $data['name'] =ucfirst($value->name) ;
             $data['job_id'] = $value->getSelectJob ? ucfirst($value->getSelectJob->job_name) : '';
-            $data['image'] = "<img height='100' width='100' src='".asset('images/services/')."/".$value->image."'/>";
+            $data['image'] = "<img height='50' width='50' src='".asset('images/services/')."/".$value->image."'/>";
             $data['description'] = $value->description;
             if ($value->status == 1) {
                 $status = "<a href='javascript:void(0)' data-id='" . $value->id . "' data-status='0' class='badge badge-success servicesStatus'>Active</a>";
