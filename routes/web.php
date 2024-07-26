@@ -74,7 +74,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::post('user-ajax', [UserController::class, 'userAjax'])->name('userAjax');
     Route::post('chnage-user-status', [UserController::class, 'changeUserStatus'])->name('changeUserStatus');
 
-
     Route::resource('employee-users', EmployeeUserController::class);
     Route::post('employee-users-ajax', [EmployeeUserController::class, 'employeeUsersAjax'])->name('employeeUsersAjax');
     Route::post('change-status-employee-users', [EmployeeUserController::class, 'changeEmployeeUserStatus'])->name('changeEmployeeUserStatus');
@@ -93,6 +92,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     // Banner related route
     Route::resource('banners', BannerController::class);
     Route::post('banners/ajax', [BannerController::class, 'bannerAjax'])->name('bannerAjax');
+    Route::post('banners/destroy', [BannerController::class, 'destroy'])->name('destroyBanner');
     Route::post('banners/status', [BannerController::class, 'changeBannerStatus'])->name('changeBannerStatus');
 
      // Services related route
@@ -105,10 +105,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
      Route::get('/password', [ChangePasswordController::class, 'index'])->name('password');
     Route::post('/change-password', [ChangePasswordController::class, 'updatePassword'])->name('update-password');
 
-Route::get('/jobrequest', [EmployeeJobRequestController::class, 'index'])->name('jobrequest.index');
-Route::post('jobrequest/ajax', [EmployeeJobRequestController::class, 'employeeJobRequestAjax'])->name('employeeJobRequestAjax');
-    Route::get('/userprofile', [UserprofileController::class, 'index'])->name('userprofile');
+    Route::get('/jobrequest', [EmployeeJobRequestController::class, 'index'])->name('jobrequest.index');
+    Route::post('jobrequest/ajax', [EmployeeJobRequestController::class, 'employeeJobRequestAjax'])->name('employeeJobRequestAjax');
     Route::post('/userprofile', [UserprofileController::class, 'store'])->name('user.profile.store');
+    Route::post('jobrequest/status', [EmployeeJobRequestController::class, 'changeJobRequestStatus'])->name('changeJobRequestStatus');
 });
 
 

@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('employee_job_requests', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('job_name')->nullable();
+            $table->tinyInteger('status_approval')->default(0); // 0 means pendng 1 means accepted 2 rejected
             $table->timestamps();
         });
     }

@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Models\Job;
 
 class EmployeeUserRegisterRequest extends FormRequest
 {
@@ -21,27 +23,21 @@ class EmployeeUserRegisterRequest extends FormRequest
      */
     public function rules(): array
     {
+        
         return [
+            'job_name' => [
+                'required',
+                'string',
+                'max:255',  
+                Rule::unique('user_jobs'),
+            ],
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:employee_users',
             'phone' => 'required|string|max:20',
-            'password' => 'required|string|min:8',
-            'address' => 'required|string',
-            'profile' => 'required|file|image|mimes:jpeg,jpg|max:2048',
-            'amount_earned' => 'nullable|numeric|min:0',
-            'rating' => 'nullable|numeric|between:0,5',
-            'hourly_rate' => 'nullable|numeric|min:0',
-            'job_id' => 'nullable|exists:jobs,id',
-            'total_job_done_count' => 'nullable|integer|min:0',
-            'govt_id' => 'nullable|string|max:255',
-            'job_category_id' => 'nullable|exists:job_categories,id',
-            'location_latitude' => 'nullable|numeric|between:-90,90',
-            'location_longitude' => 'nullable|numeric|between:-180,180',
-            'bank_account' => 'nullable|string|max:255',
-            'ifsc' => 'nullable|string|max:11',
-            'bank_name' => 'nullable|string|max:255',
-            'bank_address' => 'nullable|string',
-            'joining_date' => 'nullable|date',
+            'password' => 'required|string|min:8|confirmed',
+            'select_job_id' => 'nullable|exists:uesr_jobs,id',  // removed exists:jobs,id
+            'adhar_card_number' => 'nullable|string',
+            'adhar_card_photo' => 'nullable|image|mimes:jpg,jpeg,png|max:1999',
         ];
     }
 }
