@@ -33,7 +33,6 @@
 			background-color: #f0ad4e;
 			/ Warning messages background color /
 		}
-
 		.toggle-password {
 			float: right;
 			cursor: pointer;
@@ -98,7 +97,7 @@
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label>Image</label>
-								<input id="profile_image" type="file"
+								<input id="profile_image" type="file" accept="image/png, image/jpeg, image/jpg"
 									class="form-control @error('profile_image') is-invalid @enderror"
 									name="profile_image" value="{{ old('profile_image') }}"
 									autocomplete="profile_image">

@@ -32,14 +32,24 @@
 					</a>
 				</li>
 				<li class="dropdown">
+					<a href="{{route('job-categories.index')}}" class="dropdown-toggle no-arrow {{ Request::routeIs(['job-categories.index', 'jobs.index']) ? 'active' : '' }}">
+						<span class="micon bi bi-people"></span><span class="mtext">Job Category</span>
+					</a>
+				</li>
+				<li class="dropdown">
+					<a href="{{route('jobs.index')}}" class="dropdown-toggle no-arrow {{ Request::routeIs(['job-categories.index', 'jobs.index']) ? 'active' : '' }}">
+						<span class="micon bi bi-people"></span><span class="mtext">Job </span>
+					</a>
+				</li>
+				<!-- <li class="dropdown">
 					<a href="javascript:;" class="dropdown-toggle {{ Request::routeIs(['job-categories.index', 'jobs.index']) ? 'active show' : '' }}">
 						<span class="micon bi bi-textarea-resize"></span><span class="mtext">Job</span>
 					</a>
 					<ul class="submenu {{ Request::routeIs(['job-categories.index', 'jobs.index']) ? 'active' : '' }}">
 						<li><a href="{{route('job-categories.index')}}">Job Category</a></li>
 						<li><a href="{{route('jobs.index')}}">Job</a>
-							\</li>
-				</li>
+							</li>
+				</li> -->
 			</ul>
 			</li>
             <li class="dropdown">
