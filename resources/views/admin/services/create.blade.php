@@ -55,7 +55,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Name<span style="color:red">*</span> </label>
-                                <input class="form-control" required aria-errormessage="Please Enter Name" type="text" name="name" placeholder="name"
+                                <input class="form-control" required aria-errormessage="Enter name" type="text" name="name" placeholder="Enter name"
                                     value="{{ $services ? $services->name : null}}">
                                 @error('name')
                                     <div class="text-danger">{{ $message }}</div>
@@ -91,7 +91,7 @@
                             <div class="form-group">
                                 <label>Description</label>
                                 <textarea class="form-control" name="description"
-                                    placeholder="description">{{ $services ? $services->description : null}}</textarea>
+                                    placeholder="Enter description">{{ $services ? $services->description : null}}</textarea>
                                 @error('description')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror

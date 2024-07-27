@@ -43,8 +43,8 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Job Name</label>
-                                <input class="form-control" type="text" name="job_name" placeholder="Job name"
+                                <label>Job Name<span style="color:red">*</span></label>
+                                <input class="form-control" type="text" name="job_name" placeholder="Enter job name"
                                     value="{{ $job ? $job->job_name : null}}">
                                 @error('job_name')
                                     <div class="text-danger">{{ $message }}</div>
@@ -53,8 +53,9 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Job Category</label>
-                                <select class="form-control" name="job_category">
+                                <label>Job Category<span style="color:red">*</span></label>
+                                <select required class="form-control" name="job_category">
+                                <option value="">Select job category</option>
                                     @foreach ($jobCategories as $value)
                                         <option value="{{$value->id}}">{{$value->job_category_name}}</option>
                                     @endforeach
@@ -77,7 +78,7 @@
                             <div class="form-group">
                                 <label>Description</label>
                                 <textarea class="form-control" name="description"
-                                    placeholder="description">{{ $job ? $job->description : null}}</textarea>
+                                    placeholder="Enter description">{{ $job ? $job->description : null}}</textarea>
                                 @error('description')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror

@@ -27,7 +27,6 @@ return new class extends Migration
             $table->string('govt_id')->nullable(); // Combined field for Aadhar card, PAN no
             $table->decimal('location_latitude', 10, 7)->nullable();
             $table->decimal('location_longitude', 10, 7)->nullable();
-           
             $table->date('joining_date')->nullable();
             $table->boolean('verify_otp_status')->nullable();
             $table->integer('otp')->nullable();

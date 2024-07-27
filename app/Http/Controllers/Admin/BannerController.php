@@ -174,14 +174,13 @@ class BannerController extends Controller
             $data['title'] = ucfirst($value->title);
             $data['content'] = ucfirst($value->content);
             // $data['banner_image'] = $value->banner_image;
-            $banner_image = "<div class='table-plus'>";
-            $banner_image .= "<div class='name-avatar d-flex align-items-center'>";
-            $banner_image .= "<div class='avatar mr-2 flex-shrink-0'>";
-            $banner_image .= "<img src='" . asset('images/banner/' . $value->banner_image) . "' class='border-radius-10 shadow' width='50' height='50' alt=''/>";
-            $banner_image .= "</div>";
-            $banner_image .= "</div>";
-            $banner_image .= "</div>";
+            if ($value->banner_image) {
+                $data['banner_image'] = "<img height='50' width='50' src='" . asset('images/banner/') . "/" . $value->banner_image . "'/>";
+            } else {
+                $data['banner_image'] = "<img height='50' width='50' src='" . defaultImage() . "'/>";
 
+            }
+            
             if ($value->status == 1) {
                 $status = "<a href='javascript:void(0)' data-id='" . $value->id . "' data-status='0' class='badge badge-success bannerStatus'>Active</a>";
             } else {
@@ -191,7 +190,7 @@ class BannerController extends Controller
             $action .= "<a href='" . route('banners.edit', $value->id) . "' style='color: #265ed7;'><i class='icon-copy dw dw-edit2'></i></a>";
             $action .= "<a class='deleteBanner' href='javascript:void(0);' data-id='" . $value->id . "' style='color: #e95959'><i class='icon-copy dw dw-delete-3 '></i></a>";
             $action .= "</div>";
-            $data['banner_image'] = $banner_image;
+            // $data['banner_image'] = $banner_image;
             $data['action'] = $action;
             $data['status'] = $status;
             $result[] = $data;

@@ -44,8 +44,8 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Title</label>
-                                <input class="form-control" type="text" name="title" placeholder="Banner title"
+                                <label>Title<span style="color:red">*</span></label>
+                                <input class="form-control" type="text" name="title" placeholder="Enter banner title"
                                     value="{{ $banner ? $banner->title : null}}">
                                 @error('title')
                                     <div class="text-danger">{{ $message }}</div>
@@ -82,9 +82,9 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Content</label>
+                                <label>Content<span style="color:red">*</span></label>
                                 <textarea class="form-control" name="content"
-                                    placeholder="Content">{{ $banner ? $banner->content : null}}</textarea>
+                                    placeholder="Enter content">{{ $banner ? $banner->content : null}}</textarea>
                                 @error('content')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror

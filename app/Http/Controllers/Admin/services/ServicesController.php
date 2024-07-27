@@ -7,12 +7,13 @@ use Illuminate\Http\Request;
 use App\Models\Job;
 use App\Models\Service;
 use File;
+
 class ServicesController extends Controller
 {
     function __construct()
     {
         $this->Model = new Service;
-        $this->imagePath  =public_path('images/services/');
+        $this->imagePath = public_path('images/services/');
         $this->columns = [
             "id",
             "job_id",
@@ -35,9 +36,9 @@ class ServicesController extends Controller
      */
     public function create()
     {
-        $getJob = Job::where('status',1)->get();
+        $getJob = Job::where('status', 1)->get();
         $services = null;
-        return view('admin.services.create',compact('getJob','services'));
+        return view('admin.services.create', compact('getJob', 'services'));
     }
 
     /**
@@ -53,8 +54,8 @@ class ServicesController extends Controller
                 'description' => 'nullable|string|max:1000',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
-            $checked  = Service::where(['job_id'=>$request->job_id,'name'=>$request->name])->first();
-            if($checked){
+            $checked = Service::where(['job_id' => $request->job_id, 'name' => $request->name])->first();
+            if ($checked) {
                 $notification = array(
                     'message' => 'services name already exists.',
                     'alert-type' => 'error'
@@ -80,7 +81,7 @@ class ServicesController extends Controller
                 'name' => $request->input('name'),
                 'description' => $request->input('description'),
                 'status' => $request->input('status'),
-                'image'=>$image
+                'image' => $image
             ]);
 
             $notification = array(
@@ -108,9 +109,10 @@ class ServicesController extends Controller
      */
     public function edit(string $id)
     {
-        $getJob = Job::where('status',1)->get();
-        $services = Service::findOrFail($id);;
-        return view('admin.services.edit',compact('getJob','services'));
+        $getJob = Job::where('status', 1)->get();
+        $services = Service::findOrFail($id);
+        ;
+        return view('admin.services.edit', compact('getJob', 'services'));
     }
 
     /**
@@ -126,42 +128,41 @@ class ServicesController extends Controller
         ]);
 
         $services = Service::findOrFail($id);
-        if($services){
-            $checked  = Service ::where(['job_id'=>$request->job_id,'name'=>$request->name])->where("id","!=",$services->id)->first();
+        if ($services) {
+            $checked = Service::where(['job_id' => $request->job_id, 'name' => $request->name])->where("id", "!=", $services->id)->first();
 
-            if($checked){
+            if ($checked) {
                 $notification = array(
                     'message' => 'services nam  is already exist.',
                     'alert-type' => 'success'
                 );
-                return redirect()-back()->with($notification);
+                return redirect() - back()->with($notification);
 
             }
             $directoryPath = public_path('images/services/');
 
-                // Check if the directory exists
-                if (!File::exists($directoryPath)) {
-                    // Create the directory
-                    File::makeDirectory($directoryPath, 0755, true);
+            // Check if the directory exists
+            if (!File::exists($directoryPath)) {
+                // Create the directory
+                File::makeDirectory($directoryPath, 0755, true);
+            }
+            $image = '';
+            if ($request->hasFile('image')) {
+                if ($services->image && file_exists(public_path('images/services/' . $services->image))) {
+                    unlink(public_path('images/services/' . $services->image));
                 }
-                $image = '';
-                if ($request->hasFile('image')) {
-                    if ($services->image && file_exists(public_path('images/services/' . $services->image))) {
-                        unlink(public_path('images/services/' . $services->image));
-                    }
-                    $imageName = time() . '.' . $request->image->extension();
-                    $request->image->move(public_path('images/services/'), $imageName);
-                    $image = $imageName;
-                }
-                else{
-                    $image=$services->image;
-                }
+                $imageName = time() . '.' . $request->image->extension();
+                $request->image->move(public_path('images/services/'), $imageName);
+                $image = $imageName;
+            } else {
+                $image = $services->image;
+            }
             $services->update([
                 'name' => $request->input('name'),
                 'job_id' => $request->input('job_id'),
                 'description' => $request->input('description'),
                 'status' => $request->input('status'),
-                'image'=>$image,
+                'image' => $image,
             ]);
 
             $notification = array(
@@ -172,8 +173,7 @@ class ServicesController extends Controller
 
             return redirect()->route('services.index')->with($notification);
 
-        }
-        else{
+        } else {
             $notification = array(
                 'message' => 'services No Record Found.',
                 'alert-type' => 'success'
@@ -209,9 +209,14 @@ class ServicesController extends Controller
         foreach ($banners as $value) {
             $data = [];
             $data['id'] = $value->id;
-            $data['name'] =ucfirst($value->name) ;
+            $data['name'] = ucfirst($value->name);
             $data['job_id'] = $value->getSelectJob ? ucfirst($value->getSelectJob->job_name) : '';
-            $data['image'] = "<img height='50' width='50' src='".asset('images/services/')."/".$value->image."'/>";
+            if ($value->image) {
+                $data['image'] = "<img height='50' width='50' src='" . asset('images/services/') . "/" . $value->image . "'/>";
+            } else {
+                $data['image'] = "<img height='50' width='50' src='" . defaultImage() . "'/>";
+
+            }
             $data['description'] = $value->description;
             if ($value->status == 1) {
                 $status = "<a href='javascript:void(0)' data-id='" . $value->id . "' data-status='0' class='badge badge-success servicesStatus'>Active</a>";

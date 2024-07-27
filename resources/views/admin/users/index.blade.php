@@ -27,7 +27,6 @@
 			<!-- Simple Datatable start -->
 			<div class="card-box mb-30">
 				<div class="pd-20">
-
 				</div>
 				<div class="pb-20">
 					<table id="userDatatable" class="data-table1 table stripe hover nowrap">
@@ -35,10 +34,10 @@
 							<tr>
 								<th class="table-plus datatable-nosort">ID</th>
 								<th>Name</th>
-                                <th>Email</th>
-                                <th>Number</th>
+								<th>Email</th>
+								<th>Number</th>
 								<th>Status</th>
-								<th>view</th>
+								<th>View</th>
 
 							</tr>
 						</thead>
@@ -89,7 +88,6 @@
 						status: $('select[name=status]').val(),
 						search: $('input[name=name]').val(),
 						search: $('input[email=email]').val(),
-
 					},
 					dataSrc: "data"
 				},
@@ -98,19 +96,16 @@
 				"bServerSide": true,
 				"bLengthChange": false,
 				'searching': true,
-				"aoColumns": [{
-					"data": "id"
-				},
+				"aoColumns": [{"data": "id"},
 				{ "data": "name" },
-                { "data": "email" },
-                { "data": "number" },
+				{ "data": "email" },
+				{ "data": "number" },
 				{ "data": "status" },
 				{ "data": "view" },
-
 				],
-                columnDefs: [
-                    { "targets": [4,5], "orderable": false }, // Disable sorting on the "job_id" column
-                ]
+				columnDefs: [
+					{ "targets": [4, 5], "orderable": false }, // Disable sorting on the "job_id" column
+				]
 			});
 
 			// for chnage status
@@ -119,24 +114,24 @@
 				id = $(this).attr("data-id");
 				status = $(this).attr("data-status");
 
-                $.ajax({
-                    type: "POST",
-                    url: @json(route('changeUserStatus')),
-                    data: { id: id, status: status },
-                    dataType: "JSON",
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function (response) {
-                        if (response.status == true) {
-                            table.ajax.reload();
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error(error);
-                    }
-                });
-            });
+				$.ajax({
+					type: "POST",
+					url: @json(route('changeUserStatus')),
+					data: { id: id, status: status },
+					dataType: "JSON",
+					headers: {
+						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					},
+					success: function (response) {
+						if (response.status == true) {
+							table.ajax.reload();
+						}
+					},
+					error: function (xhr, status, error) {
+						console.error(error);
+					}
+				});
+			});
 
 		});
 	</script>
