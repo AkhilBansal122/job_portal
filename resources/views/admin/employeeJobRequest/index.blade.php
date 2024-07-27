@@ -135,7 +135,7 @@
 
                 ],
                 columnDefs: [
-                    { "targets": [2], "orderable": false }, // Disable sorting on the "job_id" column
+                    { "targets": [2,3], "orderable": false }, // Disable sorting on the "job_id" column
                 ]
             });
 

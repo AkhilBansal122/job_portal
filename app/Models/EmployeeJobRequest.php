@@ -18,6 +18,7 @@ class EmployeeJobRequest extends Model
         return $this->belongsTo(Job::class,"user_id");
     }
     public function fetchJobRequest($request, $columns) {
+     
         $query =EmployeeJobRequest::with('getEmployeeUser')->where('id', '!=', '');
 
         if (isset($request->from_date)) {
@@ -29,7 +30,7 @@ class EmployeeJobRequest extends Model
 
         if (isset($request['search']['value'])) {
             $query->where(function ($q) use ($request) {
-                $q->where('other_value', 'like', '%' . $request['search']['value'] . '%');
+                $q->where('job_name', 'like', '%' . $request['search']['value'] . '%');
             });
         }
         if (isset($request->status)) {

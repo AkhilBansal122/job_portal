@@ -24,8 +24,8 @@ class DashboardController extends Controller
         $jobCount=Job::count();
         $jobCategoryCount=JobCategory::count();
         $service=Service::count();
-        $totalPendingJobRequest=EmployeeJobRequest::count();
-        $totalJobRequest=EmployeeJobRequest::where('status_approval', 0)->count();
+        $totalJobRequest=EmployeeJobRequest::count();
+        $totalPendingJobRequest=EmployeeJobRequest::where('status_approval', 0)->count();
         return view('admin.layouts.main', compact('userCount','employeeUserCount','jobCount','jobCategoryCount','service','totalPendingJobRequest', 'totalJobRequest'));
 
     }

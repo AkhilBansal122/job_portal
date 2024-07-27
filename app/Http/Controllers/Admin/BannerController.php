@@ -44,7 +44,7 @@ class BannerController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'banner_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'banner_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'required',
         ]);
         $banner = new Banner();
@@ -129,7 +129,6 @@ class BannerController extends Controller
             $banner->banner_image = $imageName;
         }
         $banner->save();
-        dd($banner);
         $notification = array(
             'message' => 'Banner created successfully!.',
             'alert-type' => 'success'

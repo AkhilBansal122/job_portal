@@ -114,7 +114,8 @@
 								<div class="weight-700 font-24 text-dark">{{$totalJobRequest}}</div>
 								<div class="font-14 text-secondary weight-500"><a
 										href="{{route('jobrequest.index')}}">Total
-										Job Request                     </a></div>
+										Job Request </a>
+								</div>
 							</div>
 							<div class="widget-icon">
 								<div class="icon" data-color="#09cc06">

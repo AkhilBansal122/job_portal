@@ -21,7 +21,7 @@
                     <div class="col-md-6 col-sm-12 text-right">
                         <div class="dropdown">
                             <a class="btn btn-secondary dropdown-toggle no-arrow" href="{{route('services.index')}}">
-                                View
+                                Back
                             </a>
                         </div>
                     </div>
@@ -107,8 +107,8 @@
                 </form>
             </div>
         </div>
+        @include('admin.layouts.footer')
     </div>
 </div>
-@include('admin.layouts.footer')
 
 @endsection

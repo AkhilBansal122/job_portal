@@ -26,7 +26,7 @@ class Service extends Model
 
         if (isset($request['search']['value'])) {
             $query->where(function ($q) use ($request) {
-                $q->where('title', 'like', '%' . $request['search']['value'] . '%');
+                $q->where('name', 'like', '%' . $request['search']['value'] . '%');
             });
         }
         if (isset($request->status)) {

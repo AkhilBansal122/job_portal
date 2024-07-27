@@ -21,7 +21,7 @@
                         <div class="dropdown">
                             <a class="btn btn-secondary dropdown-toggle no-arrow"
                                 href="{{route('job-categories.index')}}">
-                                View
+                                Back
                             </a>
                         </div>
                     </div>
@@ -78,8 +78,9 @@
                 </form>
             </div>
         </div>
+        @include('admin.layouts.footer')
+
     </div>
 </div>
-@include('admin.layouts.footer')
 
 @endsection
