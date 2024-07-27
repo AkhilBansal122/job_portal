@@ -47,7 +47,7 @@
                                 </div>
                             </div> -->
                             <div class="input-group custom">
-                                <input type="password" class="form-control form-control-lg" name="password" id="password" placeholder="**********">
+                                <input type="password" class="form-control form-control-lg" name="password" id="PasswordInput" placeholder="**********">
                                 <div class="input-group-append custom">
                                     <span class="input-group-text">
                                         <i class="toggle-password fa fa-fw fa-eye-slash" id="togglePassword"></i>
@@ -86,19 +86,31 @@
 @endsection
 @push('script')
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const togglePassword = document.getElementById('togglePassword');
-        const password = document.getElementById('password');
+    // document.addEventListener('DOMContentLoaded', function () {
+    //     const togglePassword = document.getElementById('togglePassword');
+    //     const password = document.getElementById('password');
 
-        togglePassword.addEventListener('click', function () {
-            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-            password.setAttribute('type', type);
+    //     togglePassword.addEventListener('click', function () {
+    //         const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+    //         password.setAttribute('type', type);
 
-            // Toggle the eye slash icon
-            this.classList.toggle('fa-eye');
-            this.classList.toggle('fa-eye-slash');
-        });
-    });
+    //         // Toggle the eye slash icon
+    //         this.classList.toggle('fa-eye');
+    //         this.classList.toggle('fa-eye-slash');
+    //     });
+    // });
+  // here view or shut the password 
+  $(".toggle-password").click(function() {
+    $(this).toggleClass("fa-eye fa-eye-slash");
+    input = $(this).parent().find("input");
+    if (input.attr("type") == "password") {
+        input.attr("type", "text");
+    } else {
+        input.attr("type", "password");
+    }
+});
+
 </script>
+
 
 @endpush

@@ -96,7 +96,7 @@
                                 @error('old_password')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
-                            </div>
+                    	        </div>
 
                             <div class="mb-3">
                                 <label for="newPasswordInput" class="form-label">New Password</label>

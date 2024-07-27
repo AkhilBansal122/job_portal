@@ -95,7 +95,7 @@ class JobController extends Controller
     //  }
     public function update(Request $request, string $id)
     {
-        
+
         $request->validate([
             'job_name' => ['required','string','max:255',
                 Rule::unique('user_jobs')->ignore($id),

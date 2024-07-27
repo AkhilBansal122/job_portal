@@ -91,9 +91,9 @@
             <div class="dropdown">
                 <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
                     <span class="user-icon">
-                        <img src="{{ asset('assets/vendors/images/photo1.jpg')}}" alt="" />
+                    <img src="{{ asset('profileimage/' . auth('admin')->user()->profile_image) }}" alt="" />
                     </span>
-                    <span class="user-name">Ross C. Lopez</span>
+                    <span class="user-name">{{auth('admin')->user()->name}}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
                     <a class="dropdown-item" href="{{ route('userprofile') }}"><i class="dw dw-user1"></i> Profile</a>
