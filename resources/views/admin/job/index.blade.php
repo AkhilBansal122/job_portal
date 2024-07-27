@@ -183,8 +183,29 @@
 					},
 					success: function (response) {
 						if (response.status == true) {
+                            toastr.options.timeOut = 10000;
+						    toastr.options =
+						    {
+							    "closeButton": true,
+							    "progressBar": true,
+					    	}
+						    toastr.success(response.message);
+						    var audio = new Audio('audio.mp3');
+						    audio.play();
 							table.ajax.reload();
-						}
+						    }
+                            else{
+                                toastr.options.timeOut = 10000;
+						    toastr.options =
+						    {
+							    "closeButton": true,
+							    "progressBar": true,
+					    	}
+						    toastr.error(response.message);
+						    var audio = new Audio('audio.mp3');
+						    audio.play();
+
+                            }
 					},
 					error: function (xhr, status, error) {
 						console.error(error);

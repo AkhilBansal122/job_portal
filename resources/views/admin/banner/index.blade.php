@@ -6,41 +6,6 @@
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
-	<style>
-		/* Custom Toastr Styles */
-		#toast-container>div {
-			background-color: brown;
-			/* Dark background color */
-			color: #fff;
-			/* Light text color */
-			box-shadow: none;
-			/* Remove shadow */
-			border: none;
-		}
-
-		#toast-container>div.toast-success {
-			background-color: green;
-			/* Success messages background color */
-			background-color: green;
-			transition: background-color 0.3s ease;
-		}
-
-		#toast-container>div.toast-error {
-			background-color: #d9534f;
-			/* Error messages background color */
-		}
-
-		#toast-container>div.toast-info {
-			background-color: #5bc0de;
-			/* Info messages background color */
-		}
-
-		#toast-container>div.toast-warning {
-			background-color: #f0ad4e;
-			/* Warning messages background color */
-		}
-	</style>
-
 @endpush
 @section('content')
 <div class="main-container">
@@ -195,10 +160,31 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function (response) {
-                        if (response.status == true) {
-                            table.ajax.reload();
-                        }
-                    },
+						if (response.status == true) {
+                            toastr.options.timeOut = 10000;
+						    toastr.options =
+						    {
+							    "closeButton": true,
+							    "progressBar": true,
+					    	}
+						    toastr.success(response.message);
+						    var audio = new Audio('audio.mp3');
+						    audio.play();
+							table.ajax.reload();
+						    }
+                            else{
+                                toastr.options.timeOut = 10000;
+						    toastr.options =
+						    {
+							    "closeButton": true,
+							    "progressBar": true,
+					    	}
+						    toastr.error(response.message);
+						    var audio = new Audio('audio.mp3');
+						    audio.play();
+
+                            }
+					},
                     error: function (xhr, status, error) {
                         console.error(error);
                     }
@@ -239,7 +225,7 @@
                                     icon: "success"
                                 });
                                 // Reload the table or update the DOM as needed
-                                table.ajax.reload(); 
+                                table.ajax.reload();
                             } else {
                                 Swal.fire({
                                     title: "Error!",
@@ -260,10 +246,10 @@
                 }
             });
         });
-            
+
         });
 
-        
+
     </script>
 @endpush
 @push('script')
