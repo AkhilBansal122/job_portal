@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->text('description')->nullable();
             $table->unsignedBigInteger('job_category_id')->nullable();
-            $table->tinyInteger('status')->default(1);
-            $table->foreign('job_category_id')->references('id')->on('job_categories')->onDelete('set null');
+            $table->tinyInteger('status')->default(0);
+            $table->foreign('job_category_id')->references('id')->on('job_categories')->onUpdate('cascade')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

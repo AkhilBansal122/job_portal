@@ -37,7 +37,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-        // dd($request);
+        dd($request);
         $validator = Validator::make($request->all(), [
 
             'email' => ['required', 'string', 'email'],
