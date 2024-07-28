@@ -1,4 +1,4 @@
-@extends('admin.layouts.app') 
+@extends('admin.layouts.app')
 
 @section('content')
 <div class="main-container">
@@ -44,7 +44,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Job Name<span style="color:red">*</span></label>
-                                <input class="form-control" type="text" name="job_name" placeholder="Enter job name"
+                                <input class="form-control" type="text" name="job_name" placeholder="Enter Job Name"
                                     value="{{ $job ? $job->job_name : null}}">
                                 @error('job_name')
                                     <div class="text-danger">{{ $message }}</div>
@@ -55,9 +55,9 @@
                             <div class="form-group">
                                 <label>Job Category<span style="color:red">*</span></label>
                                 <select required class="form-control" name="job_category">
-                                <option value="">Select job category</option>
+                                <option value="">Select Job Category</option>
                                     @foreach ($jobCategories as $value)
-                                        <option value="{{$value->id}}">{{$value->job_category_name}}</option>
+                                        <option value="{{$value->id}}" @if(isset($job->job_category_id) && $job->job_category_id == $value->id) selected @endif >{{$value->job_category_name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -78,7 +78,7 @@
                             <div class="form-group">
                                 <label>Description</label>
                                 <textarea class="form-control" name="description"
-                                    placeholder="Enter description">{{ $job ? $job->description : null}}</textarea>
+                                    placeholder="Enter Description">{{ $job ? $job->description : null}}</textarea>
                                 @error('description')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
