@@ -33,7 +33,7 @@ class JobController extends Controller
      */
     public function create()
     {
-        $jobCategories = JobCategory::all();
+        $jobCategories = JobCategory::where("status",1)->get();
         $job = null;
         return view('admin.job.add-edit', compact('jobCategories', 'job'));
 
@@ -81,7 +81,7 @@ class JobController extends Controller
      */
     public function edit(string $id)
     {
-        $jobCategories = JobCategory::all();
+        $jobCategories = JobCategory::where("status",1)->get();
         $job = Job::findOrFail($id);
         return view('admin.job.add-edit', compact('jobCategories', 'job'));
     }
@@ -95,7 +95,7 @@ class JobController extends Controller
     //  }
     public function update(Request $request, string $id)
     {
-        
+
         $request->validate([
             'job_name' => ['required','string','max:255',
                 Rule::unique('user_jobs')->ignore($id),

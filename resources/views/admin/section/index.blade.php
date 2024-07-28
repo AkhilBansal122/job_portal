@@ -1,5 +1,14 @@
 @extends('admin.layouts.app')
+@push('style')
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+
+
+@endpush
 @section('content')
 <div class="main-container">
 	<div class="pd-ltr-20 xs-pd-20-10">
@@ -126,10 +135,10 @@
 
 			// for chnage status
 			$(document).on('click', '.selectstatus', function () {
-    
+
 				id = $(this).attr("data-id");
 				status = $(this).attr("data-status");
-				
+
                 $.ajax({
                     type: "POST",
                     url: @json(route('changeStatus')),
@@ -139,10 +148,31 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function (response) {
-                        if (response.status == true) {
-                            table.ajax.reload();
-                        }
-                    },
+						if (response.status == true) {
+                            toastr.options.timeOut = 10000;
+						    toastr.options =
+						    {
+							    "closeButton": true,
+							    "progressBar": true,
+					    	}
+						    toastr.success(response.message);
+						    var audio = new Audio('audio.mp3');
+						    audio.play();
+							table.ajax.reload();
+						    }
+                            else{
+                                toastr.options.timeOut = 10000;
+						    toastr.options =
+						    {
+							    "closeButton": true,
+							    "progressBar": true,
+					    	}
+						    toastr.error(response.message);
+						    var audio = new Audio('audio.mp3');
+						    audio.play();
+
+                            }
+					},
                     error: function (xhr, status, error) {
                         console.error(error);
                     }

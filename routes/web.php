@@ -15,10 +15,11 @@ use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ChangePasswordController;
 use App\Http\Controllers\Admin\services\ServicesController;
+use App\Http\Controllers\Admin\EmployeeJobRequestController;
 use App\Http\Controllers\Admin\UserProfileController;
 use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 
-use App\Http\Controllers\Admin\EmployeeJobRequestController;
+
 
 // Route::get('', function () {
 //     return view('welcome');
@@ -45,7 +46,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin\Auth'], function () {
     Route::get('admin/fortgot-password', 'PasswordResetLinkController@create')->name('admin.forgotPassword');
     Route::post('admin/fortgot-password', 'PasswordResetLinkController@store')->name('admin.resetPassword');
     // Route::post('admin/reset-password', [PasswordResetLinkController::class, 'store'])->name('admin.resetPassword');
-    
+
     Route::get('admin/reset-password/{token}', [PasswordResetLinkController::class, 'showResetPasswordForm'])->name('reset.password.get');
     Route::post('admin/reset-password', [PasswordResetLinkController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 
@@ -106,11 +107,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
      Route::get('/password', [ChangePasswordController::class, 'index'])->name('password');
     Route::post('/change-password', [ChangePasswordController::class, 'updatePassword'])->name('update-password');
 
-Route::get('/jobrequest', [EmployeeJobRequestController::class, 'index'])->name('jobrequest.index'); 
-Route::post('jobrequest/ajax', [EmployeeJobRequestController::class, 'employeeJobRequestAjax'])->name('employeeJobRequestAjax');
-Route::post('jobrequest/status', [EmployeeJobRequestController::class, 'changeJobRequestStatus'])->name('changeJobRequestStatus');
-
-
+    Route::get('/jobrequest', [EmployeeJobRequestController::class, 'index'])->name('jobrequest.index');
+    Route::post('jobrequest/ajax', [EmployeeJobRequestController::class, 'employeeJobRequestAjax'])->name('employeeJobRequestAjax');
+    Route::post('/userprofile', [UserprofileController::class, 'store'])->name('user.profile.store');
+    Route::post('jobrequest/status', [EmployeeJobRequestController::class, 'changeJobRequestStatus'])->name('changeJobRequestStatus');
 });
 
 

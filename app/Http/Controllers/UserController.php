@@ -58,7 +58,7 @@ class UserController extends Controller
             } else {
                 $status = "<a href='javascript:void(0)' data-id='" . $value->id . "' data-status='1' class='badge badge-danger userStatus'>InActive</a>";
             }
-            $view = "<a href='" . route('users.show', $value->id) . "' data-status='1' class='badge badge-secondary userStatus'>View</a>";
+            $view = "<a href='" . route('users.show', $value->id) . "' data-status='1' class='badge badge-secondary'>View</a>";
 
             $data['view'] = $view;
             $data['status'] = $status;
