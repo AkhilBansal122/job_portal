@@ -1,4 +1,3 @@
-
 <div class="header">
     <div class="header-left">
         <div class="menu-icon bi bi-list"></div>
@@ -91,14 +90,20 @@
             <div class="dropdown">
                 <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
                     <span class="user-icon">
-                    <img src="{{ asset('profileimage/' . auth('admin')->user()->profile_image) }}" alt="" />
+                        @if(auth('admin')->user()->profile_image)
+                            <img src="{{ asset('profileimage/' . auth('admin')->user()->profile_image) }}" alt="admin" />
+                        @else
+                            <img src="{{defaultImage()}}" alt="Default image" />
+                        @endif
+
                     </span>
                     <span class="user-name">{{auth('admin')->user()->name}}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
                     <a class="dropdown-item" href="{{ route('userprofile') }}"><i class="dw dw-user1"></i> Profile</a>
                     <a class="dropdown-item" href="profile.html"><i class="dw dw-settings2"></i> Setting</a>
-                    <a class="dropdown-item" href="{{ route('password') }}"><i class="dw dw-settings2"></i> Change Password</a>
+                    <a class="dropdown-item" href="{{ route('password') }}"><i class="dw dw-settings2"></i> Change
+                        Password</a>
                     <a class="dropdown-item" href="faq.html"><i class="dw dw-help"></i> Help</a>
                     <form method="POST" action="{{ route('adminlogout') }}">
                         @csrf

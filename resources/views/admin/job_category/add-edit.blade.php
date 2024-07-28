@@ -43,9 +43,9 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Job Category Name</label>
+                                <label>Job Category Name<span style="color:red">*</span></label>
                                 <input class="form-control" type="text" name="job_category_name"
-                                    placeholder="Job Category name" value="{{ $jobCategory ? $jobCategory->job_category_name:null}}">
+                                    placeholder="Enter job category name" value="{{ $jobCategory ? $jobCategory->job_category_name:null}}">
                                 @error('job_category_name')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -64,7 +64,7 @@
                             <div class="form-group">
                                 <label>Description</label>
                                 <textarea class="form-control" name="description"
-                                    placeholder="description">{{ $jobCategory ? $jobCategory->description:null}}</textarea>
+                                    placeholder="Enter description">{{ $jobCategory ? $jobCategory->description:null}}</textarea>
                                 @error('description')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
