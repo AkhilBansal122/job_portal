@@ -74,7 +74,7 @@ class EmployeeJobRequestController extends Controller
      */
     public function changeJobRequestStatus(Request $request)
     {
-       
+        /*
         $response = EmployeeJobRequest::findOrFail($request->id);
         $response->status_approval = $request->status;
         $response->save();
@@ -100,7 +100,7 @@ class EmployeeJobRequestController extends Controller
                 'status' => false,
                 "message" => "Status Changes Fails"
             ]);
-        }
+        }*/
     }
     public function employeeJobRequestAjax(Request $request)
     {
@@ -128,8 +128,8 @@ class EmployeeJobRequestController extends Controller
 
             if($value->status_approval==0){
                 $dropdownToggleRestriction="data-toggle='dropdown'";
-                
-            }else{ 
+
+            }else{
                 $dropdownToggleRestriction=null;
             }
             $status_class = '';
@@ -153,14 +153,10 @@ class EmployeeJobRequestController extends Controller
                     break;
             }
 
-            $status_approval = "<div class='dropdown'>";
-            $status_approval .= "<button class='btn btn-sm btn-$status_class dropdown-toggle' type='button' id='dropdownMenuButton_" . $value->id . "' " . $dropdownToggleRestriction . " aria-haspopup='true' aria-expanded='false'>";
+            $status_approval = "<div class=''>";
+            $status_approval .= "<button class='btn btn-sm btn-$status_class ' style='cursor: no-drop;' disabled type='button' id='" . $value->id . "' " . $dropdownToggleRestriction . " aria-haspopup='true' aria-expanded='false'>";
             $status_approval .= $status_text;
             $status_approval .= "</button>";
-            $status_approval .= "<div class='dropdown-menu' aria-labelledby='dropdownMenuButton_" . $value->id . "'>";
-            $status_approval .= "<a class='dropdown-item changeJobRequestStatus' href='javascript:void(0)' data-id='" . $value->id . "' data-status='1'>Approved</a>";
-            $status_approval .= "<a class='dropdown-item changeJobRequestStatus' href='javascript:void(0)' data-id='" . $value->id . "' data-status='0'>Pending</a>";
-            $status_approval .= "<a class='dropdown-item changeJobRequestStatus' href='javascript:void(0)' data-id='" . $value->id . "' data-status='2'>Rejected</a>";
             $status_approval .= "</div>";
             $status_approval .= "</div>";
 

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\employeeUser;
 use App\Http\Controllers\Controller;
 use App\Models\EmployeeUser;
 use Illuminate\Http\Request;
+use App\Models\Job;
+use App\Models\EmployeeJobRequest;
 
 class EmployeeUserController extends Controller
 {
@@ -33,13 +35,35 @@ class EmployeeUserController extends Controller
     }
     public function changeEmployeeUserApprovalStatus(Request $request)
     {
+        $employee_uses  =$this->Model->where('id', $request->id)->first();
+        if($employee_uses){
+            $msg = "Pending";
+            if($request->status==1){
+                $msg.="Approved";
+            }
+            else if($request->status==2){
+                $msg.="Reject";
+            }
+            $employee_uses->approvalStatus = $request->status;
+            $employee_uses->save();
 
-        $response = $this->Model->where('id', $request->id)->update(['approvalStatus' => $request->status]);
+            if($employee_uses->other_type  ==1){
+                $check= EmployeeJobRequest::where("user_id",$employee_uses->id)->first();
 
-        if ($response) {
+                if($request->status == 1){
+                    $job = Job::create([
+                        'job_name' => ucwords(strtolower($check->job_name)),
+                    ]);
+                    $employee_uses->job_id = $job->id;
+                    $employee_uses->save();
+                    $check->status_approval= $request->status;
+                    $check->save();
+                 }
+         }
+        if ($employee_uses) {
             return json_encode([
                 'status' => true,
-                "message" => "Status Changes Successfully"
+                "message" => $msg." Successfully"
             ]);
         } else {
             return json_encode([
@@ -47,6 +71,8 @@ class EmployeeUserController extends Controller
                 "message" => "Status Changes Fails"
             ]);
         }
+        }
+
     }
 
 
@@ -77,8 +103,8 @@ class EmployeeUserController extends Controller
 
             if($value->approvalStatus==0){
                 $dropdownToggleRestriction="data-toggle='dropdown'";
-                
-            }else{ 
+
+            }else{
                 $dropdownToggleRestriction=null;
             }
             $status_class = '';
