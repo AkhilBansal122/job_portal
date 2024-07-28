@@ -11,10 +11,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Api\BaseController as BaseController;
 
 use Illuminate\View\View;
 
-class RegisteredUserController extends Controller
+class RegisteredUserController extends BaseController
 {
     /**
      * Display the registration view.
@@ -32,18 +33,19 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
+        
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'latitude' => 'required|numeric',
-            'longitude' => 'required|numeric',
-            'phone_number' => 'required|string|regex:/^[0-9]{10,15}$/',
+            'latitude' => 'nullable|numeric|between:-90,90',
+            'longitude' => 'nullable|numeric|between:-180,180',
+            'phone_number' => 'required|string|regex:/^[0-9]{10,10}$/',
             'address' => 'required|string|max:255',
             'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
+            return $this->sendError('Validation error', $validator->errors(), 400);
         }
         if ($image = $request['profile_image']) {
 
