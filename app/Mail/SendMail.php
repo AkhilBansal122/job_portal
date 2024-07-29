@@ -13,20 +13,20 @@ class SendMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $user;
-    /**
-     * Create a new message instance.
-     */
-    public function __construct($user)
+    public $data;
+    public $subject;
+
+    public function __construct($data, $subject)
     {
-        $this->user = $user;
+        $this->data = $data;
+        $this->subject = $subject;
     }
+
     public function build()
     {
-        return $this->view('emails.sendOtp')
-            ->subject('Welcome to ' . config('app.name'))
-            ->with([
-                'userName' => $this->user->name,
-            ]);
+       
+        return $this->markdown('emails.send-mail')
+        ->subject($this->subject)
+        ->with('data', $this->data);
     }
 }

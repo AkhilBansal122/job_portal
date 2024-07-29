@@ -8,6 +8,8 @@ use App\Http\Controllers\Api\employeeUser\Auth\AuthenticatedSessionController as
 use App\Http\Controllers\Api\employeeUser\Auth\RegisteredUserController as EmployeeRegisteredUserController;
 use App\Http\Controllers\Api\User\Auth\PasswordResetLinkController as UserPasswordResetLinkController;
 use App\Http\Controllers\Api\VerifyOtpController;
+use App\Http\Controllers\Api\Common\CommonController;
+use App\Http\Controllers\Api\Common\ResendOtpController;
 
 
 
@@ -24,7 +26,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
     // Route::post('verifyOtp', [VerifyOtpController::class, 'verifyOtp']);
     Route::post('/password-reset-link', [UserPasswordResetLinkController::class, 'store'])->name('password.reset.link');
-    Route::post('verify-otp', [VerifyOtpController::class, 'verifyOtp']);
+    Route::post('verify-otp', [CommonController::class, 'verifyOtp']);
     Route::post('reset-password', [VerifyOtpController::class, 'resetPassword']);
 
 
@@ -40,9 +42,10 @@ Route::group(['prefix' => 'user'], function () {
 
 
 Route::group(['prefix' => 'employeeUser'], function () {
+    
     Route::post('register', [EmployeeRegisteredUserController::class, 'store']);
-    Route::post('employee-login', [EmployeeAuthenticatedSessionController::class, 'store']);
-    Route::post('verifyOtp', [VerifyOtpController::class, 'verifyOtp']);
+    Route::post('login', [EmployeeAuthenticatedSessionController::class, 'store']);
+    Route::post('verify-otp', [CommonController::class, 'verifyOtp']);
 
 
     Route::middleware('auth:employeeUser')->group(function () {

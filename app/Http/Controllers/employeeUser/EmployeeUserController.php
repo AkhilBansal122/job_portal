@@ -35,42 +35,59 @@ class EmployeeUserController extends Controller
     }
     public function changeEmployeeUserApprovalStatus(Request $request)
     {
-        $employee_uses  =$this->Model->where('id', $request->id)->first();
-        if($employee_uses){
-            $msg = "Pending";
-            if($request->status==1){
-                $msg.="Approved";
+
+        $employee_uses = $this->Model->where('id', $request->id)->first();
+
+        if (isset($employee_uses) && $employee_uses->other_type == 1 && $request->status == 1) {
+
+            $check = EmployeeJobRequest::where("user_id", $employee_uses->id)->first();
+            if ($check) {
+                Job::create([
+                    'job_name' => $check->job_name,
+                ]);
             }
-            else if($request->status==2){
-                $msg.="Reject";
+            $check->status_approval = $request->status;
+            $check->save();
+        } else {
+            $check = EmployeeJobRequest::where("user_id", $employee_uses->id)->first();
+            $check->status_approval = $request->status;
+            $check->save();
+        }
+        $employee_uses->approvalStatus = $request->status;
+        if ($employee_uses) {
+            $msg = null;
+            if ($request->status == 1) {
+                $msg .= "Approved";
+            } elseif ($request->status == 2) {
+                $msg .= "Reject";
             }
             $employee_uses->approvalStatus = $request->status;
             $employee_uses->save();
 
-            if($employee_uses->other_type  ==1){
-                $check= EmployeeJobRequest::where("user_id",$employee_uses->id)->first();
+            // if ($employee_uses->other_type == 1) {
+            //     $check = EmployeeJobRequest::where("user_id", $employee_uses->id)->first();
 
-                if($request->status == 1){
-                    $job = Job::create([
-                        'job_name' => ucwords(strtolower($check->job_name)),
-                    ]);
-                    $employee_uses->job_id = $job->id;
-                    $employee_uses->save();
-                    $check->status_approval= $request->status;
-                    $check->save();
-                 }
-         }
-        if ($employee_uses) {
-            return json_encode([
-                'status' => true,
-                "message" => $msg." Successfully"
-            ]);
-        } else {
-            return json_encode([
-                'status' => false,
-                "message" => "Status Changes Fails"
-            ]);
-        }
+            //     if ($request->status == 1) {
+            //         $job = Job::create([
+            //             'job_name' => ucwords(strtolower($check->job_name)),
+            //         ]);
+            //         $employee_uses->job_id = $job->id;
+            //         $employee_uses->save();
+            //         $check->status_approval = $request->status;
+            //         $check->save();
+            //     }
+            // }
+            if ($employee_uses) {
+                return json_encode([
+                    'status' => true,
+                    "message" => $msg . " Successfully"
+                ]);
+            } else {
+                return json_encode([
+                    'status' => false,
+                    "message" => "Status Changes Fails"
+                ]);
+            }
         }
 
     }
@@ -101,11 +118,11 @@ class EmployeeUserController extends Controller
             $data['email'] = $value->email;
             $data['number'] = $value->phone;
 
-            if($value->approvalStatus==0){
-                $dropdownToggleRestriction="data-toggle='dropdown'";
+            if ($value->approvalStatus == 0) {
+                $dropdownToggleRestriction = "data-toggle='dropdown'";
 
-            }else{
-                $dropdownToggleRestriction=null;
+            } else {
+                $dropdownToggleRestriction = null;
             }
             $status_class = '';
             $status_text = '';

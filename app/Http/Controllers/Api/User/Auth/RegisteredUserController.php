@@ -14,11 +14,12 @@ use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Api\BaseController as BaseController;
-
+use App\Traits\OtpTrait;
 use Illuminate\View\View;
 
 class RegisteredUserController extends BaseController
 {
+    use OtpTrait;
     /**
      * Display the registration view.
      */
@@ -52,11 +53,12 @@ class RegisteredUserController extends BaseController
         }
 
         try {
+            $otp = $this->generateUniqueOtp();
+
             if ($image = $request['profile_image']) {
                 $imageName = time() . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
                 $image->move('images/user', $imageName);
             }
-
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -66,13 +68,16 @@ class RegisteredUserController extends BaseController
                 'phone_number' => $request->phone_number,
                 'address' => $request->address,
                 'profile_image' => $imageName ?? '',
+                'otp' => $otp,
+                'otp_expires_at' => now()->addMinutes(10),
             ]);
-            if($user){
-                Mail::to($user->email)->send(new SendMail($user));
+            
+            if ($user) {
+                Mail::to($user->email)->send(new SendMail($user,'Otp verification'));
             }
 
             if ($user) {
-                return $this->sendResponse('User created successfully', $user,);
+                return $this->sendResponse('User created successfully', $user, );
             } else {
                 return $this->sendError('There is some problem', [], 400);
             }
@@ -80,4 +85,5 @@ class RegisteredUserController extends BaseController
             return $this->sendError('There is some problem', ['error' => $e->getMessage()], 500);
         }
     }
+
 }
