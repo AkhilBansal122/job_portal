@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->string('pincode')->nullable();
             $table->string('id_proof')->nullable();
+            $table->boolean('account_verify_status')->nullable();
             $table->boolean('verify_otp_status')->nullable();
             $table->integer('otp')->nullable(); 
             $table->string('token')->nullable();

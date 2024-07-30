@@ -56,7 +56,12 @@ class AuthenticatedSessionController extends BaseController
             }
 
             $user = User::where('email', $request->email)->first();
-
+            if ($user->verify_otp_status !== 1) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Your account is not verified. please verified first.',
+                ], 403);
+            }
             // Check if the user is active
             if ($user->status !== 1) {
                 return response()->json([
@@ -64,12 +69,7 @@ class AuthenticatedSessionController extends BaseController
                     'message' => 'Your account is not active. Please contact support.',
                 ], 403);
             }
-            if ($user->verify_otp_status !== 1) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Your account is not verified. please verified first.',
-                ], 403);
-            }
+
 
             $token = Auth::guard('api')->attempt($credentials);
             return response()->json([
@@ -106,7 +106,6 @@ class AuthenticatedSessionController extends BaseController
                 'message' => 'Failed to logout, please try again.'
             ], 500);
         }
-
     }
     protected function respondWithToken($token)
     {
@@ -119,28 +118,32 @@ class AuthenticatedSessionController extends BaseController
     }
     public function profile()
     {
-        $user = Auth::guard('api')->user();
-        if (!empty($user)) {
-            return response()->json(
-                [
-                    'status' => true,
-                    'message' => 'success',
-                    'data' => $user,
-                ],
-                200
-            );
-
-        } else {
-            return response()->json(
-                [
-                    'status' => false,
-                    'message' => 'No Record found',
-                    'data' => $user,
-                ],
-                200
-            );
+        try {
+            $user = Auth::guard('api')->user();
+            if (!empty($user)) {
+                return response()->json(
+                    [
+                        'status' => true,
+                        'message' => 'Profile get successfully',
+                        'data' => $user,
+                    ],
+                    200
+                );
+            } else {
+                return response()->json(
+                    [
+                        'status' => false,
+                        'message' => 'No Record found',
+                        'data' => $user,
+                    ],
+                    200
+                );
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'An error occurred: ' . $e->getMessage(),
+            ], 500);
         }
-
-
     }
 }

@@ -20,23 +20,9 @@ use Illuminate\View\View;
 class RegisteredUserController extends BaseController
 {
     use OtpTrait;
-    /**
-     * Display the registration view.
-     */
-    public function create(): View
-    {
 
-        return view('auth.register');
-    }
-
-    /**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
@@ -71,15 +57,10 @@ class RegisteredUserController extends BaseController
                 'otp' => $otp,
                 'otp_expires_at' => now()->addMinutes(10),
             ]);
-            
-            if ($user) {
-                Mail::to($user->email)->send(new SendMail($user,'Otp verification'));
-            }
 
             if ($user) {
-                return $this->sendResponse('User created successfully', $user, );
-            } else {
-                return $this->sendError('There is some problem', [], 400);
+                Mail::to($user->email)->send(new SendMail($user, 'Otp verification code'));
+                return $this->sendResponse('User created successfully', $user);
             }
         } catch (\Exception $e) {
             return $this->sendError('There is some problem', ['error' => $e->getMessage()], 500);

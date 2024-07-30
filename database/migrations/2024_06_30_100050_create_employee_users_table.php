@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
             $table->date('joining_date')->nullable();
+            $table->boolean('account_verify_status')->nullable();
             $table->boolean('verify_otp_status')->nullable();
             $table->integer('otp')->nullable();
             $table->string('token')->nullable();

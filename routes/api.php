@@ -24,34 +24,28 @@ use App\Http\Controllers\Api\Common\ResendOtpController;
 Route::group(['prefix' => 'user'], function () {
     Route::post('register', [RegisteredUserController::class, 'store']);
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
-    // Route::post('verifyOtp', [VerifyOtpController::class, 'verifyOtp']);
-    Route::post('/password-reset-link', [UserPasswordResetLinkController::class, 'store'])->name('password.reset.link');
     Route::post('verify-otp', [CommonController::class, 'verifyOtp']);
-    Route::post('reset-password', [VerifyOtpController::class, 'resetPassword']);
-
-
-
+    Route::post('resend-otp', [CommonController::class, 'resendOtp']);
+    Route::post('forgot-password', [CommonController::class, 'forgotPassword']);
+    Route::post('reset-password', [CommonController::class, 'resetPassword']);
 
     Route::middleware('auth:api')->group(function () {
         Route::post('logout', [AuthenticatedSessionController::class, 'destroy']);
         Route::get('profile', [AuthenticatedSessionController::class, 'profile']);
-        
+        Route::post('change-password', [CommonController::class, 'changePassword']);
 
+        
     });
 });
 
 
 Route::group(['prefix' => 'employeeUser'], function () {
-    
     Route::post('register', [EmployeeRegisteredUserController::class, 'store']);
     Route::post('login', [EmployeeAuthenticatedSessionController::class, 'store']);
     Route::post('verify-otp', [CommonController::class, 'verifyOtp']);
 
-
     Route::middleware('auth:employeeUser')->group(function () {
         Route::post('logout', [EmployeeAuthenticatedSessionController::class, 'destroy']);
         Route::get('profile', [EmployeeAuthenticatedSessionController::class, 'profile']);
-        
-
     });
 });

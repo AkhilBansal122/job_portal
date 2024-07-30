@@ -88,7 +88,7 @@ class RegisteredUserController extends Controller
 
             // DB::commit();
             if ($employeeUser) {
-                Mail::to($employeeUser->email)->send(new SendMail($employeeUser,'Otp verification'));
+                Mail::to($employeeUser->email)->send(new SendMail($employeeUser,'Otp verification code'));
             }
             return response()->json(['status' => true, 'message' => 'Employee created successfully!', 'data' => null], 201);
 
