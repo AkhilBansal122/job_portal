@@ -52,10 +52,15 @@
                         <img src="{{ asset('images/employeeUser/' . $employeeUser->profile_image) }}"
                             alt="{{ $employeeUser->name }}" class="img-fluid rounded-circle" width="80">
                     </div>
+
                     <div class="col-md-4">
                         <p><strong>Status:</strong></p>
-                        <p>{{ $employeeUser->status ? 'Active' : 'Inactive' }}</p>
+                        <p
+                            style="display: inline-block; background-color: {{ $employeeUser->status ? 'green' : 'red' }}; color: white; padding: 2px 8px; border-radius: 5px; text-align: center; cursor: pointer;">
+                            {{ $employeeUser->status ? 'Active' : 'Inactive' }}
+                        </p>
                     </div>
+                    
                     <div class="col-md-4">
                         <p><strong>Longitude:</strong></p>
                         <p>{{ $employeeUser->longitude }}</p>

@@ -171,52 +171,34 @@ class CommonController extends BaseController
     }
     public function changePassword(Request $request)
     {
-        // dd('dfhdhfh');
+    
         $validator = Validator::make($request->all(), [
-            
             'user_type' => ['required', 'in:user,employee_user'],
             'old_password' => ['required', 'string', 'min:4'],
-            'new_password' => ['required', 'string', 'min:4','confirmed'],
+            'new_password' => ['required', 'string', 'min:4', 'confirmed'],
             'new_password_confirmation' => ['required', 'string', 'min:4'],
         ]);
 
         if ($validator->fails()) {
             return $this->sendError('Validation error', $validator->errors(), 400);
         }
-
         try {
             if ($request->user_type === 'user') {
-               $user= Auth('api')->user();
-             
-                $user = User::where('email', $request->email)->first();
-            } else {
-                $user= Auth('employeeUser')->user();
-          
-                $user = EmployeeUser::where('email', $request->email)->first();
-            }
 
+                $user = User::where('id', Auth('api')->user()->id)->first();
+            } else {
+                $user = Auth('employeeUser')->user();
+                $user = EmployeeUser::where('id', Auth('employeeUser')->user()->id)->first();
+            }
             if (!$user) {
                 return response()->json(['status' => false, 'message' => 'User not found.'], 404);
             }
-            if ($request->old_password==Hash::make($user->password)) {
-
-                return response()->json(['status' => false, 'message' => 'User not found.'], 404);
+            if (!Hash::check($request->old_password, $user->password)) {
+                return $this->sendError('Old password does not match', [], 400);
             }
-
-            if ($user->verify_otp_status !== 1) {
-                return $this->sendError('Your OTP is not verified. please verified first.', $validator->errors(), 403);
-            }
-
-            if ($user->verify_otp_status == true && Carbon::parse($user->otp_expires_at)->isFuture()) {
-
-                $user->password = Hash::make($request->new_password);
-                $user->save();
-
-                return $this->sendResponse('Password reset successfully.', []);
-            } else {
-
-                return $this->sendError('Time is expired, try again', [], 400);
-            }
+            $user->password = Hash::make($request->new_password);
+            $user->save();
+            return $this->sendResponse('Password changed successfully.', []);
         } catch (\Exception $e) {
             return $this->sendError('An error occurred', ['error' => $e->getMessage()], 500);
         }
