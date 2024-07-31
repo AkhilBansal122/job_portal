@@ -8,17 +8,17 @@
         <title>{{ config('app.name', 'Laravel') }}</title>
         
         <!-- Site favicon -->
-	<link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/vendors/images/apple-touch-icon.png')}}">
-	<link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/vendors/images/favicon-32x32.png')}}">
-	<link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/vendors/images/favicon-16x16.png')}}">
+	<link rel="apple-touch-icon" sizes="180x180" href="{{ asset('public/assets/vendors/images/apple-touch-icon.png')}}">
+	<link rel="icon" type="image/png" sizes="32x32" href="{{ asset('public/assets/vendors/images/favicon-32x32.png')}}">
+	<link rel="icon" type="image/png" sizes="16x16" href="{{ asset('public/assets/vendors/images/favicon-16x16.png')}}">
 
 	<!-- Google Font -->
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 	<!-- CSS -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/styles/core.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/styles/icon-font.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/styles/style.css')}}">
-    <!-- <link rel="stylesheet" type="text/css" href="{{ asset('assets/src/plugins/jquery-steps/jquery.steps.css')}}"> -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/assets/vendors/styles/core.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/assets/vendors/styles/icon-font.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/assets/vendors/styles/style.css')}}">
+    <!-- <link rel="stylesheet" type="text/css" href="{{ asset('public/assets/src/plugins/jquery-steps/jquery.steps.css')}}"> -->
 	
         <!-- Fonts -->
         {{-- <link rel="preconnect" href="https://fonts.bunny.net">
@@ -38,11 +38,11 @@
 	@include('admin.layouts.footerLinks') --}}
     <!-- js -->
 
-    <script src="{{ asset('assets/vendors/scripts/core.js')}}"></script>
-    <script src="{{ asset('assets/vendors/scripts/script.min.js')}}"></script>
-    <script src="{{ asset('assets/vendors/scripts/process.js')}}"></script>
-    <script src="{{ asset('assets/vendors/scripts/layout-settings.js')}}"></script>
-	<!-- <script src="{{ asset('assets/src/plugins/jquery-steps/jquery.steps.js')}}"></script> -->
-	<!-- <script src="{{ asset('assets/vendors/scripts/steps-setting.js')}}"></script> -->
+    <script src="{{ asset('public/assets/vendors/scripts/core.js')}}"></script>
+    <script src="{{ asset('public/assets/vendors/scripts/script.min.js')}}"></script>
+    <script src="{{ asset('public/assets/vendors/scripts/process.js')}}"></script>
+    <script src="{{ asset('public/assets/vendors/scripts/layout-settings.js')}}"></script>
+	<!-- <script src="{{ asset('public/assets/src/plugins/jquery-steps/jquery.steps.js')}}"></script> -->
+	<!-- <script src="{{ asset('public/assets/vendors/scripts/steps-setting.js')}}"></script> -->
     </body>
 </html>

@@ -105,11 +105,11 @@
 @endsection
 
 @push('script')
-	<script src="{{ asset('assets/src/plugins/datatables/js/jquery.dataTables.min.js')}}"></script>
-	<script src="{{ asset('assets/src/plugins/datatables/js/dataTables.bootstrap4.min.js')}}"></script>
-	<script src="{{ asset('assets/src/plugins/datatables/js/dataTables.responsive.min.js')}}"></script>
-	<script src="{{ asset('assets/src/plugins/datatables/js/responsive.bootstrap4.min.js')}}"></script>
-	<script src="{{ asset('assets/vendors/scripts/datatable-setting.js')}}"></script>
+	<script src="{{ asset('public/assets/src/plugins/datatables/js/jquery.dataTables.min.js')}}"></script>
+	<script src="{{ asset('public/assets/src/plugins/datatables/js/dataTables.bootstrap4.min.js')}}"></script>
+	<script src="{{ asset('public/assets/src/plugins/datatables/js/dataTables.responsive.min.js')}}"></script>
+	<script src="{{ asset('public/assets/src/plugins/datatables/js/responsive.bootstrap4.min.js')}}"></script>
+	<script src="{{ asset('public/assets/vendors/scripts/datatable-setting.js')}}"></script>
 
 
 	<script type="text/javascript">
