@@ -13,6 +13,6 @@ function customStatus($route, $recordId, $status)
 }
 
 function defaultImage(){
-    $defaultImage=asset('images/default.jpg');
+    $defaultImage=asset('public/images/default.jpg');
     return $defaultImage;
 }
