@@ -91,7 +91,7 @@
                 <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
                     <span class="user-icon">
                         @if(auth('admin')->user()->profile_image)
-                            <img src="{{ asset('profileimage/' . auth('admin')->user()->profile_image) }}" alt="admin" />
+                            <img src="{{ asset('public/profileimage/' . auth('admin')->user()->profile_image) }}" alt="admin" />
                         @else
                             <img src="{{defaultImage()}}" alt="Default image" />
                         @endif

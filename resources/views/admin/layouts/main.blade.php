@@ -148,7 +148,7 @@
 		</div>
 
 		<div class="row pb-10">
-			<div class="col-md-8 mb-20">
+			<div class="col-md-12 mb-20">
 				<div class="card-box height-100-p pd-20">
 					<div class="d-flex flex-wrap justify-content-between align-items-center pb-0 pb-md-3">
 						<div class="h5 mb-md-0">Hospital Activities</div>
@@ -164,12 +164,12 @@
 					<div id="activities-chart"></div>
 				</div>
 			</div>
-			<div class="col-md-4 mb-20">
+			<!-- <div class="col-md-4 mb-20">
 				<div class="card-box min-height-200px pd-20 mb-20" data-bgcolor="#455a64">
 					<div class="d-flex justify-content-between pb-20 text-white">
 						<div class="icon h1 text-white">
 							<i class="fa fa-calendar" aria-hidden="true"></i>
-							<!-- <i class="icon-copy fa fa-stethoscope" aria-hidden="true"></i> -->
+							<i class="icon-copy fa fa-stethoscope" aria-hidden="true"></i>
 						</div>
 						<div class="font-14 text-right">
 							<div><i class="icon-copy ion-arrow-up-c"></i> 2.69%</div>
@@ -206,10 +206,10 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 
-		<div class="row">
+		<!-- <div class="row">
 			<div class="col-lg-4 col-md-6 mb-20">
 				<div class="card-box height-100-p pd-20 min-height-200px">
 					<div class="d-flex justify-content-between pb-10">
@@ -342,9 +342,9 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 
-		<div class="card-box pb-10">
+		<!-- <div class="card-box pb-10">
 			<div class="h5 pd-20 mb-0">Recent Patient</div>
 			<table class="data-table table nowrap">
 				<thead>
@@ -570,12 +570,12 @@
 					</tr>
 				</tbody>
 			</table>
-		</div>
+		</div> -->
 
-		<div class="title pb-20 pt-20">
+		<!-- <div class="title pb-20 pt-20">
 			<h2 class="h3 mb-0">Quick Start</h2>
-		</div>
-
+		</div> -->
+<!-- 
 		<div class="row">
 			<div class="col-md-4 mb-20">
 				<a href="#" class="card-box d-block mx-auto pd-20 text-secondary">
@@ -616,7 +616,7 @@
 					</div>
 				</a>
 			</div>
-		</div>
+		</div> -->
 		@include('admin.layouts.footer')
 	</div>
 </div>
