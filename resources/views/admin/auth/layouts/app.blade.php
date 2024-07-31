@@ -19,7 +19,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('public/assets/vendors/styles/icon-font.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('public/assets/vendors/styles/style.css')}}">
     <!-- <link rel="stylesheet" type="text/css" href="{{ asset('public/assets/src/plugins/jquery-steps/jquery.steps.css')}}"> -->
-
+	@stack('style')
         <!-- Fonts -->
         {{-- <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" /> --}}
@@ -42,6 +42,7 @@
     <script src="{{ asset('public/assets/vendors/scripts/script.min.js')}}"></script>
     <script src="{{ asset('public/assets/vendors/scripts/process.js')}}"></script>
     <script src="{{ asset('public/assets/vendors/scripts/layout-settings.js')}}"></script>
+    @stack('script')
 	<!-- <script src="{{ asset('public/assets/src/plugins/jquery-steps/jquery.steps.js')}}"></script> -->
 	<!-- <script src="{{ asset('public/assets/vendors/scripts/steps-setting.js')}}"></script> -->
     </body>

@@ -18,9 +18,9 @@ class Admin
     {
         // dd(!Auth::guard('admin')->check());
        
-        if (!Auth::guard('admin')->check()) {
-            return redirect()->route('admin.login');
-        }
+    //     if (!Auth::guard('admin')->check()) {
+    //         return redirect()->route('admin.login');
+    //     }
       
 
         return $next($request);
