@@ -9,7 +9,7 @@ use App\Models\JobCategory;
 class Job extends Model
 {
     use HasFactory;
-    protected $table='user_jobs';
+    protected $table = 'user_jobs';
     protected $guarded =[];
     public function jobCategory()
     {

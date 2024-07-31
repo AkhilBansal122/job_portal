@@ -19,11 +19,16 @@ use Exception;
 use App\Models\EmployeeJobRequest;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+
+use App\Mail\SendMail;
+use App\Traits\OtpTrait;
 
 use App\Models\Job;
 
 class RegisteredUserController extends Controller
 {
+    use OtpTrait;
     /**
      * Display the registration view.
      */
@@ -39,51 +44,57 @@ class RegisteredUserController extends Controller
      */
     public function store(EmployeeUserRegisterRequest $request)
     {
+
         // DB::beginTransaction();
-        $validatedData = $request->validated();
-        $jobId = Job::find($request->select_job_id) ? $request->select_job_id : null;
 
         try {
+            $otp = $this->generateUniqueOtp();
 
+            $validatedData = $request->validated();
             $employeeUser = new EmployeeUser;
             $employeeUser->name = $request->name;
             $employeeUser->email = $request->email;
             $employeeUser->password = Hash::make($request['password']);
             $employeeUser->phone = $request->phone;
-            $employeeUser->job_id = $jobId;
+            $employeeUser->job_id = $request->other_type === 1 ? null : $request->select_job_id;
+            $employeeUser->other_type = $request->other_type;
+            $employeeUser->otp = $otp;
+            $employeeUser->otp_expires_at = now()->addMinutes(10);
             $employeeUser->save();
 
             if ($request->other_type == 1) {
                 $employeeJobRequest = new EmployeeJobRequest;
-                $employeeJobRequest->user_id = $employeeUser->id; // here we have put employee user id
+                $employeeJobRequest->user_id = $employeeUser->id; // Here we have put employee user id
                 $employeeJobRequest->job_name = $request->job_name;
                 $employeeJobRequest->save();
             }
+
             $document = new Document;
             $directoryPath = public_path('images/documents/');
 
-            // Check if the directory exists
             if (!File::exists($directoryPath)) {
-
-                // Create the directory
                 File::makeDirectory($directoryPath, 0755, true);
             }
 
             if ($image = $request['adhar_card_photo']) {
                 $imageName = time() . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
-
-                $image->move('images/documents', $imageName);
+                $image->move($directoryPath, $imageName);
+                $document->adhar_card_photo = $imageName;
             }
+
             $document->employee_user_id = $employeeUser->id;
-            $document->adhar_card_photo = $imageName;
             $document->adhar_card_number = $request->adhar_card_number;
             $document->save();
-            DB::commit();
+
+            // DB::commit();
+            if ($employeeUser) {
+                Mail::to($employeeUser->email)->send(new SendMail($employeeUser,'Otp verification code'));
+            }
             return response()->json(['status' => true, 'message' => 'Employee created successfully!', 'data' => null], 201);
+
         } catch (Exception $e) {
-            DB::rollBack();
+            // DB::rollBack();
             return response()->json(['status' => false, 'message' => 'Error creating employee: ' . $e->getMessage()], 500);
         }
-
     }
 }

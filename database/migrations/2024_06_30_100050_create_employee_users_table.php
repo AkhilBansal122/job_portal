@@ -20,17 +20,20 @@ return new class extends Migration
             $table->string('password');
             $table->text('address')->nullable();
             $table->string('profile')->nullable();
-            $table->decimal('amount_earned', 10, 2)->default(0);
-            $table->decimal('rating', 2, 1)->default(0);
-            $table->decimal('hourly_rate', 10, 2)->default(0);
-            $table->integer('total_job_done_count')->default(0);
             $table->string('govt_id')->nullable(); // Combined field for Aadhar card, PAN no
-            $table->decimal('location_latitude', 10, 7)->nullable();
-            $table->decimal('location_longitude', 10, 7)->nullable();
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
             $table->date('joining_date')->nullable();
+            $table->boolean('account_verify_status')->nullable();
             $table->boolean('verify_otp_status')->nullable();
             $table->integer('otp')->nullable();
-            $table->string('status')->default('active');
+            $table->string('token')->nullable();
+            $table->string('type')->nullable();
+            $table->timestamp('otp_expires_at')->nullable();
+            $table->integer('other_type')->default(0); // default 0 means not selected other 1 means selected other
+            $table->integer('approvalStatus')->default(0); // here 0 means pending 1 means approved and 2 means rejected 
+            $table->tinyInteger('status')->default(0);
+            $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();
         });

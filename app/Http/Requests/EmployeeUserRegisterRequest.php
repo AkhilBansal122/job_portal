@@ -35,7 +35,7 @@ class EmployeeUserRegisterRequest extends FormRequest
             'email' => 'required|string|email|max:255|unique:employee_users',
             'phone' => 'required|string|max:20',
             'password' => 'required|string|min:8|confirmed',
-            'select_job_id' => 'nullable|exists:uesr_jobs,id',  // removed exists:jobs,id
+            'select_job_id' => 'nullable',  // removed exists:jobs,id
             'adhar_card_number' => 'nullable|string',
             'adhar_card_photo' => 'nullable|image|mimes:jpg,jpeg,png|max:1999',
         ];

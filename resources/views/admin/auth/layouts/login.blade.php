@@ -1,13 +1,11 @@
 @extends('admin.auth.layouts.app')
 @push('style')
-<style>
-    .toggle-password {
-    float: right;
-    cursor: pointer;
-    margin-right: 10px;
-    margin-top: -25px;
-}
-</style>
+    <style>
+        .toggle-password {
+            float: right;
+            cursor: pointer;
+        }
+    </style>
 @endpush
 @section('content')
     <div class="login-wrap d-flex align-items-center flex-wrap justify-content-center">
@@ -79,10 +77,62 @@
                             </div>
                         </form>
                     </div>
+                    <form action="{{ route('postLogin') }}" method="post">
+                        @csrf
+                        @error('email')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                        <div class="input-group custom">
+                            <input type="email"
+                                class="form-control form-control-lg @error('email') is-invalid @enderror" name="email"
+                                placeholder="Enter your email">
+                            <div class="input-group-append custom">
+                                <span class="input-group-text"><i class="icon-copy dw dw-user1"></i></span>
+                            </div>
+                        </div>
+
+                        @error('password')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                        <div class="input-group custom">
+                            <input type="password"
+                                class="form-control form-control-lg @error('password') is-invalid @enderror"
+                                name="password" id="password" placeholder="Enter your password">
+                            <div class="input-group-append custom">
+                                <span class="input-group-text">
+                                    <i class="toggle-password fa fa-fw fa-eye-slash" id="togglePassword"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="row pb-30">
+                            <div class="col-6">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                    <label class="custom-control-label" for="customCheck1">Remember</label>
+
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="forgot-password"><a href="{{ route('admin.forgotPassword')}}">Forgot
+                                        Password</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="input-group mb-0">
+                                    <input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 @endsection
 @push('script')
 <script>

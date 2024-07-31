@@ -19,9 +19,24 @@ return new class extends Migration
             $table->string('password');
             $table->string('phone_number')->nullable();
             $table->string('profile_image')->nullable();
-            $table->tinyInteger('status')->default(1);
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
+            $table->string('address')->nullable();
+            $table->string('country')->nullable();
+            $table->string('state')->nullable();
+            $table->string('city')->nullable();
+            $table->string('pincode')->nullable();
+            $table->string('id_proof')->nullable();
+            $table->boolean('account_verify_status')->nullable();
+            $table->boolean('verify_otp_status')->nullable();
+            $table->integer('otp')->nullable(); 
+            $table->string('token')->nullable();
+            $table->string('type')->nullable();
+            $table->timestamp('otp_expires_at')->nullable();
+            $table->tinyInteger('status')->default(0);
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

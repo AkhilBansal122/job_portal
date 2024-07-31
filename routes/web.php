@@ -32,17 +32,18 @@ use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
 
 //****************************** Admin route start here ******************************************* */
 
 Route::group(['namespace' => 'App\Http\Controllers\Admin\Auth'], function () {
+
     Route::get('/', 'AuthenticatedSessionController@create')->name('admin.login');
-    Route::post('admin/login', 'AuthenticatedSessionController@store')->name('postLogin');
+    Route::post('', 'AuthenticatedSessionController@store')->name('postLogin');
     Route::get('admin/fortgot-password', 'PasswordResetLinkController@create')->name('admin.forgotPassword');
     Route::post('admin/fortgot-password', 'PasswordResetLinkController@store')->name('admin.resetPassword');
     // Route::post('admin/reset-password', [PasswordResetLinkController::class, 'store'])->name('admin.resetPassword');
@@ -52,13 +53,13 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin\Auth'], function () {
 
 });
 
-Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function () {
 
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('adminDashboard');
     Route::group(['namespace' => 'App\Http\Controllers\Admin\Auth'], function () {
         Route::post('logout', 'AuthenticatedSessionController@destroy')->name('adminlogout');
     });
-    Route::get('/profile', 'ProfileController@index')->name('admin.profile');
+    Route::get('profile', 'ProfileController@index')->name('admin.profile');
     Route::resource('section', SectionController::class);
     // Route::resource('job-categories', CategoryController::class);
 
@@ -97,14 +98,14 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::post('banners/destroy', [BannerController::class, 'destroy'])->name('destroyBanner');
     Route::post('banners/status', [BannerController::class, 'changeBannerStatus'])->name('changeBannerStatus');
 
-     // Services related route
-     Route::resource('services', ServicesController::class);
-     Route::post('services/ajax', [ServicesController::class, 'servicesAjax'])->name('servicesAjax');
-     Route::post('services/status', [ServicesController::class, 'changeServicesStatus'])->name('changeServicesStatus');
+    // Services related route
+    Route::resource('services', ServicesController::class);
+    Route::post('services/ajax', [ServicesController::class, 'servicesAjax'])->name('servicesAjax');
+    Route::post('services/status', [ServicesController::class, 'changeServicesStatus'])->name('changeServicesStatus');
 
     Route::get('userprofile', [UserprofileController::class, 'index'])->name('userprofile');
     Route::post('/userprofile', [UserprofileController::class, 'store'])->name('user.profile.store');
-     Route::get('/password', [ChangePasswordController::class, 'index'])->name('password');
+    Route::get('/password', [ChangePasswordController::class, 'index'])->name('password');
     Route::post('/change-password', [ChangePasswordController::class, 'updatePassword'])->name('update-password');
 
     Route::get('/jobrequest', [EmployeeJobRequestController::class, 'index'])->name('jobrequest.index');
@@ -116,6 +117,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
 
 // ****************************** Admin route end here ******************************************* */
 
-Route::get('test',[TestController::class, 'index'])->name('ddddd');
+Route::get('test', [TestController::class, 'index'])->name('ddddd');
 
 require __DIR__ . '/auth.php';

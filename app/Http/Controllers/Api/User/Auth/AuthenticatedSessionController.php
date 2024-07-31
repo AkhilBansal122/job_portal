@@ -10,13 +10,12 @@ use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\User;
 use Illuminate\Validation\Rules;
+use App\Http\Controllers\Api\BaseController as BaseController;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
-
-
 use Illuminate\View\View;
 
-class AuthenticatedSessionController extends Controller
+class AuthenticatedSessionController extends BaseController
 {
     /**
      * Display the login view.
@@ -37,7 +36,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-        // dd($request);
+
         $validator = Validator::make($request->all(), [
 
             'email' => ['required', 'string', 'email'],
@@ -47,38 +46,46 @@ class AuthenticatedSessionController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
-        $credentials = request(['email', 'password']);
-        if (!Auth::guard('api')->attempt($credentials)) {
+        try {
+            $credentials = request(['email', 'password']);
+            if (!Auth::guard('api')->attempt($credentials)) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Email or password is incorrect',
+                ], 401);
+            }
+
+            $user = User::where('email', $request->email)->first();
+            if ($user->verify_otp_status !== 1) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Your account is not verified. please verified first.',
+                ], 403);
+            }
+            // Check if the user is active
+            if ($user->status !== 1) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Your account is not active. Please contact support.',
+                ], 403);
+            }
+
+
+            $token = Auth::guard('api')->attempt($credentials);
+            return response()->json([
+                'status' => true,
+                'message' => 'User logged in successfully!',
+                'token' => $token,
+            ], 200);
+
+        } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Email or password is incorrect',
-            ], 401);
+                'message' => 'An error occurred: ' . $e->getMessage(),
+            ], 500);
         }
 
-        $user = User::where('email', $request->email)->first();
 
-        // Check if the user is active
-        if ($user->status !== 1) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Your account is not active. Please contact support.',
-            ], 403);
-        }
-
-        $token = Auth::guard('api')->attempt($credentials);
-
-        return $this->respondWithToken($token);
-
-
-
-
-
-        // $request->authenticate();
-
-        // $request->session()->regenerate();
-
-
-        // return redirect()->intended(route('dashboard', absolute: false));
     }
 
     /**
@@ -99,7 +106,6 @@ class AuthenticatedSessionController extends Controller
                 'message' => 'Failed to logout, please try again.'
             ], 500);
         }
-
     }
     protected function respondWithToken($token)
     {
@@ -112,28 +118,32 @@ class AuthenticatedSessionController extends Controller
     }
     public function profile()
     {
-        $user = Auth::guard('api')->user();
-        if (!empty($user)) {
-            return response()->json(
-                [
-                    'status' => true,
-                    'message' => 'success',
-                    'data' => $user,
-                ],
-                200
-            );
-
-        } else {
-            return response()->json(
-                [
-                    'status' => false,
-                    'message' => 'No Record found',
-                    'data' => $user,
-                ],
-                200
-            );
+        try {
+            $user = Auth::guard('api')->user();
+            if (!empty($user)) {
+                return response()->json(
+                    [
+                        'status' => true,
+                        'message' => 'Profile get successfully',
+                        'data' => $user,
+                    ],
+                    200
+                );
+            } else {
+                return response()->json(
+                    [
+                        'status' => false,
+                        'message' => 'No Record found',
+                        'data' => $user,
+                    ],
+                    200
+                );
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'An error occurred: ' . $e->getMessage(),
+            ], 500);
         }
-
-
     }
 }

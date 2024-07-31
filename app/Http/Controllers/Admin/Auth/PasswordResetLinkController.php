@@ -11,6 +11,8 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+
 use Mail;
 use DB;
 
@@ -48,7 +50,15 @@ class PasswordResetLinkController extends Controller
     //                         ->withErrors(['email' => __($status)]);
     // }
     {
+        $validated = $request->validate([
+            'email' => ['required', 'email'],
+        ]);
+        $user = Admin::where('email', $request->email)->first();
 
+        if (!$user) {
+            return back()->with('error', 'Email not found.');
+        }
+    
         $token = Str::random(64);
 
         DB::table('password_reset_tokens')->insert([
