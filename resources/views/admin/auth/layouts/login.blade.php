@@ -14,7 +14,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6 col-lg-7">
-                    <img src="{{ asset('assets/vendors/images/login-page-img.png') }}" alt="">
+                    <img src="{{ asset('public/assets/vendors/images/login-page-img.png') }}" alt="">
                 </div>
                 <div class="col-md-6 col-lg-5">
                     <div class="login-box bg-white box-shadow border-radius-10">
@@ -29,12 +29,12 @@
                             <div class="input-group custom">
                                 <input type="email" class="form-control form-control-lg" name="email"
                                     placeholder="Username">
-                                   
+
                                 <div class="input-group-append custom">
                                     <span class="input-group-text"><i class="icon-copy dw dw-user1"></i></span>
 
                                 </div>
-                               
+
                             </div>
                             @error('password')
                              <span class="text-danger">{{ $message }}</span>
@@ -55,7 +55,7 @@
                                 </div>
                             </div>
 
-                            
+
                             <div class="row pb-30">
                                 <div class="col-6">
                                     <div class="custom-control custom-checkbox">
@@ -74,7 +74,7 @@
                                     <div class="input-group mb-0">
                                         <input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </form>
@@ -99,7 +99,7 @@
     //         this.classList.toggle('fa-eye-slash');
     //     });
     // });
-  // here view or shut the password 
+  // here view or shut the password
   $(".toggle-password").click(function() {
     $(this).toggleClass("fa-eye fa-eye-slash");
     input = $(this).parent().find("input");

@@ -71,11 +71,11 @@
 @endsection
 
 @push('script')
-	<script src="{{ asset('assets/src/plugins/datatables/js/jquery.dataTables.min.js')}}"></script>
-	<script src="{{ asset('assets/src/plugins/datatables/js/dataTables.bootstrap4.min.js')}}"></script>
-	<script src="{{ asset('assets/src/plugins/datatables/js/dataTables.responsive.min.js')}}"></script>
-	<script src="{{ asset('assets/src/plugins/datatables/js/responsive.bootstrap4.min.js')}}"></script>
-	<script src="{{ asset('assets/vendors/scripts/datatable-setting.js')}}"></script>
+	<script src="{{ asset('public/assets/src/plugins/datatables/js/jquery.dataTables.min.js')}}"></script>
+	<script src="{{ asset('public/assets/src/plugins/datatables/js/dataTables.bootstrap4.min.js')}}"></script>
+	<script src="{{ asset('public/assets/src/plugins/datatables/js/dataTables.responsive.min.js')}}"></script>
+	<script src="{{ asset('public/assets/src/plugins/datatables/js/responsive.bootstrap4.min.js')}}"></script>
+	<script src="{{ asset('public/assets/vendors/scripts/datatable-setting.js')}}"></script>
 
 	<!-- <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
 		<link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">-->

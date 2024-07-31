@@ -5,7 +5,7 @@
         <div class="row align-items-center">
             <!-- Image Section -->
             <div class="col-md-6 col-lg-7 d-none d-md-block">
-                <img src="{{ asset('assets/vendors/images/login-page-img.png') }}" alt="Login Page Image" class="img-fluid" style="margin-bottom: 20px;">
+                <img src="{{ asset('public/assets/vendors/images/login-page-img.png') }}" alt="Login Page Image" class="img-fluid" style="margin-bottom: 20px;">
             </div>
 
             <!-- Form Section -->
@@ -48,7 +48,7 @@
                                     <label class="custom-control-label" for="customCheck1">Accept terms & Condition</label>
                                 </div>
                             </div>
-                          
+
                         </div>
 
                         <!-- Sign-In and Registration Options -->

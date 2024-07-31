@@ -4,7 +4,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6 col-lg-7">
-                    <img src="{{ asset('assets/vendors/images/register-page-img.png')}}" alt="">
+                    <img src="{{ asset('public/assets/vendors/images/register-page-img.png')}}" alt="">
                 </div>
                 <div class="col-md-6 col-lg-5">
                     <div class="register-box bg-white box-shadow border-radius-10">
@@ -98,8 +98,8 @@
             <div class="modal-content">
                 <div class="modal-body text-center font-18">
                     <h3 class="mb-20">Form Submitted Successfully!</h3>
-                    <div class="mb-30 text-center"><img src="{{ asset('assets/vendors/images/success.png')}}"></div>
-                   
+                    <div class="mb-30 text-center"><img src="{{ asset('public/assets/vendors/images/success.png')}}"></div>
+
                 </div>
                 <div class="modal-footer justify-content-center">
                     <a href="login.html" class="btn btn-primary">Done</a>

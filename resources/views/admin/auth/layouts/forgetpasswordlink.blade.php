@@ -37,7 +37,7 @@
 			background-color: #f0ad4e;
 			/ Warning messages background color /
 		}
-	
+
         .toggle-password {
         float: right;
         cursor: pointer;
@@ -59,7 +59,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6 col-lg-7">
-                    <img src="{{ asset('assets/vendors/images/login-page-img.png') }}" alt="">
+                    <img src="{{ asset('public/assets/vendors/images/login-page-img.png') }}" alt="">
                 </div>
                 <div class="col-md-6 col-lg-5">
                     <div class="login-box bg-white box-shadow border-radius-10">
@@ -69,7 +69,7 @@
                         <form action="{{ route('reset.password.post') }}" method="POST">
                           @csrf
                           <input type="hidden" name="token" value="{{ $token }}">
-  
+
                           <div class="form-group row">
                               <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
                               <div class="col-md-6">
@@ -80,7 +80,7 @@
                                   @endif
                               </div>
                           </div>
-  
+
                           <div class="form-group row">
                               <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Confirm Password</label>
                               <div class="col-md-6">
@@ -91,7 +91,7 @@
                                   @endif
                               </div>
                           </div>
-  
+
                           <div class="col-md-6 offset-md-4">
                               <button type="submit" class="btn btn-primary">
                                   Reset Password
