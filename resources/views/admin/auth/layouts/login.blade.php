@@ -25,7 +25,7 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <div class="input-group custom">
-                            <input type="email"  autocomplete="new-email"
+                            <input type="email" autocomplete="new-email"
                                 class="form-control form-control-lg @error('email') is-invalid @enderror" name="email"
                                 placeholder="Enter your email">
                             <div class="input-group-append custom">
