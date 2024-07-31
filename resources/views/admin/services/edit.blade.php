@@ -85,7 +85,7 @@
                                 @enderror
                             </div>
                             @if ($services->image)
-                                <img height="100" width="100" src="{{ asset('images/services/' . $services->image) }}" alt="Service Image" class="img-fluid">
+                                <img height="100" width="100" src="{{ asset('public/images/services/' . $services->image) }}" alt="Service Image" class="img-fluid">
                             @endif
                         </div>
 

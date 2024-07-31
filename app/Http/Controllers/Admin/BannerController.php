@@ -175,7 +175,7 @@ class BannerController extends Controller
             $data['content'] = ucfirst($value->content);
             // $data['banner_image'] = $value->banner_image;
             if ($value->banner_image) {
-                $data['banner_image'] = "<img height='50' width='50' src='" . asset('images/banner/') . "/" . $value->banner_image . "'/>";
+                $data['banner_image'] = "<img height='50' width='50' src='" . asset('public/images/banner/') . "/" . $value->banner_image . "'/>";
             } else {
                 $data['banner_image'] = "<img height='50' width='50' src='" . defaultImage() . "'/>";
 

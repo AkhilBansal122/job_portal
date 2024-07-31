@@ -212,7 +212,7 @@ class ServicesController extends Controller
             $data['name'] = ucfirst($value->name);
             $data['job_id'] = $value->getSelectJob ? ucfirst($value->getSelectJob->job_name) : '';
             if ($value->image) {
-                $data['image'] = "<img height='50' width='50' src='" . asset('images/services/') . "/" . $value->image . "'/>";
+                $data['image'] = "<img height='50' width='50' src='" . asset('public/images/services/') . "/" . $value->image . "'/>";
             } else {
                 $data['image'] = "<img height='50' width='50' src='" . defaultImage() . "'/>";
 

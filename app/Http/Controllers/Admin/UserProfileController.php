@@ -23,7 +23,7 @@ class UserProfileController extends Controller
             if ($request->hasFile('profile_image')) {
                 // Check if there is an existing profile image and delete it
                 if ($user->profile_image) {
-                    $oldImage = public_path('profileimage') . '/' . $user->profile_image;
+                    $oldImage = public_path('/profileimage') . '/' . $user->profile_image;
                     if (file_exists($oldImage)) {
                         @unlink($oldImage);
                     }
@@ -44,7 +44,6 @@ class UserProfileController extends Controller
                 'message' => 'Profile updated successfully',
                 'alert-type' => 'success'
             );
-
             return back()->with($notification);
         }
     }
