@@ -12,7 +12,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-6 col-lg-7">
-                <img src="{{ asset('assets/vendors/images/login-page-img.png') }}" alt="">
+                <img src="{{ asset('public/assets/vendors/images/login-page-img.png') }}" alt="">
             </div>
             <div class="col-md-6 col-lg-5">
                 <div class="login-box bg-white box-shadow border-radius-10">
@@ -25,7 +25,7 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <div class="input-group custom">
-                            <input type="email"
+                            <input type="email"  autocomplete="new-email"
                                 class="form-control form-control-lg @error('email') is-invalid @enderror" name="email"
                                 placeholder="Enter your email">
                             <div class="input-group-append custom">
@@ -37,7 +37,7 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <div class="input-group custom">
-                            <input type="password"
+                            <input type="password" autocomplete="new-password"
                                 class="form-control form-control-lg @error('password') is-invalid @enderror"
                                 name="password" id="password" placeholder="Enter your password">
                             <div class="input-group-append custom">

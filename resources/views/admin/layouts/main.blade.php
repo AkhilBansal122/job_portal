@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 @push('script')
-	<script src="{{ asset('assets/src/plugins/apexcharts/apexcharts.min.js')}}"></script>
-	<script src="{{ asset('assets/vendors/scripts/dashboard3.js')}}"></script>
+	<script src="{{ asset('public/assets/src/plugins/apexcharts/apexcharts.min.js')}}"></script>
+	<script src="{{ asset('public/assets/vendors/scripts/dashboard3.js')}}"></script>
 @endpush
 @section('content')
 
