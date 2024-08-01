@@ -56,7 +56,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Name<span style="color:red">*</span> </label>
-                                <input class="form-control" required aria-errormessage="Please Enter Name" type="text" name="name" placeholder="name"
+                                <input class="form-control" required aria-errormessage="Enter Name" type="text" name="name" placeholder="Enter name"
                                     value="{{ $services ? $services->name : null}}">
                                 @error('name')
                                     <div class="text-danger">{{ $message }}</div>
@@ -86,6 +86,9 @@
                             </div>
                             @if ($services->image)
                                 <img height="100" width="100" src="{{ asset('public/images/services/' . $services->image) }}" alt="Service Image" class="img-fluid">
+                                @else
+                                <img height="100" width="100" src="{{ defaultImage() }}" alt="Service Image" class="img-fluid">
+
                             @endif
                         </div>
 
@@ -102,7 +105,7 @@
 
                     </div>
                     <div class="text-right">
-                        <button class="btn btn-primary btn-lg">{{ $services ? 'Update' : 'Create' }}</button>
+                        <button class="btn btn-primary btn-lg">{{ $services ? 'Save' : 'Save' }}</button>
                     </div>
                 </form>
             </div>

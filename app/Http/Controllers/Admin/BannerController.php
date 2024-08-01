@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Banner;
 use File;
+
 class BannerController extends Controller
 {
     function __construct()
@@ -53,10 +54,7 @@ class BannerController extends Controller
         $banner->status = $request->status;
 
         $directoryPath = public_path('images/banner/');
-
-        // Check if the directory exists
         if (!File::exists($directoryPath)) {
-            // Create the directory
             File::makeDirectory($directoryPath, 0755, true);
         }
 
@@ -143,14 +141,14 @@ class BannerController extends Controller
     public function destroy(Request $request)
     {
         $banner = Banner::findOrFail($request->id)->delete();
-        if($banner){
+        if ($banner) {
             return response()->json([
                 'status' => true,
                 'message' => "Banner deleted successfully"
             ]);
-            
+
         }
-    
+
     }
     public function bannerAjax(Request $request)
     {
@@ -180,7 +178,7 @@ class BannerController extends Controller
                 $data['banner_image'] = "<img height='50' width='50' src='" . defaultImage() . "'/>";
 
             }
-            
+
             if ($value->status == 1) {
                 $status = "<a href='javascript:void(0)' data-id='" . $value->id . "' data-status='0' class='badge badge-success bannerStatus'>Active</a>";
             } else {

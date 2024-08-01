@@ -73,7 +73,7 @@
 
                     </div>
                     <div class="text-right">
-                        <button class="btn btn-primary btn-lg">{{ $jobCategory ? 'Update' : 'Create' }}</button>
+                        <button class="btn btn-primary btn-lg">{{ $jobCategory ? 'Save' : 'Save' }}</button>
                     </div>
                 </form>
             </div>

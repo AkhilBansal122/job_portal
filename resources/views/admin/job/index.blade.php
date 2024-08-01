@@ -147,7 +147,7 @@
 					dataSrc: "data"
 				},
 				paging: true,
-				pageLength: 10,
+				pageLength: 5,
 				"bServerSide": true,
 				"bLengthChange": false,
 				'searching': true,

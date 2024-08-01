@@ -49,7 +49,7 @@ class CategoryController extends Controller
 
         // Create a new job category
         JobCategory::create([
-            'job_category_name' => $request->input('job_category_name'),
+            'job_category_name' => ucwords(strtolower($request->input('job_category_name'))),
             'description' => $request->input('description'),
             'status' => $request->input('status'),
         ]);
@@ -95,7 +95,7 @@ class CategoryController extends Controller
         ]);
         $jobCategory = JobCategory::findOrFail($id);
         $jobCategory->update([
-            'job_category_name' => $request->input('job_category_name'),
+            'job_category_name' => ucwords(strtolower($request->input('job_category_name'))),
             'description' => $request->input('description'),
             'status' => $request->input('status'),
         ]);
@@ -112,17 +112,7 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
-    {
-        dd($id);
-        $jobCategory = JobCategory::findOrFail($id)->delete();
-        $notification = array(
-            'error' => 'Category deleted successfully!.',
-            'alert-type' => 'success'
-        );
-
-        return redirect()->route('job-categories.index')->with($notification);
-    }
+   
     public function jobCategoryAjax(Request $request)
     {
         $request->search = $request->search;
