@@ -107,8 +107,11 @@
 								@enderror
 							</div>
 							<div class="mb-3 col-md-6">
-								<img src="/profileimage/{{ auth()->user()->profile_image }}"
+							@if (auth()->user()->profile_image)
+                           
+								<img src="{{ asset('public/profileimage/' . auth()->user()->profile_image) }}"
 									style="width:80px;margin-top: 10px;">
+									@endif
 							</div>
 						</div>
 					</div>

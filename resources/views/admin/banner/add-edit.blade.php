@@ -62,7 +62,7 @@
                                 @enderror
                             </div>
                             @if ($banner && $banner->banner_image)
-                                <img height="100" width="100" src="{{ asset('images/banner/' . $banner->banner_image) }}"
+                                <img height="100" width="100" src="{{ asset('public/images/banner/' . $banner->banner_image) }}"
                                     alt="Service Image" class="img-fluid">
                             @endif
                         </div>

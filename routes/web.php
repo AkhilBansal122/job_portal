@@ -43,7 +43,7 @@ use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 Route::group(['namespace' => 'App\Http\Controllers\Admin\Auth'], function () {
 
     Route::get('/', 'AuthenticatedSessionController@create')->name('admin.login');
-    Route::post('/admin/login', 'AuthenticatedSessionController@store')->name('postLogin');
+    Route::post('/admin', 'AuthenticatedSessionController@store')->name('postLogin');
     Route::get('admin/fortgot-password', 'PasswordResetLinkController@create')->name('admin.forgotPassword');
     Route::post('admin/fortgot-password', 'PasswordResetLinkController@store')->name('admin.resetPassword');
     // Route::post('admin/reset-password', [PasswordResetLinkController::class, 'store'])->name('admin.resetPassword');
@@ -53,7 +53,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin\Auth'], function () {
 
 });
 
-Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin']], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function () {
 
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('adminDashboard');
     Route::group(['namespace' => 'App\Http\Controllers\Admin\Auth'], function () {
