@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\Common\ResendOtpController;
 // })->middleware('auth:sanctum');
 
 Route::group(['prefix' => 'user'], function () {
+    
     Route::post('register', [RegisteredUserController::class, 'store']);
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
     Route::post('verify-otp', [CommonController::class, 'verifyOtp']);

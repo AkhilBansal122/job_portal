@@ -4,7 +4,6 @@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
-
 @endpush
 @section('content')
 <div class="main-container">
@@ -30,7 +29,7 @@
                     <div class="col-md-6 col-sm-12 text-right">
                         <div class="dropdown">
                             <a class="btn btn-primary " href="{{route('services.create')}}" role="button" no-arrow>
-                                Add Services
+                                Add Service
                             </a>
                         </div>
                     </div>
@@ -195,62 +194,62 @@
     </script>
 @endpush
 @push('script')
-		<script>
-           
-			@if (Session::has('message'))
-				var type = "{{ Session::get('alert-type', 'info') }}"
-				switch (type) {
-					case 'info':
-						toastr.options.timeOut = 10000;
-						toastr.options =
-						{
-							"closeButton": true,
-							"progressBar": true,
-						}
-						toastr.info("{{ Session::get('message') }}");
-						var audio = new Audio('audio.mp3');
-						audio.play();
-						break;
-					case 'success':
+    <script>
 
-						toastr.options.timeOut = 10000;
-						toastr.options =
-						{
-							"closeButton": true,
-							"progressBar": true,
-						}
-						toastr.success("{{ Session::get('message') }}");
-						var audio = new Audio('audio.mp3');
-						audio.play();
+        @if (Session::has('message'))
+            var type = "{{ Session::get('alert-type', 'info') }}"
+            switch (type) {
+                case 'info':
+                    toastr.options.timeOut = 10000;
+                    toastr.options =
+                    {
+                        "closeButton": true,
+                        "progressBar": true,
+                    }
+                    toastr.info("{{ Session::get('message') }}");
+                    var audio = new Audio('audio.mp3');
+                    audio.play();
+                    break;
+                case 'success':
 
-						break;
-					case 'warning':
+                    toastr.options.timeOut = 10000;
+                    toastr.options =
+                    {
+                        "closeButton": true,
+                        "progressBar": true,
+                    }
+                    toastr.success("{{ Session::get('message') }}");
+                    var audio = new Audio('audio.mp3');
+                    audio.play();
 
-						toastr.options.timeOut = 10000;
-						toastr.options =
-						{
-							"closeButton": true,
-							"progressBar": true,
-						}
-						toastr.warning("{{ Session::get('message') }}");
-						var audio = new Audio('audio.mp3');
-						audio.play();
+                    break;
+                case 'warning':
 
-						break;
-					case 'error':
+                    toastr.options.timeOut = 10000;
+                    toastr.options =
+                    {
+                        "closeButton": true,
+                        "progressBar": true,
+                    }
+                    toastr.warning("{{ Session::get('message') }}");
+                    var audio = new Audio('audio.mp3');
+                    audio.play();
 
-						toastr.options.timeOut = 10000;
-						toastr.options =
-						{
-							"closeButton": true,
-							"progressBar": true,
-						}
-						toastr.error("{{ Session::get('message') }}");
-						var audio = new Audio('audio.mp3');
-						audio.play();
+                    break;
+                case 'error':
 
-						break;
-				}
-			@endif
-		</script>
-	@endpush
+                    toastr.options.timeOut = 10000;
+                    toastr.options =
+                    {
+                        "closeButton": true,
+                        "progressBar": true,
+                    }
+                    toastr.error("{{ Session::get('message') }}");
+                    var audio = new Audio('audio.mp3');
+                    audio.play();
+
+                    break;
+            }
+        @endif
+    </script>
+@endpush

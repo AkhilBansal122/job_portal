@@ -16,7 +16,7 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-12">
                         <div class="title">
-                            <h4>Employee Job Request</h4>
+                            <h4>Employee Job Requests</h4>
                         </div>
                         <nav aria-label="breadcrumb" role="navigation">
                             <ol class="breadcrumb">
@@ -24,7 +24,7 @@
                                     <a href="index.html">Home</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">
-                                    Employee Job Request
+                                    Employee Job Requests
                                 </li>
                             </ol>
                         </nav>

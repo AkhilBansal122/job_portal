@@ -39,7 +39,6 @@ use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 // });
 
 //****************************** Admin route start here ******************************************* */
-
 Route::group(['namespace' => 'App\Http\Controllers\Admin\Auth'], function () {
 
     Route::get('/', 'AuthenticatedSessionController@create')->name('admin.login');
