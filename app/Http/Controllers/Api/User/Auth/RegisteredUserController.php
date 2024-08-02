@@ -54,6 +54,7 @@ class RegisteredUserController extends BaseController
                 'longitude' => $request->longitude,
                 'phone_number' => $request->phone_number,
                 'address' => $request->address,
+                'status' => 1,
                 'profile_image' => $imageName ?? '',
                 'otp' => $otp,
                 'otp_expires_at' => now()->addMinutes(10),

@@ -93,8 +93,13 @@ class AuthenticatedSessionController extends BaseController
      */
     public function destroy(Request $request)
     {
-        // dd('fdddd');
+     
         try {
+            $user = Auth::guard('api')->user();
+            if ($user) {
+                $user->verify_otp_status = 0;
+                $user->save();
+            }
             JWTAuth::invalidate(JWTAuth::getToken());
             return response()->json([
                 'status' => true,
