@@ -20,7 +20,6 @@ use App\Http\Controllers\Api\Common\ResendOtpController;
 //     $data = "hello";
 //     return $data;
 // })->middleware('auth:sanctum');
-
 Route::group(['prefix' => 'user'], function () {
     Route::post('register', [RegisteredUserController::class, 'store']);
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
@@ -52,3 +51,4 @@ Route::group(['prefix' => 'employeeUser'], function () {
         Route::post('change-password', [CommonController::class, 'changePassword']);
     });
 });
+git 
