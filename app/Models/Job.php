@@ -10,15 +10,21 @@ class Job extends Model
 {
     use HasFactory;
     protected $table = 'user_jobs';
-    protected $guarded =[];
+    protected $guarded = [];
     public function jobCategory()
     {
         return $this->belongsTo(JobCategory::class, 'job_category_id');
     }
-    
-    public function fetchJob($request, $columns) {
-        $query =Job::with('jobCategory')->where('job_name', '!=', '');
-  
+
+    public function fetchJob($request, $columns)
+    {
+        $excludedJobCategoryIds = JobCategory::where('status', 0)->pluck('id');
+
+        $query = Job::with('jobCategory')
+            ->where('job_name', '!=', '')
+            ->whereNotIn('job_category_id', $excludedJobCategoryIds);
+
+
         if (isset($request->from_date)) {
             $query->whereRaw('DATE_FORMAT(created_at, "%Y-%m-%d") >= "' . date("Y-m-d", strtotime($request->from_date)) . '"');
         }

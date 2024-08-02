@@ -54,7 +54,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Image</label>
+                                <label>Image<span style="color:red">*</span></label>
                                 <input class="form-control" type="file" accept="image/png, image/jpeg, image/jpg," name="banner_image" placeholder="Banner Image"
                                     value="{{ $banner ? $banner->banner_image : null}}">
                                 @error('banner_image')
@@ -93,7 +93,7 @@
 
                     </div>
                     <div class="text-right">
-                        <button class="btn btn-primary btn-lg">{{ $banner ? 'Update' : 'Save' }}</button>
+                        <button class="btn btn-primary btn-lg">{{ $banner ? 'Save' : 'Save' }}</button>
                     </div>
                 </form>
             </div>

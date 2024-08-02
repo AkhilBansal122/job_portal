@@ -55,7 +55,7 @@ class JobController extends Controller
 
         // Create a new job category
         Job::create([
-            'job_name' => $request->input('job_name'),
+            'job_name' => ucwords(strtolower($request->input('job_name'))),
             'job_category_id' => $request->input('job_category'),
             'description' => $request->input('description'),
             'status' => $request->input('status'),
@@ -95,7 +95,6 @@ class JobController extends Controller
     //  }
     public function update(Request $request, string $id)
     {
-
         $request->validate([
             'job_name' => ['required','string','max:255',
                 Rule::unique('user_jobs')->ignore($id),
@@ -107,7 +106,7 @@ class JobController extends Controller
 
         $job = Job::findOrFail($id);
         $job->update([
-            'job_name' => $request->input('job_name'),
+            'job_name' => ucwords(strtolower($request->input('job_name'))),
             'job_category_id' => $request->input('job_category'),
             'description' => $request->input('description'),
             'status' => $request->input('status'),
@@ -124,17 +123,7 @@ class JobController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
-    {
-        dd('ddddd');
-        $job = Job::findOrFail($id)->delete();
-        $notification = array(
-            'error' => 'Job deleted successfully!.',
-            'alert-type' => 'success'
-        );
-
-        return redirect()->route('jobs.index')->with($notification);
-    }
+    
     public function jobAjax(Request $request)
     {
         $request->search = $request->search;

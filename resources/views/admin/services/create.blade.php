@@ -100,7 +100,7 @@
 
                     </div>
                     <div class="text-right">
-                        <button class="btn btn-primary btn-lg">{{ $services ? 'Update' : 'Create' }}</button>
+                        <button class="btn btn-primary btn-lg">{{ $services ? 'Save' : 'Save' }}</button>
                     </div>
                 </form>
             </div>

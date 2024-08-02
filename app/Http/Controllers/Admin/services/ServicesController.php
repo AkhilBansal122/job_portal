@@ -65,9 +65,7 @@ class ServicesController extends Controller
             $image = "";
             $directoryPath = public_path('images/services/');
 
-            // Check if the directory exists
             if (!File::exists($directoryPath)) {
-                // Create the directory
                 File::makeDirectory($directoryPath, 0755, true);
             }
             if ($request->hasFile('image')) {
@@ -78,7 +76,7 @@ class ServicesController extends Controller
             // Create a new job category
             Service::create([
                 'job_id' => $request->input('job_id'),
-                'name' => $request->input('name'),
+                'name' => ucwords(strtolower($request->input('name'))),
                 'description' => $request->input('description'),
                 'status' => $request->input('status'),
                 'image' => $image
@@ -92,7 +90,7 @@ class ServicesController extends Controller
 
 
         } catch (\Throwable $th) {
-            dd($th);
+
         }
     }
 
@@ -129,21 +127,9 @@ class ServicesController extends Controller
 
         $services = Service::findOrFail($id);
         if ($services) {
-            $checked = Service::where(['job_id' => $request->job_id, 'name' => $request->name])->where("id", "!=", $services->id)->first();
 
-            if ($checked) {
-                $notification = array(
-                    'message' => 'services nam  is already exist.',
-                    'alert-type' => 'success'
-                );
-                return redirect() - back()->with($notification);
-
-            }
             $directoryPath = public_path('images/services/');
-
-            // Check if the directory exists
             if (!File::exists($directoryPath)) {
-                // Create the directory
                 File::makeDirectory($directoryPath, 0755, true);
             }
             $image = '';
@@ -158,7 +144,7 @@ class ServicesController extends Controller
                 $image = $services->image;
             }
             $services->update([
-                'name' => $request->input('name'),
+                'name' => ucwords(strtolower($request->input('name'))),
                 'job_id' => $request->input('job_id'),
                 'description' => $request->input('description'),
                 'status' => $request->input('status'),
@@ -166,17 +152,15 @@ class ServicesController extends Controller
             ]);
 
             $notification = array(
-                'message' => 'services created successfully!.',
+                'message' => 'services updated successfully!.',
                 'alert-type' => 'success'
             );
-
-
             return redirect()->route('services.index')->with($notification);
 
         } else {
             $notification = array(
                 'message' => 'services No Record Found.',
-                'alert-type' => 'success'
+                'alert-type' => 'error'
             );
             return redirect()->back()->with($notification);
 

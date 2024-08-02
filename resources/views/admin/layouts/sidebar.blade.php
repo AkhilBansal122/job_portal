@@ -30,32 +30,33 @@
 					</a>
 				</li>
 				<li class="dropdown">
-					<a href="{{route('jobrequest.index')}}" class="dropdown-toggle no-arrow {{ request()->is('admin/jobrequest*') ? 'active' : ''}}">
-						<span class="micon bi bi-people"></span><span class="mtext">Job Request</span>
+					<a href="{{route('jobrequest.index')}}"
+						class="dropdown-toggle no-arrow {{ request()->is('admin/jobrequest*') ? 'active' : ''}}">
+						<span class="micon fa fa-briefcase"></span><span class="mtext">Job Request</span>
 					</a>
 				</li>
 				<li class="dropdown">
 					<a href="{{route('job-categories.index')}}"
 						class="dropdown-toggle no-arrow {{ request()->is('admin/job-categories*') ? 'active' : ''}}">
-						<span class="micon bi bi-people"></span><span class="mtext">Job Category</span>
+						<span class="micon fa fa-list"></span><span class="mtext">Job Category</span>
 					</a>
 				</li>
 				<li class="dropdown">
 					<a href="{{route('jobs.index')}}"
 						class="dropdown-toggle no-arrow {{ request()->is('admin/jobs*') ? 'active' : ''}}">
-						<span class="micon bi bi-people"></span><span class="mtext">Job </span>
+						<span class="micon bi bi-mortarboard-fill"></span><span class="mtext">Job </span>
 					</a>
 				</li>
 				<li class="dropdown">
 					<a href="{{route('banners.index')}}"
 						class="dropdown-toggle no-arrow {{ request()->is('admin/banners*') ? 'active' : ''}}">
-						<span class="micon bi bi-people"></span><span class="mtext">Banner </span>
+						<span class="micon fa fa-picture-o"></span><span class="mtext">Banner </span>
 					</a>
 				</li>
 				<li class="dropdown">
 					<a href="{{route('services.index')}}"
 						class="dropdown-toggle no-arrow  {{ request()->is('admin/services*') ? 'active' : ''}}">
-						<span class="micon bi bi-people"></span><span class="mtext">Services</span>
+						<span class="micon fa fa-cogs"></span><span class="mtext">Services</span>
 					</a>
 				</li>
 				<!-- <li class="dropdown">

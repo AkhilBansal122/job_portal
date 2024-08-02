@@ -47,14 +47,12 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin\Auth'], function () {
     Route::get('admin/fortgot-password', 'PasswordResetLinkController@create')->name('admin.forgotPassword');
     Route::post('admin/fortgot-password', 'PasswordResetLinkController@store')->name('admin.resetPassword');
     // Route::post('admin/reset-password', [PasswordResetLinkController::class, 'store'])->name('admin.resetPassword');
-
     Route::get('admin/reset-password/{token}', [PasswordResetLinkController::class, 'showResetPasswordForm'])->name('reset.password.get');
     Route::post('admin/reset-password', [PasswordResetLinkController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function () {
-
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('adminDashboard');
     Route::group(['namespace' => 'App\Http\Controllers\Admin\Auth'], function () {
         Route::post('logout', 'AuthenticatedSessionController@destroy')->name('adminlogout');

@@ -9,14 +9,21 @@ use App\Models\Job;
 class Service extends Model
 {
     use HasFactory;
-    protected $guarded =[];
+    protected $guarded = [];
 
-    public function getSelectJob(){
-        return $this->belongsTo(Job::class,'job_id');
+    public function getSelectJob()
+    {
+        return $this->belongsTo(Job::class, 'job_id');
     }
-    public function fetchServices($request, $columns) {
-        $query =Service::where('name', '!=', '');
-
+    public function fetchServices($request, $columns)
+    {
+        // $query =Service::where('name', '!=', '');
+        $excludedJobCategoryIds = JobCategory::where('status', 0)->pluck('id');
+        $excludedJobIds = Job::where('status', 0)
+            ->orWhereIn('job_category_id', $excludedJobCategoryIds)
+            ->pluck('id');
+        $query = Service::where('name', '!=', '')->whereNotIn('job_id', $excludedJobIds);
+        // dd($query);
         if (isset($request->from_date)) {
             $query->whereRaw('DATE_FORMAT(created_at, "%Y-%m-%d") >= "' . date("Y-m-d", strtotime($request->from_date)) . '"');
         }
