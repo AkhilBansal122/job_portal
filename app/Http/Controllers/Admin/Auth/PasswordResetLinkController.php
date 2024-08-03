@@ -32,7 +32,9 @@ class PasswordResetLinkController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
+
     // {
+
     //     // dd($request->all());
     //     $request->validate([
     //         'email' => ['required', 'email','exists:admins'],
@@ -50,24 +52,28 @@ class PasswordResetLinkController extends Controller
     //                         ->withErrors(['email' => __($status)]);
     // }
     {
+
         $validated = $request->validate([
             'email' => ['required', 'email'],
         ]);
         $user = Admin::where('email', $request->email)->first();
-
         if (!$user) {
             return back()->with('error', 'Email not found.');
         }
-    
         $token = Str::random(64);
 
-        DB::table('password_reset_tokens')->insert([
-            'email' => $request->email, 
-            'token' => $token, 
-            'created_at' => Carbon::now()
-          ]);
+        DB::table('password_reset_tokens')
+            ->where('email', $request->email)
+            ->delete();
 
-        Mail::send('emails.forgetPassword', ['token' => $token], function($message) use($request){
+        DB::table('password_reset_tokens')
+            ->insert([
+                'email' => $request->email,
+                'token' => $token,
+                'created_at' => Carbon::now()
+            ]);
+
+        Mail::send('emails.forgetPassword', ['token' => $token], function ($message) use ($request) {
             $message->to($request->email);
             $message->subject('Reset Password');
         });
@@ -75,7 +81,8 @@ class PasswordResetLinkController extends Controller
         return back()->with('message', 'We have e-mailed your password reset link!');
     }
 
-    public function showResetPasswordForm($token) { 
+    public function showResetPasswordForm($token)
+    {
         return view('admin.auth.layouts.forgetpasswordlink', ['token' => $token]);
     }
 
@@ -87,19 +94,19 @@ class PasswordResetLinkController extends Controller
         ]);
 
         $updatePassword = DB::table('password_reset_tokens')
-                            ->where([
-                              'token' => $request->token
-                            ])
-                            ->first();
-        if(!$updatePassword){
+            ->where([
+                'token' => $request->token
+            ])
+            ->first();
+        if (!$updatePassword) {
             return back()->withInput()->with('error', 'Invalid token!');
         }
 
         $user = Admin::where('email', $updatePassword->email)
-                    ->update(['password' => Hash::make($request->password)]);
-    
+            ->update(['password' => Hash::make($request->password)]);
 
-        DB::table('password_reset_tokens')->where(['email'=> $updatePassword->email])->delete();
+
+        DB::table('password_reset_tokens')->where(['email' => $updatePassword->email])->delete();
 
         $notification = array(
             'message' => 'Your password has been changed!',
@@ -107,7 +114,7 @@ class PasswordResetLinkController extends Controller
         );
 
         return redirect('/')->with($notification);
-        
+
     }
 
 }
