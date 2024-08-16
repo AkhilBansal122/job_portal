@@ -23,10 +23,9 @@ class RegisteredUserController extends BaseController
 
     public function store(Request $request)
     {
-       
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class,'unique:employee_users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'latitude' => 'nullable|numeric',
             'longitude' => 'nullable|numeric',
@@ -36,9 +35,14 @@ class RegisteredUserController extends BaseController
         ]);
 
         if ($validator->fails()) {
-            return $this->sendError('Validation error', $validator->errors(), 400);
+            $emailValidationFailed = $validator->errors()->has('email') && $request->email;
+        
+            return response()->json([
+                'status' => false,
+                'message' => $emailValidationFailed ? 'Already taken' : 'Validation error',
+                'emailValidation' => !$emailValidationFailed,
+            ], 400);
         }
-
         try {
             $otp = $this->generateUniqueOtp();
 
