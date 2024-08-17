@@ -23,16 +23,16 @@ class EmployeeUserRegisterRequest extends FormRequest
      */
     public function rules(): array
     {
-        
+
         return [
             'job_name' => [
                 'required',
                 'string',
-                'max:255',  
+                'max:255',
                 Rule::unique('user_jobs'),
             ],
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:employee_users',
+            'email' => 'required|string|email|max:255|unique:employee_users|unique:users',
             'phone' => 'required|string|max:20',
             'password' => 'required|string|min:8|confirmed',
             'select_job_id' => 'nullable',  // removed exists:jobs,id

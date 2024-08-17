@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\Common\ResendOtpController;
 //     $data = "hello";
 //     return $data;
 // })->middleware('auth:sanctum');
+
 Route::group(['prefix' => 'user'], function () {
 
     Route::post('register', [RegisteredUserController::class, 'store']);

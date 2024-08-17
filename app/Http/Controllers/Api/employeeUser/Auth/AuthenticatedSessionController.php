@@ -11,12 +11,14 @@ use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
-
-
+use App\Mail\SendMail;
+use Mail;
+use App\Traits\OtpTrait;
 use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
+   use OtpTrait;
     /**
      * Display the login view.
      */
@@ -51,20 +53,27 @@ class AuthenticatedSessionController extends Controller
             ], 401);
         }
         $user = EmployeeUser::where('email', $request->email)->first();
-        
+
         if ($user->status !== 1) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Your account is not active. Please contact support.',
             ], 403);
         }
+        $otp = $this->generateUniqueOtp();
         if ($user->verify_otp_status !== 1) {
+
+            $user->otp = $otp;
+            $user->otp_expires_at = now()->addMinutes(10);
+            $user->save();
+
+            Mail::to($user->email)->send(new SendMail($user, 'Otp verification code'));
             return response()->json([
                 'status' => 'error',
                 'message' => 'Your account is not verified. please verified first.',
             ], 403);
         }
-        if ($user->	approvalStatus !== 1) {
+        if ($user->approvalStatus !== 1) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Your account is not approved please contact to admin.',
@@ -76,7 +85,7 @@ class AuthenticatedSessionController extends Controller
             'message' => 'User logged in successfully!',
             'token' => $token,
         ], 200);
-        
+
 
     }
 

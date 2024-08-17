@@ -25,21 +25,19 @@ class CommonController extends BaseController
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'otp' => 'required|integer',
-            'type' => 'required|string'
+           
         ]);
         if ($validator->fails()) {
             return $this->sendError('Validation error', $validator->errors(), 400);
         }
         try {
             $user = null;
-            if ($request->type === 'user') {
 
+            if ($request->email) {
                 $user = User::where('email', $request->email)->first();
-
-            } elseif ($request->type === 'employee_user') {
-                $user = EmployeeUser::where('email', $request->email)->first();
-            } else {
-                return $this->sendError('Type is not specified correctly.', [], 400);
+                if (!$user) {
+                    $user = EmployeeUser::where('email', $request->email)->first();
+                }
             }
             if (!$user) {
                 return response()->json(['success' => false, 'message' => 'User not found.'], 404);
@@ -48,10 +46,12 @@ class CommonController extends BaseController
                 $user->verify_otp_status = true;
                 $user->status = 1;
                 $user->save();
+
                 return response()->json(['success' => true, 'message' => 'OTP verified successfully.']);
             } else {
                 return response()->json(['success' => false, 'message' => 'Invalid or expired OTP.'], 400);
             }
+
         } catch (\Exception $e) {
             Log::error('Error verifying OTP: ' . $e->getMessage());
             return response()->json(['success' => false, 'message' => 'There was an error verifying the OTP. Please try again.'], 500);
@@ -63,30 +63,31 @@ class CommonController extends BaseController
 
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
-            'user_type' => 'required|string'
         ]);
         if ($validator->fails()) {
             return $this->sendError('Validation error', $validator->errors(), 400);
         }
         try {
-            if ($request->user_type === 'user') {
+            $user = null;
+
+            if ($request->email) {
                 $user = User::where('email', $request->email)->first();
-            } elseif ($request->user_type === 'employee_user') {
-                $user = EmployeeUser::where('email', $request->email)->first();
-            } else {
-                return $this->sendError('Type is not specified correctly.', [], 400);
+                if (!$user) {
+                    $user = EmployeeUser::where('email', $request->email)->first();
+                }
+                if ($user) {
+                    $otp = $this->generateUniqueOtp();
+                    $user->otp = $otp;
+                    $user->otp_expires_at = now()->addMinutes(10);
+                    $user->save();
+                    Mail::to($user->email)->send(new SendMail($user, 'Otp verification code'));
+
+                    return $this->sendResponse('Resend OTP successfully.', []);
+                } else {
+                    return $this->sendError('User not found.', [], 400);
+                }
             }
-            $otp = $this->generateUniqueOtp();
-            if ($user) {
-                $user->otp = $otp;
-                $user->verify_otp_status = false;
-                $user->otp_expires_at = now()->addMinutes(10);
-                $user->save();
-                Mail::to($user->email)->send(new SendMail($user, 'Otp verification code'));
-                return $this->sendResponse('Resend otp successfully.', []);
-            } else {
-                return $this->sendError('User not found.', [], 400);
-            }
+
         } catch (\Exception $e) {
             Log::error('Error verifying OTP: ' . $e->getMessage());
             return $this->sendError('There was an error to resend the OTP. Please try again.', [], 500);
@@ -171,7 +172,7 @@ class CommonController extends BaseController
     }
     public function changePassword(Request $request)
     {
-    
+
         $validator = Validator::make($request->all(), [
             'user_type' => ['required', 'in:user,employee_user'],
             'old_password' => ['required', 'string', 'min:4'],

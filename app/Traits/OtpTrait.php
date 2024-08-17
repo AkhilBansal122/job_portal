@@ -2,7 +2,6 @@
 namespace App\Traits;
 use Illuminate\Support\Facades\DB;
 
-
 trait OtpTrait
 {
     public function generateUniqueOtp()
@@ -17,6 +16,5 @@ trait OtpTrait
 
     public function validateOtp($otp)
     {
-        // Your OTP validation logic
     }
 }

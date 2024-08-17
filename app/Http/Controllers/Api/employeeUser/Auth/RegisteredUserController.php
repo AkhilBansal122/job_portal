@@ -90,11 +90,11 @@ class RegisteredUserController extends Controller
             if ($employeeUser) {
                 Mail::to($employeeUser->email)->send(new SendMail($employeeUser,'Otp verification code'));
             }
-            return response()->json(['status' => true, 'message' => 'Employee created successfully!', 'data' => null], 201);
+            return response()->json(['success' => true, 'message' => 'Employee created successfully!', 'data' => $employeeUser], 201);
 
         } catch (Exception $e) {
             // DB::rollBack();
-            return response()->json(['status' => false, 'message' => 'Error creating employee: ' . $e->getMessage()], 500);
+            return response()->json(['success' => false, 'message' => 'Error creating employee: ' . $e->getMessage()], 500);
         }
     }
 }
