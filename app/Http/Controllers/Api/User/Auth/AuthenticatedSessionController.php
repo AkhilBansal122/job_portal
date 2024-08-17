@@ -56,11 +56,12 @@ class AuthenticatedSessionController extends BaseController
             }
 
             $user = User::where('email', $request->email)->first();
+		
             if ($user->verify_otp_status !== 1) {
-                return response()->json([
+			return response()->json([
                     'status' => 'error',
                     'message' => 'Your account is not verified. please verified first.',
-                ], 403);
+		        ], 403);
             }
             // Check if the user is active
             if ($user->status !== 1) {
